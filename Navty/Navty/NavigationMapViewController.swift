@@ -134,9 +134,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
     func setupViews() {
-        blur.snp.makeConstraints({ (view) in
-            view.leading.trailing.width.height.equalTo(transportationContainer)
-        })
         
         searchDestination.snp.makeConstraints({ (view) in
             view.width.equalToSuperview().multipliedBy(0.8)
@@ -149,6 +146,13 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             view.centerX.equalToSuperview()
             view.bottom.equalTo(self.view.snp.bottom)
             view.height.equalTo(75)
+        })
+        
+        blur.snp.makeConstraints({ (view) in
+            view.leading.equalTo(transportationContainer.snp.leading)
+            view.width.equalToSuperview()
+            view.height.equalTo(transportationContainer.snp.height)
+            view.bottom.equalTo(self.view.snp.bottom)
         })
         
         drivingButton.snp.makeConstraints({ (view) in
@@ -226,18 +230,17 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error: \(error)")
     }
-    
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchDestination.showsCancelButton = true
         
         mapView.settings.myLocationButton = false
-        fadeInView(view: transportationContainer, hidden: false)
+        fadeInView(view: transportationContainer, blur: blur, hidden: false)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         mapView.settings.myLocationButton = true
-        fadeOutView(view: transportationContainer, hidden: true)
+        fadeOutView(view: transportationContainer, blur: blur, hidden: true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -283,15 +286,23 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
     }
     
-    func fadeOutView(view: UIView, hidden: Bool) {
+    func fadeOutView(view: UIView, blur: UIVisualEffectView, hidden: Bool) {
         UIView.transition(with: view, duration: 1.0, options: .transitionCrossDissolve, animations: {() -> Void in
             view.isHidden = true
         }, completion: { _ in })
+        
+        UIVisualEffectView.transition(with: blur, duration: 1.0, options: .transitionCrossDissolve, animations: { () -> Void in
+            blur.isHidden = true
+        }, completion: { _ in })
     }
     
-    func fadeInView(view: UIView, hidden: Bool) {
+    func fadeInView(view: UIView, blur: UIVisualEffectView, hidden: Bool) {
         UIView.transition(with: view, duration: 1.0, options: .transitionCrossDissolve, animations: {() -> Void in
             view.isHidden = false
+        }, completion: { _ in })
+        
+        UIVisualEffectView.transition(with: blur, duration: 1.0, options: .transitionCrossDissolve, animations: { () -> Void in
+            blur.isHidden = false
         }, completion: { _ in })
     }
     
@@ -351,6 +362,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     internal lazy var blur: UIVisualEffectView = {
         let blur = UIBlurEffect(style: UIBlurEffectStyle.light)
         var blurEffectView = UIVisualEffectView(effect: blur)
+        blurEffectView.isHidden = true
         return blurEffectView
     }()
 
