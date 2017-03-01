@@ -16,7 +16,6 @@
 		571EAB261E66212200CF2947 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB251E66212200CF2947 /* GoogleService-Info.plist */; };
 		8760BC449F0D75C72A7B2E0A /* Pods_Navty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */; };
 		A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9201E663AC7007D5154 /* CrimeData.swift */; };
-		A20CA9231E663AFF007D5154 /* CrimeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9221E663AFF007D5154 /* CrimeTableViewController.swift */; };
 		A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9241E672565007D5154 /* GoogleDirections.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +31,6 @@
 		571EAB251E66212200CF2947 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.debug.xcconfig"; sourceTree = "<group>"; };
 		A20CA9201E663AC7007D5154 /* CrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeData.swift; sourceTree = "<group>"; };
-		A20CA9221E663AFF007D5154 /* CrimeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeTableViewController.swift; sourceTree = "<group>"; };
 		A20CA9241E672565007D5154 /* GoogleDirections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDirections.swift; sourceTree = "<group>"; };
 		A8F80816261FB17679C51DE6 /* Pods-Navty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.release.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.release.xcconfig"; sourceTree = "<group>"; };
 		B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,7 +103,6 @@
 			children = (
 				571EAB0D1E660AB500CF2947 /* ViewController.swift */,
 				571EAB231E66156500CF2947 /* NavigationMapViewController.swift */,
-				A20CA9221E663AFF007D5154 /* CrimeTableViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -258,7 +255,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A20CA9231E663AFF007D5154 /* CrimeTableViewController.swift in Sources */,
 				571EAB221E660C6100CF2947 /* APIRequestManager.swift in Sources */,
 				571EAB0E1E660AB500CF2947 /* ViewController.swift in Sources */,
 				A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */,

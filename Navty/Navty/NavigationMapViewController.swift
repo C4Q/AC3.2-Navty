@@ -49,7 +49,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
         
         self.view.backgroundColor = UIColor.white
-        getData()
+//        getData()
     }
 
     
