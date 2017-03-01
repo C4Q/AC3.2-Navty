@@ -9,6 +9,7 @@
 import UIKit
 import GoogleMaps
 import SnapKit
+import SideMenu
 
 class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate {
 
@@ -49,7 +50,20 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
         
         self.view.backgroundColor = UIColor.white
-        getData()
+        sideMenu()
+//        getData()
+    }
+    
+    func sideMenu() {
+        let menuLeftNavigationController = UISideMenuNavigationController(rootViewController: MenuViewController())
+        menuLeftNavigationController.leftSide = true
+        
+        SideMenuManager.menuLeftNavigationController = menuLeftNavigationController
+        
+//        SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
+//        SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
+        
+        SideMenuManager.menuFadeStatusBar = false
     }
 
     
@@ -230,6 +244,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         self.addressLookUp = searchDestination.text!
         print("\(searchBar.text)")
         self.marker.map = nil
+        self.polyline.map = nil
+        searchDestination.resignFirstResponder()
         
         geocoder.geocodeAddressString(addressLookUp, completionHandler: { (placemarks, error) -> Void in
             if error != nil {
@@ -237,13 +253,34 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             } else if placemarks?[0] != nil {
                 let placemark: CLPlacemark = placemarks![0]
                 let coordinates: CLLocationCoordinate2D = placemark.location!.coordinate
-                print(coordinates)
                 self.marker = GMSMarker(position: coordinates)
                 self.marker.title = "\(placemark)"
                 self.marker.map = self.mapView
+                self.marker.icon = GMSMarker.markerImage(with: .blue)
                 self.mapView.animate(toLocation: coordinates)
+                
+                APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
+                    if let validData = data {
+                        if let jsonData = try? JSONSerialization.jsonObject(with: validData, options: []),
+                            let google = jsonData as? [String: Any] {
+                            self.directions = GoogleDirections.getData(from: google)
+                            dump(self.directions)
+                            
+                            DispatchQueue.main.async {
+                                self.path = GMSPath(fromEncodedPath: self.directions[0].polyline)!
+                                self.polyline = GMSPolyline(path: self.path)
+                                self.polyline.strokeWidth = 7
+                                self.polyline.strokeColor = .blue
+                                self.polyline.map = self.mapView
+                                
+                            }
+                        }
+                    }
+                }
+                
             }
         })
+        
     }
     
     func fadeOutView(view: UIView, hidden: Bool) {
