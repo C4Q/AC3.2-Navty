@@ -9,6 +9,7 @@
 import UIKit
 import GoogleMaps
 import SnapKit
+import SideMenu
 
 class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate {
 
@@ -49,7 +50,20 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
         
         self.view.backgroundColor = UIColor.white
+        sideMenu()
 //        getData()
+    }
+    
+    func sideMenu() {
+        let menuLeftNavigationController = UISideMenuNavigationController(rootViewController: MenuViewController())
+        menuLeftNavigationController.leftSide = true
+        
+        SideMenuManager.menuLeftNavigationController = menuLeftNavigationController
+        
+//        SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
+//        SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
+        
+        SideMenuManager.menuFadeStatusBar = false
     }
 
     
