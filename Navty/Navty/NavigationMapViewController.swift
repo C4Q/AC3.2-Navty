@@ -110,14 +110,59 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         mapView.settings.myLocationButton = true
         
         view.addSubview(searchDestination)
-
+        view.addSubview(transportationContainer)
+        
+        transportationContainer.addSubview(blur)
+        transportationContainer.addSubview(drivingButton)
+        transportationContainer.addSubview(cyclingButton)
+        transportationContainer.addSubview(walkingButton)
+        transportationContainer.addSubview(anotherButton)
     }
     
     func setupViews() {
+        blur.snp.makeConstraints({ (view) in
+            view.leading.trailing.width.height.equalTo(transportationContainer)
+        })
+        
         searchDestination.snp.makeConstraints({ (view) in
             view.width.equalToSuperview().multipliedBy(0.8)
             view.centerX.equalToSuperview()
             view.top.equalToSuperview().inset(30)
+        })
+        
+        transportationContainer.snp.makeConstraints({ (view) in
+            view.width.equalToSuperview().multipliedBy(0.9)
+            view.centerX.equalToSuperview()
+            view.bottom.equalTo(self.view.snp.bottom)
+            view.height.equalTo(75)
+        })
+        
+        drivingButton.snp.makeConstraints({ (view) in
+            view.leading.equalTo(transportationContainer.snp.leading).inset(12)
+            view.height.equalTo(transportationContainer.snp.height).multipliedBy(0.8)
+            view.width.equalTo(transportationContainer.snp.width).multipliedBy(0.2)
+            view.centerY.equalTo(transportationContainer.snp.centerY)
+        })
+        
+        walkingButton.snp.makeConstraints({ (view) in
+            view.leading.equalTo(drivingButton.snp.trailing).offset(12)
+            view.height.equalTo(transportationContainer.snp.height).multipliedBy(0.8)
+            view.width.equalTo(transportationContainer.snp.width).multipliedBy(0.2)
+            view.centerY.equalTo(transportationContainer.snp.centerY)
+        })
+
+        cyclingButton.snp.makeConstraints({ (view) in
+            view.leading.equalTo(walkingButton.snp.trailing).offset(12)
+            view.height.equalTo(transportationContainer.snp.height).multipliedBy(0.8)
+            view.width.equalTo(transportationContainer.snp.width).multipliedBy(0.2)
+            view.centerY.equalTo(transportationContainer.snp.centerY)
+        })
+
+        anotherButton.snp.makeConstraints({ (view) in
+            view.leading.equalTo(cyclingButton.snp.trailing).offset(12)
+            view.height.equalTo(transportationContainer.snp.height).multipliedBy(0.8)
+            view.width.equalTo(transportationContainer.snp.width).multipliedBy(0.2)
+            view.centerY.equalTo(transportationContainer.snp.centerY)
         })
         
     }
@@ -172,6 +217,13 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchDestination.showsCancelButton = true
         
+        mapView.settings.myLocationButton = false
+        fadeInView(view: transportationContainer, hidden: false)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        mapView.settings.myLocationButton = true
+        fadeOutView(view: transportationContainer, hidden: true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -193,7 +245,18 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             }
         })
     }
-
+    
+    func fadeOutView(view: UIView, hidden: Bool) {
+        UIView.transition(with: view, duration: 1.0, options: .transitionCrossDissolve, animations: {() -> Void in
+            view.isHidden = true
+        }, completion: { _ in })
+    }
+    
+    func fadeInView(view: UIView, hidden: Bool) {
+        UIView.transition(with: view, duration: 1.0, options: .transitionCrossDissolve, animations: {() -> Void in
+            view.isHidden = false
+        }, completion: { _ in })
+    }
     
     internal lazy var mapView: GMSMapView = {
         let mapView = GMSMapView()
@@ -207,6 +270,51 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         searchBar.placeholder = "Desination"
         searchBar.isUserInteractionEnabled = true
         return searchBar
+    }()
+    
+    internal lazy var transportationContainer: UIView = {
+        let view = UIView()
+//        view.backgroundColor = UIColor.blue
+        view.isHidden = true
+        return view
+    }()
+    
+    internal lazy var drivingButton: UIButton = {
+        let button = UIButton()
+        //button.backgroundColor = UIColor.white
+        button.layer.cornerRadius = 30
+        button.setImage(#imageLiteral(resourceName: "Transportation Filled-50"), for: .normal)
+        return button
+    }()
+    
+    internal lazy var walkingButton: UIButton = {
+        let button = UIButton()
+        //button.backgroundColor = UIColor.white
+        button.layer.cornerRadius = 30
+        button.setImage(#imageLiteral(resourceName: "Trekking Filled-50"), for: .normal)
+        return button
+    }()
+    
+    internal lazy var cyclingButton: UIButton = {
+        let button = UIButton()
+        //button.backgroundColor = UIColor.white
+        button.layer.cornerRadius = 30
+        button.setImage(#imageLiteral(resourceName: "Cycling Road Filled-50"), for: .normal)
+        return button
+    }()
+    
+    internal lazy var anotherButton: UIButton = {
+        let button = UIButton()
+        //button.backgroundColor = UIColor.white
+        button.layer.cornerRadius = 30
+        button.setImage(#imageLiteral(resourceName: "Railway Station Filled-50"), for: .normal)
+        return button
+    }()
+    
+    internal lazy var blur: UIVisualEffectView = {
+        let blur = UIBlurEffect(style: UIBlurEffectStyle.light)
+        var blurEffectView = UIVisualEffectView(effect: blur)
+        return blurEffectView
     }()
 
 }
