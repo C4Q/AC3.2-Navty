@@ -14,6 +14,8 @@
 		571EAB221E660C6100CF2947 /* APIRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB211E660C6100CF2947 /* APIRequestManager.swift */; };
 		571EAB241E66156500CF2947 /* NavigationMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB231E66156500CF2947 /* NavigationMapViewController.swift */; };
 		571EAB261E66212200CF2947 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB251E66212200CF2947 /* GoogleService-Info.plist */; };
+		571EAB281E676FEB00CF2947 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB271E676FEB00CF2947 /* MenuViewController.swift */; };
+		571EAB2B1E67707000CF2947 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB2A1E67707000CF2947 /* Utility.swift */; };
 		8760BC449F0D75C72A7B2E0A /* Pods_Navty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */; };
 		A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9201E663AC7007D5154 /* CrimeData.swift */; };
 		A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9241E672565007D5154 /* GoogleDirections.swift */; };
@@ -29,6 +31,8 @@
 		571EAB211E660C6100CF2947 /* APIRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequestManager.swift; sourceTree = "<group>"; };
 		571EAB231E66156500CF2947 /* NavigationMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationMapViewController.swift; sourceTree = "<group>"; };
 		571EAB251E66212200CF2947 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		571EAB271E676FEB00CF2947 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		571EAB2A1E67707000CF2947 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.debug.xcconfig"; sourceTree = "<group>"; };
 		A20CA9201E663AC7007D5154 /* CrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeData.swift; sourceTree = "<group>"; };
 		A20CA9241E672565007D5154 /* GoogleDirections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDirections.swift; sourceTree = "<group>"; };
@@ -78,6 +82,7 @@
 		571EAB0A1E660AB500CF2947 /* Navty */ = {
 			isa = PBXGroup;
 			children = (
+				571EAB291E67706000CF2947 /* Color Scheme */,
 				571EAB201E660BCA00CF2947 /* API Request */,
 				571EAB1F1E660BAD00CF2947 /* Model */,
 				571EAB1E1E660BA000CF2947 /* ViewControllers */,
@@ -103,6 +108,8 @@
 			children = (
 				571EAB0D1E660AB500CF2947 /* ViewController.swift */,
 				571EAB231E66156500CF2947 /* NavigationMapViewController.swift */,
+				571EAB271E676FEB00CF2947 /* MenuViewController.swift */,
+
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -122,6 +129,14 @@
 				571EAB211E660C6100CF2947 /* APIRequestManager.swift */,
 			);
 			name = "API Request";
+			sourceTree = "<group>";
+		};
+		571EAB291E67706000CF2947 /* Color Scheme */ = {
+			isa = PBXGroup;
+			children = (
+				571EAB2A1E67707000CF2947 /* Utility.swift */,
+			);
+			name = "Color Scheme";
 			sourceTree = "<group>";
 		};
 		BF7C8D478F19C940625F8A87 /* Frameworks */ = {
@@ -256,11 +271,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				571EAB221E660C6100CF2947 /* APIRequestManager.swift in Sources */,
+				571EAB2B1E67707000CF2947 /* Utility.swift in Sources */,
 				571EAB0E1E660AB500CF2947 /* ViewController.swift in Sources */,
 				A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */,
 				A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */,
 				571EAB0C1E660AB500CF2947 /* AppDelegate.swift in Sources */,
 				571EAB241E66156500CF2947 /* NavigationMapViewController.swift in Sources */,
+				571EAB281E676FEB00CF2947 /* MenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

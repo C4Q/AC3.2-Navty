@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SideMenu
 
 class ViewController: UIViewController {
 
@@ -16,7 +17,22 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            getData()
+        
+        getData()
+        
+        UIApplication.shared.statusBarStyle = .lightContent
+        
+        view.backgroundColor = .white
+        
+        let menuLeftNavigationController = UISideMenuNavigationController(rootViewController: MenuViewController())
+        menuLeftNavigationController.leftSide = true
+        
+        SideMenuManager.menuLeftNavigationController = menuLeftNavigationController
+        
+        SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
+        SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
+        
+        SideMenuManager.menuFadeStatusBar = false
     }
 
     func getData() {
