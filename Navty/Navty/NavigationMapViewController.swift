@@ -51,7 +51,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
         self.view.backgroundColor = UIColor.white
         sideMenu()
-//        getData()
+        getData()
     }
     
     func sideMenu() {
@@ -220,6 +220,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         mapView.settings.myLocationButton = true
+        searchDestination.resignFirstResponder()
         fadeOutView(view: transportationContainer, blur: blur, hidden: true)
     }
     
@@ -242,7 +243,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.marker.icon = GMSMarker.markerImage(with: .blue)
                 self.mapView.animate(toLocation: coordinates)
                 
-                APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&waypoints=RichmondHill,NY&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
+                APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&provideRouteAlternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
                     if let validData = data {
                         if let jsonData = try? JSONSerialization.jsonObject(with: validData, options: []),
                             let google = jsonData as? [String: Any] {
@@ -251,6 +252,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             
                             DispatchQueue.main.async {
                                 self.path = GMSPath(fromEncodedPath: self.directions[0].polyline)!
+                                
                                 self.polyline = GMSPolyline(path: self.path)
                                 self.polyline.strokeWidth = 7
                                 self.polyline.strokeColor = .blue
@@ -289,6 +291,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
    //MARK: -Initalize Views
     internal lazy var mapView: GMSMapView = {
         let mapView = GMSMapView()
+
         return mapView
     }()
     
