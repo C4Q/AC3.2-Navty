@@ -17,9 +17,10 @@ class MenuViewController: UIViewController {
         view.backgroundColor = .white
         navigationController?.navigationBar.tintColor = ColorPalette.darkBlue
         
-        viewHierarchy()
-        constrainConfiguration()
+        navigationController?.isNavigationBarHidden = true
         
+        viewHierarchy()
+        constrainConfiguration()    
     }
 
     
@@ -77,7 +78,7 @@ class MenuViewController: UIViewController {
     
     internal lazy var profilePicture: UIImageView = {
         let photo = UIImageView()
-        photo.image = #imageLiteral(resourceName: "iphone_default_image")
+        photo.image = #imageLiteral(resourceName: "Cycling Road Filled-50")
         photo.layer.cornerRadius = 30
         photo.layer.masksToBounds = true
         photo.contentMode = .scaleAspectFit

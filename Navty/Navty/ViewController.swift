@@ -14,7 +14,6 @@ class ViewController: UIViewController {
    
    var directions = [GoogleDirections]()
    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
