@@ -17,7 +17,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
     var userLatitude = Float()
     var userLongitude = Float()
-    var zoomLevel: Float = 5.0
+    var zoomLevel: Float = 15.0
     let locationManager: CLLocationManager = {
         let locMan: CLLocationManager = CLLocationManager()
         locMan.desiredAccuracy = kCLLocationAccuracyHundredMeters
@@ -67,26 +67,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
 
     
-    func getPolyline() {
-        APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood4&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
-            if let validData = data {
-                if let jsonData = try? JSONSerialization.jsonObject(with: validData, options: []),
-                    let google = jsonData as? [String: Any] {
-                    self.directions = GoogleDirections.getData(from: google)
-                    dump(self.directions)
-                    
-                    DispatchQueue.main.async {
-                        self.path = GMSPath(fromEncodedPath: self.directions[0].polyline)!
-                        self.polyline = GMSPolyline(path: self.path)
-                        self.polyline.strokeWidth = 7
-                        self.polyline.strokeColor = .blue
-                        self.polyline.map = self.mapView
-                        
-                    }
-                }
-            }
-        }
-    }
     
     func getData() {
         APIRequestManager.manager.getData(endPoint: "https://data.cityofnewyork.us/resource/7x9x-zpz6.json") { (data) in
@@ -207,7 +187,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.marker.icon = GMSMarker.markerImage(with: .blue)
                 self.mapView.animate(toLocation: coordinates)
                 
-                APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
+                APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&waypoints=RichmondHill,NY&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
                     if let validData = data {
                         if let jsonData = try? JSONSerialization.jsonObject(with: validData, options: []),
                             let google = jsonData as? [String: Any] {
@@ -232,6 +212,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
 
     
+   //MARK: -Initalize Views
     internal lazy var mapView: GMSMapView = {
         let mapView = GMSMapView()
         return mapView
