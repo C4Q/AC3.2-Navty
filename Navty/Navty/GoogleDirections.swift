@@ -67,22 +67,11 @@ class GoogleDirections {
             let route = dict["routes"] as! [[String: Any]]
             for item in route {
                 let overview = item["overview_polyline"] as! [String: Any]
-//                let point = overview["points"]
                 if let polylineData = GoogleDirections(from: overview) {
                     data.append(polylineData)
                 }
                 
-//                for info in legs {
-//                    let steps = info["steps"] as! [[String:Any]]
-//    
-//                    for step in steps {
-//                        if let googleData = GoogleDirections(from: step) {
-//                            data.append(googleData)
-//                        }
-//                    }
-//    
-//    
-//                }
+
             }
     
             return data
