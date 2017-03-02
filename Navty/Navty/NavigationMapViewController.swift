@@ -13,8 +13,6 @@ import SideMenu
 
 class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate {
 
-    
-    
     var userLatitude = Float()
     var userLongitude = Float()
     var zoomLevel: Float = 15.0
@@ -42,6 +40,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.isNavigationBarHidden = true
+        
         setupViewHierarchy()
         setupViews()
 
@@ -57,12 +57,13 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
     func sideMenu() {
         let menuLeftNavigationController = UISideMenuNavigationController(rootViewController: MenuViewController())
+        
         menuLeftNavigationController.leftSide = true
         
         SideMenuManager.menuLeftNavigationController = menuLeftNavigationController
         
-//        SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
-//        SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
+        SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
+        SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
         
         SideMenuManager.menuFadeStatusBar = false
     }
@@ -106,6 +107,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
         
+        view.addSubview(menuButton)
         view.addSubview(searchDestination)
         view.addSubview(transportationContainer)
         
@@ -118,9 +120,16 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
     func setupViews() {
         
+        menuButton.snp.makeConstraints({ (view) in
+            view.top.equalToSuperview().inset(30)
+            view.leading.equalToSuperview().inset(8)
+            view.width.equalTo(35)
+            view.height.equalTo(42)
+        })
+        
         searchDestination.snp.makeConstraints({ (view) in
             view.width.equalToSuperview().multipliedBy(0.8)
-            view.centerX.equalToSuperview()
+            view.leading.equalTo(menuButton.snp.trailing).offset(10)
             view.top.equalToSuperview().inset(30)
         })
         
@@ -272,6 +281,11 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
     }
     
+
+    func buttonPressed () {
+        present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
+    }
+
     
     func fadeOutView(view: UIView, blur: UIVisualEffectView, hidden: Bool) {
         UIView.transition(with: view, duration: 1.0, options: .transitionCrossDissolve, animations: {() -> Void in
@@ -298,6 +312,13 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         let mapView = GMSMapView()
 
         return mapView
+    }()
+    
+    internal lazy var menuButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor.white
+        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        return button
     }()
     
     internal lazy var searchDestination: UISearchBar = {
