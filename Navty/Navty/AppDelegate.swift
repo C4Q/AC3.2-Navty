@@ -20,8 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let navigationMapView = NavigationMapViewController()
         
+        let navController = UINavigationController(rootViewController: navigationMapView)
+        
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = navigationMapView
+        self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()
         
         return true
