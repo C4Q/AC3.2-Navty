@@ -35,6 +35,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     var addressLookUp = String()
     var marker = GMSMarker()
 
+    var colors = [UIColor.red, UIColor.blue, UIColor.green]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,6 +78,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                     self.crimesNYC = CrimeData.getData(from: crimes)
                     
                     for eachCrime in self.crimesNYC {
+                        guard eachCrime.latitude != "0" else {continue}
                         DispatchQueue.main.async {
                             let latitude = CLLocationDegrees(eachCrime.latitude)
                             let longitude = CLLocationDegrees(eachCrime.longitude )
@@ -84,6 +86,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             
                             let marker = GMSMarker(position: position)
                             marker.title = eachCrime.description
+                            
                             marker.map = self.mapView
                             }
 
@@ -252,7 +255,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.marker.icon = GMSMarker.markerImage(with: .blue)
                 self.mapView.animate(toLocation: coordinates)
                 
-                APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&provideRouteAlternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
+                APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
                     if let validData = data {
                         if let jsonData = try? JSONSerialization.jsonObject(with: validData, options: []),
                             let google = jsonData as? [String: Any] {
@@ -260,13 +263,14 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             dump(self.directions)
                             
                             DispatchQueue.main.async {
-                                self.path = GMSPath(fromEncodedPath: self.directions[0].polyline)!
+                                for eachOne in 0 ..< self.directions.count {
+                                self.path = GMSPath(fromEncodedPath: self.directions[eachOne].polyline)!
                                 
                                 self.polyline = GMSPolyline(path: self.path)
                                 self.polyline.strokeWidth = 7
-                                self.polyline.strokeColor = .blue
+                                self.polyline.strokeColor = self.colors[eachOne]
                                 self.polyline.map = self.mapView
-                                
+                                }
                             }
                         }
                     }
@@ -277,9 +281,11 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
     }
     
+
     func buttonPressed () {
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
     }
+
     
     func fadeOutView(view: UIView, blur: UIVisualEffectView, hidden: Bool) {
         UIView.transition(with: view, duration: 1.0, options: .transitionCrossDissolve, animations: {() -> Void in
