@@ -34,6 +34,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
 
     var addressLookUp = String()
     var marker = GMSMarker()
+    var markerAwayFromPoint = GMSMarker()
 
     var colors = [UIColor.red, UIColor.blue, UIColor.green]
     
@@ -53,6 +54,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         self.view.backgroundColor = UIColor.white
         sideMenu()
         getData()
+        setupNotificationForKeyboard()
     }
     
     func sideMenu() {
@@ -68,7 +70,25 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         SideMenuManager.menuFadeStatusBar = false
     }
 
+    func setupNotificationForKeyboard() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+    }
     
+    func adjustForKeyboard(notification : Notification) {
+        let userInfo = notification.userInfo!
+        
+        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        //let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        if notification.name == NSNotification.Name.UIKeyboardWillHide {
+            self.transportationContainer.frame.origin.y += keyboardScreenEndFrame.height
+        } else {
+            transportationContainer.frame.origin.y -= keyboardScreenEndFrame.height
+        }
+        
+    }
     
     func getData() {
         APIRequestManager.manager.getData(endPoint: "https://data.cityofnewyork.us/resource/7x9x-zpz6.json") { (data) in
@@ -206,7 +226,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let validLocation: CLLocation = locations.last else { return }
-        let locationValue: CLLocationCoordinate2D = (manager.location?.coordinate)!
+        guard let locationValue: CLLocationCoordinate2D = (manager.location?.coordinate) else { return }
         
         userLatitude =  Float(locationValue.latitude)
         userLongitude = Float(locationValue.longitude)
@@ -262,6 +282,11 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.marker.icon = GMSMarker.markerImage(with: .blue)
                 self.mapView.animate(toLocation: coordinates)
                 
+                print("old coor: \(coordinates)")
+                self.markerAwayFromPoint = GMSMarker(position: self.locationWithBearing(bearing: 100, distanceMeters: 150, origin: coordinates))
+                self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
+                self.markerAwayFromPoint.map = self.mapView
+                
                 APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
                     if let validData = data {
                         if let jsonData = try? JSONSerialization.jsonObject(with: validData, options: []),
@@ -289,9 +314,24 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
     }
     
-    func sceneItPasses() {
-    
+
+    func locationWithBearing(bearing:Double, distanceMeters:Double, origin:CLLocationCoordinate2D) -> CLLocationCoordinate2D {
+        let distRadians = distanceMeters / (6372797.6) // earth radius in meters
+        
+        let lat1 = origin.latitude * M_PI / 180
+        let lon1 = origin.longitude * M_PI / 180
+        
+        let lat2 = asin(sin(lat1) * cos(distRadians) + cos(lat1) * sin(distRadians) * cos(bearing))
+        let lon2 = lon1 + atan2(sin(bearing) * sin(distRadians) * cos(lat1), cos(distRadians) - sin(lat1) * sin(lat2))
+        
+        let newCoordinate = CLLocationCoordinate2D(latitude: lat2 * 180 / M_PI, longitude: lon2 * 180 / M_PI)
+        
+        print("newCoordinate \(newCoordinate)")
+        
+        return newCoordinate
     }
+    
+
 
     func buttonPressed () {
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
