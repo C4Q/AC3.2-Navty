@@ -53,6 +53,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         self.view.backgroundColor = UIColor.white
         sideMenu()
         getData()
+        setupNotificationForKeyboard()
     }
     
     func sideMenu() {
@@ -68,7 +69,25 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         SideMenuManager.menuFadeStatusBar = false
     }
 
+    func setupNotificationForKeyboard() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+    }
     
+    func adjustForKeyboard(notification : Notification) {
+        let userInfo = notification.userInfo!
+        
+        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        //let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        if notification.name == NSNotification.Name.UIKeyboardWillHide {
+            self.transportationContainer.frame.origin.y += keyboardScreenEndFrame.height
+        } else {
+            transportationContainer.frame.origin.y -= keyboardScreenEndFrame.height
+        }
+        
+    }
     
     func getData() {
         APIRequestManager.manager.getData(endPoint: "https://data.cityofnewyork.us/resource/7x9x-zpz6.json") { (data) in
