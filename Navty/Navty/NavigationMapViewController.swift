@@ -30,7 +30,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
     var path = GMSPath()
     var polyline = GMSPolyline()
-
+    var availablePaths = [GMSPath]()
 
     var addressLookUp = String()
     var marker = GMSMarker()
@@ -88,6 +88,13 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             marker.title = eachCrime.description
                             
                             marker.map = self.mapView
+                            
+                            let circleCenter = CLLocationCoordinate2D(latitude: CLLocationDegrees(eachCrime.latitude)!, longitude: CLLocationDegrees(eachCrime.longitude)!)
+                            let circ = GMSCircle(position: circleCenter, radius: 100)
+                            circ.strokeColor = .black
+                            circ.strokeWidth = 3
+                            circ.map = self.mapView
+                            
                             }
 
                     }
@@ -260,12 +267,13 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                         if let jsonData = try? JSONSerialization.jsonObject(with: validData, options: []),
                             let google = jsonData as? [String: Any] {
                             self.directions = GoogleDirections.getData(from: google)
-                            dump(self.directions)
+
                             
                             DispatchQueue.main.async {
+                                
                                 for eachOne in 0 ..< self.directions.count {
                                 self.path = GMSPath(fromEncodedPath: self.directions[eachOne].polyline)!
-                                
+                                self.availablePaths.append(self.path)
                                 self.polyline = GMSPolyline(path: self.path)
                                 self.polyline.strokeWidth = 7
                                 self.polyline.strokeColor = self.colors[eachOne]
@@ -281,6 +289,9 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
     }
     
+    func sceneItPasses() {
+    
+    }
 
     func buttonPressed () {
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
@@ -308,6 +319,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
    //MARK: -Initalize Views
+
+    
     internal lazy var mapView: GMSMapView = {
         let mapView = GMSMapView()
 
