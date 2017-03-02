@@ -16,10 +16,60 @@
 		571EAB261E66212200CF2947 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB251E66212200CF2947 /* GoogleService-Info.plist */; };
 		571EAB281E676FEB00CF2947 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB271E676FEB00CF2947 /* MenuViewController.swift */; };
 		571EAB2B1E67707000CF2947 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB2A1E67707000CF2947 /* Utility.swift */; };
+		571EAB321E68CE0600CF2947 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB301E68CE0600CF2947 /* Interface.storyboard */; };
+		571EAB341E68CE0600CF2947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB331E68CE0600CF2947 /* Assets.xcassets */; };
+		571EAB3B1E68CE0600CF2947 /* NavtyWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 571EAB3A1E68CE0600CF2947 /* NavtyWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		571EAB421E68CE0700CF2947 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB411E68CE0700CF2947 /* InterfaceController.swift */; };
+		571EAB441E68CE0700CF2947 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB431E68CE0700CF2947 /* ExtensionDelegate.swift */; };
+		571EAB461E68CE0700CF2947 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB451E68CE0700CF2947 /* NotificationController.swift */; };
+		571EAB481E68CE0700CF2947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB471E68CE0700CF2947 /* Assets.xcassets */; };
+		571EAB4C1E68CE0700CF2947 /* NavtyWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 571EAB2E1E68CE0600CF2947 /* NavtyWatch.app */; };
 		8760BC449F0D75C72A7B2E0A /* Pods_Navty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */; };
 		A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9201E663AC7007D5154 /* CrimeData.swift */; };
 		A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9241E672565007D5154 /* GoogleDirections.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		571EAB3C1E68CE0600CF2947 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 571EAB001E660AB500CF2947 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 571EAB391E68CE0600CF2947;
+			remoteInfo = "NavtyWatch Extension";
+		};
+		571EAB4A1E68CE0700CF2947 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 571EAB001E660AB500CF2947 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 571EAB2D1E68CE0600CF2947;
+			remoteInfo = NavtyWatch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		571EAB521E68CE0700CF2947 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				571EAB3B1E68CE0600CF2947 /* NavtyWatch Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		571EAB541E68CE0700CF2947 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				571EAB4C1E68CE0700CF2947 /* NavtyWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		571EAB081E660AB500CF2947 /* Navty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navty.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -33,6 +83,17 @@
 		571EAB251E66212200CF2947 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		571EAB271E676FEB00CF2947 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		571EAB2A1E67707000CF2947 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		571EAB2E1E68CE0600CF2947 /* NavtyWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavtyWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		571EAB311E68CE0600CF2947 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		571EAB331E68CE0600CF2947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		571EAB351E68CE0600CF2947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		571EAB3A1E68CE0600CF2947 /* NavtyWatch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "NavtyWatch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		571EAB401E68CE0600CF2947 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		571EAB411E68CE0700CF2947 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		571EAB431E68CE0700CF2947 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		571EAB451E68CE0700CF2947 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		571EAB471E68CE0700CF2947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		571EAB491E68CE0700CF2947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.debug.xcconfig"; sourceTree = "<group>"; };
 		A20CA9201E663AC7007D5154 /* CrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeData.swift; sourceTree = "<group>"; };
 		A20CA9241E672565007D5154 /* GoogleDirections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDirections.swift; sourceTree = "<group>"; };
@@ -46,6 +107,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8760BC449F0D75C72A7B2E0A /* Pods_Navty.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		571EAB371E68CE0600CF2947 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +133,8 @@
 			isa = PBXGroup;
 			children = (
 				571EAB0A1E660AB500CF2947 /* Navty */,
+				571EAB2F1E68CE0600CF2947 /* NavtyWatch */,
+				571EAB3E1E68CE0600CF2947 /* NavtyWatch Extension */,
 				571EAB091E660AB500CF2947 /* Products */,
 				2ACE798E35385188C6257AB4 /* Pods */,
 				BF7C8D478F19C940625F8A87 /* Frameworks */,
@@ -75,6 +145,8 @@
 			isa = PBXGroup;
 			children = (
 				571EAB081E660AB500CF2947 /* Navty.app */,
+				571EAB2E1E68CE0600CF2947 /* NavtyWatch.app */,
+				571EAB3A1E68CE0600CF2947 /* NavtyWatch Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -138,6 +210,37 @@
 			name = "Color Scheme";
 			sourceTree = "<group>";
 		};
+		571EAB2F1E68CE0600CF2947 /* NavtyWatch */ = {
+			isa = PBXGroup;
+			children = (
+				571EAB301E68CE0600CF2947 /* Interface.storyboard */,
+				571EAB331E68CE0600CF2947 /* Assets.xcassets */,
+				571EAB351E68CE0600CF2947 /* Info.plist */,
+			);
+			path = NavtyWatch;
+			sourceTree = "<group>";
+		};
+		571EAB3E1E68CE0600CF2947 /* NavtyWatch Extension */ = {
+			isa = PBXGroup;
+			children = (
+				571EAB411E68CE0700CF2947 /* InterfaceController.swift */,
+				571EAB431E68CE0700CF2947 /* ExtensionDelegate.swift */,
+				571EAB451E68CE0700CF2947 /* NotificationController.swift */,
+				571EAB471E68CE0700CF2947 /* Assets.xcassets */,
+				571EAB491E68CE0700CF2947 /* Info.plist */,
+				571EAB3F1E68CE0600CF2947 /* Supporting Files */,
+			);
+			path = "NavtyWatch Extension";
+			sourceTree = "<group>";
+		};
+		571EAB3F1E68CE0600CF2947 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				571EAB401E68CE0600CF2947 /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		BF7C8D478F19C940625F8A87 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -159,15 +262,51 @@
 				571EAB061E660AB500CF2947 /* Resources */,
 				09B60AC106E363840382775E /* [CP] Embed Pods Frameworks */,
 				F10A3828033E5135BB5E906E /* [CP] Copy Pods Resources */,
+				571EAB541E68CE0700CF2947 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				571EAB4B1E68CE0700CF2947 /* PBXTargetDependency */,
 			);
 			name = Navty;
 			productName = Navty;
 			productReference = 571EAB081E660AB500CF2947 /* Navty.app */;
 			productType = "com.apple.product-type.application";
+		};
+		571EAB2D1E68CE0600CF2947 /* NavtyWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 571EAB531E68CE0700CF2947 /* Build configuration list for PBXNativeTarget "NavtyWatch" */;
+			buildPhases = (
+				571EAB2C1E68CE0600CF2947 /* Resources */,
+				571EAB521E68CE0700CF2947 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				571EAB3D1E68CE0600CF2947 /* PBXTargetDependency */,
+			);
+			name = NavtyWatch;
+			productName = NavtyWatch;
+			productReference = 571EAB2E1E68CE0600CF2947 /* NavtyWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		571EAB391E68CE0600CF2947 /* NavtyWatch Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 571EAB511E68CE0700CF2947 /* Build configuration list for PBXNativeTarget "NavtyWatch Extension" */;
+			buildPhases = (
+				571EAB361E68CE0600CF2947 /* Sources */,
+				571EAB371E68CE0600CF2947 /* Frameworks */,
+				571EAB381E68CE0600CF2947 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "NavtyWatch Extension";
+			productName = "NavtyWatch Extension";
+			productReference = 571EAB3A1E68CE0600CF2947 /* NavtyWatch Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -182,6 +321,15 @@
 					571EAB071E660AB500CF2947 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 2E9D85U478;
+						ProvisioningStyle = Automatic;
+					};
+					571EAB2D1E68CE0600CF2947 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 2E9D85U478;
+						ProvisioningStyle = Automatic;
+					};
+					571EAB391E68CE0600CF2947 = {
+						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -200,6 +348,8 @@
 			projectRoot = "";
 			targets = (
 				571EAB071E660AB500CF2947 /* Navty */,
+				571EAB2D1E68CE0600CF2947 /* NavtyWatch */,
+				571EAB391E68CE0600CF2947 /* NavtyWatch Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -212,6 +362,23 @@
 				571EAB161E660AB500CF2947 /* LaunchScreen.storyboard in Resources */,
 				571EAB261E66212200CF2947 /* GoogleService-Info.plist in Resources */,
 				571EAB131E660AB500CF2947 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		571EAB2C1E68CE0600CF2947 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				571EAB341E68CE0600CF2947 /* Assets.xcassets in Resources */,
+				571EAB321E68CE0600CF2947 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		571EAB381E68CE0600CF2947 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				571EAB481E68CE0700CF2947 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +448,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		571EAB361E68CE0600CF2947 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				571EAB461E68CE0700CF2947 /* NotificationController.swift in Sources */,
+				571EAB441E68CE0700CF2947 /* ExtensionDelegate.swift in Sources */,
+				571EAB421E68CE0700CF2947 /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		571EAB3D1E68CE0600CF2947 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 571EAB391E68CE0600CF2947 /* NavtyWatch Extension */;
+			targetProxy = 571EAB3C1E68CE0600CF2947 /* PBXContainerItemProxy */;
+		};
+		571EAB4B1E68CE0700CF2947 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 571EAB2D1E68CE0600CF2947 /* NavtyWatch */;
+			targetProxy = 571EAB4A1E68CE0700CF2947 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		571EAB141E660AB500CF2947 /* LaunchScreen.storyboard */ = {
@@ -290,6 +480,14 @@
 				571EAB151E660AB500CF2947 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		571EAB301E68CE0600CF2947 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				571EAB311E68CE0600CF2947 /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -416,6 +614,74 @@
 			};
 			name = Release;
 		};
+		571EAB4D1E68CE0700CF2947 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 2E9D85U478;
+				IBSC_MODULE = NavtyWatch_Extension;
+				INFOPLIST_FILE = NavtyWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 3.1;
+			};
+			name = Debug;
+		};
+		571EAB4E1E68CE0700CF2947 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 2E9D85U478;
+				IBSC_MODULE = NavtyWatch_Extension;
+				INFOPLIST_FILE = NavtyWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 3.1;
+			};
+			name = Release;
+		};
+		571EAB4F1E68CE0700CF2947 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				INFOPLIST_FILE = "NavtyWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 3.1;
+			};
+			name = Debug;
+		};
+		571EAB501E68CE0700CF2947 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				INFOPLIST_FILE = "NavtyWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 3.1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -436,6 +702,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		571EAB511E68CE0700CF2947 /* Build configuration list for PBXNativeTarget "NavtyWatch Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				571EAB4F1E68CE0700CF2947 /* Debug */,
+				571EAB501E68CE0700CF2947 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		571EAB531E68CE0700CF2947 /* Build configuration list for PBXNativeTarget "NavtyWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				571EAB4D1E68CE0700CF2947 /* Debug */,
+				571EAB4E1E68CE0700CF2947 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
