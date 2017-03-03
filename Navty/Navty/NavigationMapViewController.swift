@@ -113,11 +113,11 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             
                             marker.map = self.mapView
                             
-                            let circleCenter = CLLocationCoordinate2D(latitude: CLLocationDegrees(eachCrime.latitude)!, longitude: CLLocationDegrees(eachCrime.longitude)!)
-                            let circ = GMSCircle(position: circleCenter, radius: 100)
-                            circ.strokeColor = .black
-                            circ.strokeWidth = 3
-                            circ.map = self.mapView
+//                            let circleCenter = CLLocationCoordinate2D(latitude: CLLocationDegrees(eachCrime.latitude)!, longitude: CLLocationDegrees(eachCrime.longitude)!)
+//                            let circ = GMSCircle(position: circleCenter, radius: 100)
+//                            circ.strokeColor = .black
+//                            circ.strokeWidth = 3
+//                            circ.map = self.mapView
                             
                             }
 
@@ -289,7 +289,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.mapView.animate(toLocation: coordinates)
                 
                 print("old coor: \(coordinates)")
-                self.markerAwayFromPoint = GMSMarker(position: self.locationWithBearing(bearing: 100, distanceMeters: 150, origin: coordinates))
+                self.markerAwayFromPoint = GMSMarker(position: self.locationWithBearing(bearing: 270, distanceMeters: 150, origin: coordinates))
                 self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
                 self.markerAwayFromPoint.map = self.mapView
                 
@@ -300,6 +300,9 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
     }
     
+
+    //MARK: -Location Bearing
+
     func getPolylines(coordinates: CLLocationCoordinate2D) {
         APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&mode=\(self.transportationPicked)&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
             if let validData = data {
@@ -353,9 +356,13 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
 
+
     func locationWithBearing(bearing:Double, distanceMeters:Double, origin:CLLocationCoordinate2D) -> CLLocationCoordinate2D {
+        
+        //
         let distRadians = distanceMeters / (6372797.6) // earth radius in meters
         
+        //M_PI is constant of Pi, 3.1415.....
         let lat1 = origin.latitude * M_PI / 180
         let lon1 = origin.longitude * M_PI / 180
         
