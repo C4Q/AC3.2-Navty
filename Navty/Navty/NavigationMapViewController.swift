@@ -282,10 +282,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.marker.icon = GMSMarker.markerImage(with: .blue)
                 self.mapView.animate(toLocation: coordinates)
                 
-                print("old coor: \(coordinates)")
-                self.markerAwayFromPoint = GMSMarker(position: self.locationWithBearing(bearing: 100, distanceMeters: 150, origin: coordinates))
-                self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
-                self.markerAwayFromPoint.map = self.mapView
+//                print("old coor: \(coordinates)")
+//                self.markerAwayFromPoint = GMSMarker(position: self.locationWithBearing(bearing: 100, distanceMeters: 150, origin: coordinates))
+//                self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
+//                self.markerAwayFromPoint.map = self.mapView
                 
                 APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
                     if let validData = data {
