@@ -30,13 +30,17 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
     var path = GMSPath()
     var polyline = GMSPolyline()
+    var allPolyLines = [GMSPolyline]()
     var availablePaths = [GMSPath]()
 
     var addressLookUp = String()
     var marker = GMSMarker()
     var markerAwayFromPoint = GMSMarker()
 
-    var colors = [UIColor.red, UIColor.blue, UIColor.green]
+    var colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.white]
+    
+    var transportationPicked = "walking"
+    var newCoordinates = CLLocationCoordinate2D()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -267,7 +271,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         self.addressLookUp = searchDestination.text!
         print("\(searchBar.text)")
         self.marker.map = nil
-        self.polyline.map = nil
+        self.allPolyLines.forEach({ $0.map = nil })
+        self.allPolyLines = []
         searchDestination.resignFirstResponder()
         
         geocoder.geocodeAddressString(addressLookUp, completionHandler: { (placemarks, error) -> Void in
@@ -276,6 +281,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             } else if placemarks?[0] != nil {
                 let placemark: CLPlacemark = placemarks![0]
                 let coordinates: CLLocationCoordinate2D = placemark.location!.coordinate
+                self.newCoordinates = coordinates
                 self.marker = GMSMarker(position: coordinates)
                 self.marker.title = "\(placemark)"
                 self.marker.map = self.mapView
@@ -287,31 +293,63 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
                 self.markerAwayFromPoint.map = self.mapView
                 
-                APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
-                    if let validData = data {
-                        if let jsonData = try? JSONSerialization.jsonObject(with: validData, options: []),
-                            let google = jsonData as? [String: Any] {
-                            self.directions = GoogleDirections.getData(from: google)
-
-                            
-                            DispatchQueue.main.async {
-                                
-                                for eachOne in 0 ..< self.directions.count {
-                                self.path = GMSPath(fromEncodedPath: self.directions[eachOne].polyline)!
-                                self.availablePaths.append(self.path)
-                                self.polyline = GMSPolyline(path: self.path)
-                                self.polyline.strokeWidth = 7
-                                self.polyline.strokeColor = self.colors[eachOne]
-                                self.polyline.map = self.mapView
-                                }
-                            }
-                        }
-                    }
-                }
+                self.getPolylines(coordinates: self.newCoordinates)
                 
             }
         })
         
+    }
+    
+    func getPolylines(coordinates: CLLocationCoordinate2D) {
+        APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&mode=\(self.transportationPicked)&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
+            if let validData = data {
+                if let jsonData = try? JSONSerialization.jsonObject(with: validData, options: []),
+                    let google = jsonData as? [String: Any] {
+                    self.directions = GoogleDirections.getData(from: google)
+                    
+                    
+                    DispatchQueue.main.async {
+                        
+                        for eachOne in 0 ..< self.directions.count {
+                            self.path = GMSPath(fromEncodedPath: self.directions[eachOne].polyline)!
+                            self.availablePaths.append(self.path)
+                            self.polyline = GMSPolyline(path: self.path)
+                            self.polyline.strokeWidth = 7
+                            self.polyline.strokeColor = self.colors[eachOne]
+                            self.allPolyLines.append(self.polyline)
+                            self.allPolyLines[eachOne].map = self.mapView
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    func transportationPick(sender: UIButton) {
+        _ = self.allPolyLines.map { $0.map = nil }
+        allPolyLines = []
+        
+        switch sender.tag {
+        case 0:
+            print("tag 0")
+            self.transportationPicked = "driving"
+            self.getPolylines(coordinates: self.newCoordinates)
+        case 1:
+            print("tag 1")
+            self.transportationPicked = "walking"
+            self.getPolylines(coordinates: self.newCoordinates)
+        case 2:
+            print("tag 2")
+            self.transportationPicked = "bicycling"
+            self.getPolylines(coordinates: self.newCoordinates)
+        case 3:
+            print("tag 3")
+            self.transportationPicked = "transit"
+            self.getPolylines(coordinates: self.newCoordinates)
+        default:
+            break
+        }
     }
     
 
@@ -395,6 +433,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         //button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 30
         button.setImage(#imageLiteral(resourceName: "Transportation Filled-50"), for: .normal)
+        button.tag = 0
+        button.addTarget(self, action: #selector(transportationPick(sender:)), for: .touchUpInside)
         return button
     }()
     
@@ -403,6 +443,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         //button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 30
         button.setImage(#imageLiteral(resourceName: "Trekking Filled-50"), for: .normal)
+        button.tag = 1
+        button.addTarget(self, action: #selector(transportationPick(sender:)), for: .touchUpInside)
         return button
     }()
     
@@ -411,6 +453,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         //button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 30
         button.setImage(#imageLiteral(resourceName: "Cycling Road Filled-50"), for: .normal)
+        button.tag = 2
+        button.addTarget(self, action: #selector(transportationPick(sender:)), for: .touchUpInside)
         return button
     }()
     
@@ -419,6 +463,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         //button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 30
         button.setImage(#imageLiteral(resourceName: "Railway Station Filled-50"), for: .normal)
+        button.tag = 3
+        button.addTarget(self, action: #selector(transportationPick(sender:)), for: .touchUpInside)
         return button
     }()
     
