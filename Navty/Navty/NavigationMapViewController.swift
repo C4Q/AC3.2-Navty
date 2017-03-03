@@ -11,7 +11,7 @@ import GoogleMaps
 import SnapKit
 import SideMenu
 
-class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate {
+class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate {
 
     var userLatitude = Float()
     var userLongitude = Float()
@@ -52,6 +52,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
 
         locationManager.delegate = self
         searchDestination.delegate = self
+        mapView.delegate = self
         locationManager.startUpdatingLocation()
         
         
@@ -133,6 +134,17 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
         let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude), zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
+        
+        do {
+            if let styleURL = Bundle.main.url(forResource: "style", withExtension: "json") {
+                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+            } else {
+                print("Unable to find style.json")
+            }
+        } catch {
+            print("The style definition could not be loaded: \(error)")
+        }
+        
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(mapView)
         mapView.isMyLocationEnabled = true
@@ -253,7 +265,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error: \(error)")
     }
-
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchDestination.showsCancelButton = true
         
@@ -318,7 +330,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             self.availablePaths.append(self.path)
                             self.polyline = GMSPolyline(path: self.path)
                             self.polyline.strokeWidth = 7
-                            self.polyline.strokeColor = self.colors[eachOne]
+                            self.polyline.strokeColor = UIColor.blue
+                            //self.polyline.strokeColor = self.colors[eachOne]
+                            self.polyline.isTappable = true
+                            self.polyline.title = "\(self.colors[eachOne])"
                             self.allPolyLines.append(self.polyline)
                             self.allPolyLines[eachOne].map = self.mapView
                         }
@@ -355,8 +370,17 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         }
     }
     
-
-
+    func mapView(_ mapView: GMSMapView, didTap overlay: GMSOverlay) {
+        print("\(overlay.title)")
+        for polylines in allPolyLines {
+            polylines.strokeColor = UIColor.blue
+            if overlay.title! == polylines.title {
+                polylines.strokeColor = UIColor.white
+                print("changed")
+            }
+        }
+    }
+    
     func locationWithBearing(bearing:Double, distanceMeters:Double, origin:CLLocationCoordinate2D) -> CLLocationCoordinate2D {
         
         //
