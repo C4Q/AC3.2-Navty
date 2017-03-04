@@ -57,7 +57,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
         self.view.backgroundColor = UIColor.white
         sideMenu()
-        getData()
+//        getData()
+//        getPolylines(coordinates: CLLocationCoordinate2D(latitude: 40, longitude: -70) )
         setupNotificationForKeyboard()
     }
     
@@ -302,19 +303,22 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
 
     //MARK: -Location Bearing
-
+//            "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&mode=\(self.transportationPicked)&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
     func getPolylines(coordinates: CLLocationCoordinate2D) {
-        APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&mode=\(self.transportationPicked)&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
-            if let validData = data {
-                if let jsonData = try? JSONSerialization.jsonObject(with: validData, options: []),
-                    let google = jsonData as? [String: Any] {
-                    self.directions = GoogleDirections.getData(from: google)
+        APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&mode=\(self.transportationPicked)&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
+            { (data) in
+                
+        if data != nil {
                     
+                    
+            if let validData = GoogleDirections.getData(from: data!) {
+
+                    self.directions = validData
                     
                     DispatchQueue.main.async {
                         
                         for eachOne in 0 ..< self.directions.count {
-                            self.path = GMSPath(fromEncodedPath: self.directions[eachOne].polyline)!
+                            self.path = GMSPath(fromEncodedPath: self.directions[eachOne].overallPolyline)!
                             self.availablePaths.append(self.path)
                             self.polyline = GMSPolyline(path: self.path)
                             self.polyline.strokeWidth = 7
