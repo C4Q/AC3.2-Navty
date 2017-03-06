@@ -327,7 +327,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             self.path = GMSPath(fromEncodedPath: self.directions[eachOne].overallPolyline)!
                             self.availablePaths.append(self.path)
                             self.polyline = GMSPolyline(path: self.path)
-                            self.polyline.title = self.directions[eachOne].overallTime
                             self.polyline.strokeWidth = 7
                             self.polyline.strokeColor = UIColor.blue
                             //self.polyline.strokeColor = self.colors[eachOne]
