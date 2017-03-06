@@ -42,6 +42,11 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     var transportationPicked = "walking"
     var newCoordinates = CLLocationCoordinate2D()
     
+    var wayPoints = [CLLocationCoordinate2D]()
+    var searched: Bool = false
+    var adjustedPath = [GoogleDirections]()
+    var availablePath = [GMSPath]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -313,7 +318,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     func getPolylines(coordinates: CLLocationCoordinate2D) {
         APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&mode=\(self.transportationPicked)&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
             { (data) in
-                
+            
         if data != nil {
                     
                     
@@ -326,11 +331,11 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                         for eachOne in 0 ..< self.directions.count {
                             self.path = GMSPath(fromEncodedPath: self.directions[eachOne].overallPolyline)!
                             self.availablePaths.append(self.path)
-                            self.polyline = GMSPolyline(path: self.path)
+                            self.polyline = GMSPolyline(path: self.availablePaths[eachOne])
                             self.polyline.strokeWidth = 7
-                            self.polyline.strokeColor = UIColor.blue
-                            //self.polyline.strokeColor = self.colors[eachOne]
-                            self.polyline.isTappable = true
+//                            self.polyline.strokeColor = UIColor.blue
+                            self.polyline.strokeColor = self.colors[eachOne]
+//                            self.polyline.isTappable = true
                             self.polyline.title = "\(self.colors[eachOne])"
                             self.allPolyLines.append(self.polyline)
                             self.allPolyLines[eachOne].map = self.mapView
@@ -338,6 +343,52 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                     }
                 }
             }
+        }
+    }
+    
+    
+    func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
+        if true {
+            let marker = GMSMarker(position: coordinate)
+            marker.title = String(describing: coordinate)
+            
+            DispatchQueue.main.async {
+                marker.map = self.mapView
+            }
+            
+            APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(newCoordinates.latitude),\(newCoordinates.longitude)&region=es&mode=\(self.transportationPicked)&waypoints=via:\(coordinate.latitude)%2C\(coordinate.longitude)%7C&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
+            { (data) in
+                
+                if data != nil {
+                    
+                    
+                    if let validData = GoogleDirections.getData(from: data!) {
+                        
+                        self.adjustedPath = validData
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.polyline.map = nil
+                            for eachOne in 0 ..< self.adjustedPath.count {
+                                var polyline = GMSPolyline()
+                                var pathOf = GMSPath()
+                                pathOf = GMSPath(fromEncodedPath: self.adjustedPath[eachOne].overallPolyline)!
+                                self.availablePath.append(pathOf)
+                                
+                                polyline = GMSPolyline(path: self.availablePath[eachOne])
+                                polyline.strokeWidth = 7
+                                polyline.strokeColor = self.colors[eachOne]
+                                
+                                polyline.title = "\(self.colors[eachOne])"
+
+                                polyline.map = self.mapView
+                            }
+                        }
+                    }
+                }
+            }
+
+            
         }
     }
     
@@ -399,21 +450,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
     
-    func changeRoute() {
-        for eachCrime in self.crimesNYC {
-            guard eachCrime.latitude != "0" else {continue}
-            for point in directions {
-                let lat = point.endLocationForStepLat
-                let long = point.endLocationForStepLong
-                for location in lat {
-                    for location in long{
-                        
-                    }
-                }
-            }
-        }
-    }
-
 
     func buttonPressed () {
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
