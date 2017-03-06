@@ -334,8 +334,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             self.availablePaths.append(self.path)
                             self.polyline = GMSPolyline(path: self.path)
                             self.polyline.strokeWidth = 7
-                            self.polyline.strokeColor = UIColor.blue
-                            //self.polyline.strokeColor = self.colors[eachOne]
+//                            self.polyline.strokeColor = UIColor.blue
+                            self.polyline.strokeColor = self.colors[eachOne]
                             self.polyline.isTappable = true
                             self.polyline.title = "\(self.colors[eachOne])"
                             self.allPolyLines.append(self.polyline)
