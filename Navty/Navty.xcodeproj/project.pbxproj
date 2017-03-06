@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		571C71FA1E6DDA1C00B58E22 /* DirectionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */; };
 		571EAB0C1E660AB500CF2947 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB0B1E660AB500CF2947 /* AppDelegate.swift */; };
 		571EAB0E1E660AB500CF2947 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB0D1E660AB500CF2947 /* ViewController.swift */; };
 		571EAB131E660AB500CF2947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB121E660AB500CF2947 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionsTableViewCell.swift; sourceTree = "<group>"; };
 		571EAB081E660AB500CF2947 /* Navty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		571EAB0B1E660AB500CF2947 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		571EAB0D1E660AB500CF2947 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				571EAB0D1E660AB500CF2947 /* ViewController.swift */,
 				571EAB231E66156500CF2947 /* NavigationMapViewController.swift */,
 				571EAB271E676FEB00CF2947 /* MenuViewController.swift */,
+				571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				571EAB0C1E660AB500CF2947 /* AppDelegate.swift in Sources */,
 				571EAB241E66156500CF2947 /* NavigationMapViewController.swift in Sources */,
 				571EAB281E676FEB00CF2947 /* MenuViewController.swift in Sources */,
+				571C71FA1E6DDA1C00B58E22 /* DirectionsTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
