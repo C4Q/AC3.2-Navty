@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class MenuViewController: UIViewController {
+class MenuViewController: UIViewController, UISplitViewControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,10 +27,10 @@ class MenuViewController: UIViewController {
     func viewHierarchy(){
         
         view.addSubview(profilePicture)
-        view.addSubview(labelOne)
-        view.addSubview(labelTwo)
-        view.addSubview(labelThree)
-        view.addSubview(labelFour)
+        view.addSubview(codewordButton)
+        view.addSubview(contactButton)
+        view.addSubview(communityButton)
+        view.addSubview(profileButton)
         
     }
     
@@ -44,36 +44,45 @@ class MenuViewController: UIViewController {
             photo.centerX.equalTo(view.snp.centerX)
         }
         
-        labelOne.snp.makeConstraints { (label) in
-            label.centerX.equalTo(view.snp.centerX)
-            label.bottom.equalTo(profilePicture.snp.bottom).offset(40)
-            label.height.equalTo(30)
-            label.width.equalTo(view.snp.width).inset(20)
+        codewordButton.snp.makeConstraints { (button) in
+            button.centerX.equalTo(view.snp.centerX)
+//            button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
+            button.height.equalTo(30)
+            button.width.equalTo(view.snp.width).inset(20)
+            button.top.equalTo(profilePicture.snp.bottom).offset(20)
             
         }
         
-        labelTwo.snp.makeConstraints { (label) in
-            label.centerX.equalTo(view.snp.centerX)
-            label.bottom.equalTo(labelOne.snp.bottom).offset(40)
-            label.height.equalTo(30)
-            label.width.equalTo(view.snp.width).inset(20)
+        contactButton.snp.makeConstraints { (button) in
+            button.centerX.equalTo(view.snp.centerX)
+            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
+            button.height.equalTo(30)
+            button.width.equalTo(view.snp.width).inset(20)
+            button.top.equalTo(codewordButton.snp.bottom).offset(20)
         }
-        
-        labelThree.snp.makeConstraints { (label) in
-            label.centerX.equalTo(view.snp.centerX)
-            label.bottom.equalTo(labelTwo.snp.bottom).offset(40)
-            label.height.equalTo(30)
-            label.width.equalTo(view.snp.width).inset(20)
+
+        communityButton.snp.makeConstraints { (button) in
+            button.centerX.equalTo(view.snp.centerX)
+            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
+            button.height.equalTo(30)
+            button.width.equalTo(view.snp.width).inset(20)
+            button.top.equalTo(contactButton.snp.bottom).offset(20)
         }
-        
-        labelFour.snp.makeConstraints { (label) in
-            label.centerX.equalTo(view.snp.centerX)
-            label.bottom.equalTo(labelThree.snp.bottom).offset(40)
-            label.height.equalTo(30)
-            label.width.equalTo(view.snp.width).inset(20)
+
+        profileButton.snp.makeConstraints { (button) in
+            button.centerX.equalTo(view.snp.centerX)
+            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
+            button.height.equalTo(30)
+            button.width.equalTo(view.snp.width).inset(20)
+            button.top.equalTo(communityButton.snp.bottom).offset(20)
         }
+    }
     
-        
+    func contactsController() {
+        let ContactsTC = ContactsTableViewController()
+        if let navVC = self.navigationController {
+            navVC.pushViewController(ContactsTC, animated: true)
+        }
     }
     
     internal lazy var profilePicture: UIImageView = {
@@ -85,48 +94,45 @@ class MenuViewController: UIViewController {
         return photo
     }()
     
-    internal lazy var labelOne: UILabel = {
-        let label = UILabel()
-        label.text = "Code Word"
-        label.textColor = .white
-        label.textAlignment = .center
-        label.layer.cornerRadius = 15
-        label.layer.masksToBounds = true
-        label.backgroundColor = ColorPalette.lightGreen
-        return label
+    internal var codewordButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = ColorPalette.lightGreen
+        button.setTitle("Codeword", for: .normal)
+        button.alpha = 0.8
+        button.layer.masksToBounds = true
+        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
+        return button
     }()
     
-    internal lazy var labelTwo: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = "Contact"
-        label.textColor = .white
-        label.layer.cornerRadius = 15
-        label.layer.masksToBounds = true
-        label.backgroundColor = ColorPalette.lightGreen
-        return label
+    
+    internal var contactButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = ColorPalette.lightGreen
+        button.setTitle("Contact", for: .normal)
+        button.alpha = 0.8
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(contactsController), for: .touchUpInside)
+        return button
     }()
     
-    internal lazy var labelThree: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = "Community"
-        label.textColor = .white
-        label.layer.cornerRadius = 15
-        label.layer.masksToBounds = true
-        label.backgroundColor = ColorPalette.lightGreen
-        return label
+    internal var communityButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = ColorPalette.lightGreen
+        button.setTitle("Community", for: .normal)
+        button.alpha = 0.8
+        button.layer.masksToBounds = true
+        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
+        return button
     }()
     
-    internal lazy var labelFour: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.text = "Profile"
-        label.textColor = .white
-        label.layer.cornerRadius = 15
-        label.layer.masksToBounds = true
-        label.backgroundColor = ColorPalette.lightGreen
-        return label
+    internal var profileButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = ColorPalette.lightGreen
+        button.setTitle("Profile", for: .normal)
+        button.alpha = 0.8
+        button.layer.masksToBounds = true
+        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
+        return button
     }()
    
 
