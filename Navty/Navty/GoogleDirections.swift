@@ -14,21 +14,23 @@ enum errorEnum: Error {
 
 class GoogleDirections {
 
-    let directionInstruction: String
+    let directionInstruction: [String]
     let overallPolyline: String
     let overallDistance: String
     let overallTime: String
-    let distanceForStep: String
-    let timeForStep: String
-    let endLocationForStepLat: Float
-    let endLocationForStepLong: Float
-    let eachStepPolyline: String
-    let startLocationForStepLat: Float
-    let startLocationForStepLong: Float
+    let distanceForStep: [String]
+    let timeForStep: [String]
+    let endLocationForStepLat: [Float]
+    let endLocationForStepLong: [Float]
+    let eachStepPolyline: [String]
+    let startLocationForStepLat: [Float]
+    let startLocationForStepLong: [Float]
+    let startLat: Float
+    let startLong: Float
     
     
 
-    init(directionInstruction:String, overallPolyline: String, overallDistance: String, overallTime: String, distanceForStep: String, timeForStep: String, endLocationForStepLat: Float, endLocationForStepLong: Float, eachStepPolyline: String, startLocationForStepLat: Float, startLocationForStepLong: Float) {
+    init(directionInstruction:[String], overallPolyline: String, overallDistance: String, overallTime: String, distanceForStep: [String], timeForStep: [String], endLocationForStepLat: [Float], endLocationForStepLong: [Float], eachStepPolyline: [String], startLocationForStepLat: [Float], startLocationForStepLong: [Float], startLat: Float, startLong: Float) {
         self.directionInstruction = directionInstruction
         self.overallPolyline = overallPolyline
         self.overallDistance = overallDistance
@@ -40,6 +42,8 @@ class GoogleDirections {
         self.eachStepPolyline = eachStepPolyline
         self.startLocationForStepLat = startLocationForStepLat
         self.startLocationForStepLong = startLocationForStepLong
+        self.startLat = startLat
+        self.startLong = startLong
     }
 
     
@@ -60,14 +64,17 @@ class GoogleDirections {
             var overallPoly: String!
             var fullDistance: String!
             var fullTime: String!
-            var directionInstruction: String!
-            var distanceForStep: String!
-            var timeForStep: String!
-            var endLocationForStepLat: Float!
-            var endLocationForStepLong: Float!
-            var eachStepPolyline: String!
-            var startLocationForStepLat: Float!
-            var startLocationForStepLong: Float!
+            var directionInstruction = [String]()
+            var distanceForStep = [String]()
+            var timeForStep = [String]()
+            var endLocationForStepLat = [Float]()
+            var endLocationForStepLong = [Float]()
+            var eachStepPolyline = [String]()
+            var startLocationForStepLat = [Float]()
+            var startLocationForStepLong = [Float]()
+            
+            var startLat: Float!
+            var startLong: Float!
             
             var allGoogleData = [GoogleDirections]()
             
@@ -83,12 +90,18 @@ class GoogleDirections {
             for leg in legsInfo {
                 guard let totalDistance = leg["distance"] as? [String:Any] else { throw errorEnum.test}
                 guard let totalDuration = leg["duration"] as? [String:Any] else {throw errorEnum.test}
+                guard let overallStartLocation = leg["start_location"] as? [String: Any] else {throw errorEnum.test}
                 guard let steps = leg["steps"] as? [[String: Any]] else {throw errorEnum.test}
                 let distanceOf = totalDistance["text"] as! String
                 let timeOf = totalDuration["text"] as! String
+                let startLatOf = overallStartLocation["lat"] as! Float
+                let startLongOf = overallStartLocation["lng"] as! Float
                 fullDistance = distanceOf
                 fullTime = timeOf
                 stepsInfo = steps
+                startLat = startLatOf
+                startLong = startLongOf
+                
             }
             
             for step in stepsInfo {
@@ -106,18 +119,18 @@ class GoogleDirections {
                 let startLatitude = startLocation["lat"] as! Float
                 let startLongitude = startLocation["lng"] as! Float
                 
-                directionInstruction = instructions
-                distanceForStep = distance
-                timeForStep = time
-                endLocationForStepLat = endLatitude
-                endLocationForStepLong = endLongitude
-                eachStepPolyline = poly
-                startLocationForStepLat = startLatitude
-                startLocationForStepLong = startLongitude
+                directionInstruction.append(instructions)
+                distanceForStep.append(distance)
+                timeForStep.append(time)
+                endLocationForStepLat.append(endLatitude)
+                endLocationForStepLong.append(endLongitude)
+                eachStepPolyline.append(poly)
+                startLocationForStepLat.append(startLatitude)
+                startLocationForStepLong.append(startLongitude)
                 
             }
             
-            let googleData = GoogleDirections(directionInstruction: directionInstruction, overallPolyline: overallPoly, overallDistance: fullDistance, overallTime: fullTime, distanceForStep: distanceForStep, timeForStep: timeForStep, endLocationForStepLat: endLocationForStepLat, endLocationForStepLong: endLocationForStepLong, eachStepPolyline: eachStepPolyline, startLocationForStepLat: startLocationForStepLat, startLocationForStepLong: startLocationForStepLong)
+            let googleData = GoogleDirections(directionInstruction: directionInstruction, overallPolyline: overallPoly, overallDistance: fullDistance, overallTime: fullTime, distanceForStep: distanceForStep, timeForStep: timeForStep, endLocationForStepLat: endLocationForStepLat, endLocationForStepLong: endLocationForStepLong, eachStepPolyline: eachStepPolyline, startLocationForStepLat: startLocationForStepLat, startLocationForStepLong: startLocationForStepLong, startLat: startLat, startLong: startLong)
             allGoogleData.append(googleData)
             return allGoogleData
         }
