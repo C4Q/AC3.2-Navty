@@ -14,5 +14,5 @@ target 'Navty' do
   pod 'Firebase/Database'
   pod 'GoogleMaps'
   pod 'SideMenu'
-
+ 
 end

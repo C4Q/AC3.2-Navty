@@ -59,7 +59,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         self.view.backgroundColor = UIColor.white
         sideMenu()
 //        getData()
-//        getPolylines(coordinates: CLLocationCoordinate2D(latitude: 40, longitude: -70) )
+//        getPolylines(coordinates: CLLocationCoordinate2D(latitude: 40.849595621347405, longitude: -73.918020075426583) )
         setupNotificationForKeyboard()
     }
     
@@ -114,12 +114,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             marker.title = eachCrime.description
                             
                             marker.map = self.mapView
-                            
-//                            let circleCenter = CLLocationCoordinate2D(latitude: CLLocationDegrees(eachCrime.latitude)!, longitude: CLLocationDegrees(eachCrime.longitude)!)
-//                            let circ = GMSCircle(position: circleCenter, radius: 100)
-//                            circ.strokeColor = .black
-//                            circ.strokeWidth = 3
-//                            circ.map = self.mapView
                             
                             }
 
@@ -333,6 +327,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             self.path = GMSPath(fromEncodedPath: self.directions[eachOne].overallPolyline)!
                             self.availablePaths.append(self.path)
                             self.polyline = GMSPolyline(path: self.path)
+                            self.polyline.title = self.directions[eachOne].overallTime
                             self.polyline.strokeWidth = 7
 //                            self.polyline.strokeColor = UIColor.blue
                             self.polyline.strokeColor = self.colors[eachOne]
@@ -404,6 +399,21 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         return newCoordinate
     }
     
+    
+    func changeRoute() {
+        for eachCrime in self.crimesNYC {
+            guard eachCrime.latitude != "0" else {continue}
+            for point in directions {
+                let lat = point.endLocationForStepLat
+                let long = point.endLocationForStepLong
+                for location in lat {
+                    for location in long{
+                        
+                    }
+                }
+            }
+        }
+    }
 
 
     func buttonPressed () {
