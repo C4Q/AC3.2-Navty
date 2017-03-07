@@ -43,6 +43,12 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     var currentlocation = CLLocationCoordinate2D()
     var newCoordinates = CLLocationCoordinate2D()
     
+    var searched: Bool = false
+    var adjustedPath = [GoogleDirections]()
+    var availablePath = GMSPath()
+    var polylineUpdated = GMSPolyline()
+    var pathOf = GMSPath()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -335,7 +341,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     func getPolylines(coordinates: CLLocationCoordinate2D) {
         APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&mode=\(self.transportationPicked)&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
             { (data) in
-                
+            
         if data != nil {
                     
                     
@@ -348,7 +354,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                         for eachOne in 0 ..< self.directions.count {
                             self.path = GMSPath(fromEncodedPath: self.directions[eachOne].overallPolyline)!
                             self.availablePaths.append(self.path)
-                            self.polyline = GMSPolyline(path: self.path)
+                            self.polyline = GMSPolyline(path: self.availablePaths[eachOne])
                             self.polyline.strokeWidth = 7
 //                            self.polyline.strokeColor = UIColor.blue
                             self.polyline.strokeColor = self.colors[eachOne]
@@ -365,11 +371,50 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         }
     }
     
-//    func getDirections() {
-//        api
-//    }
-    
+
     //MARK: TRANSPORTATION CONTAINER
+    
+    
+    func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
+        if true {
+            
+            APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(newCoordinates.latitude),\(newCoordinates.longitude)&region=es&mode=\(self.transportationPicked)&waypoints=via:\(coordinate.latitude)%2C\(coordinate.longitude)%7C&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
+            { (data) in
+                
+                if data != nil {
+                    
+                    
+                    if let validData = GoogleDirections.getData(from: data!) {
+                        
+                        self.adjustedPath = validData
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.polyline.map = nil
+                            self.polylineUpdated.map = nil
+                            for eachOne in 0 ..< self.adjustedPath.count {
+                                
+                                self.pathOf = GMSPath(fromEncodedPath: self.adjustedPath[eachOne].overallPolyline)!
+                                self.availablePath = self.pathOf
+                                
+                                self.polylineUpdated = GMSPolyline(path: self.availablePath)
+                                self.polylineUpdated.strokeWidth = 7
+                                self.polylineUpdated.strokeColor = self.colors[eachOne]
+                                
+                                self.polylineUpdated.title = "\(self.colors[eachOne])"
+
+                                self.polylineUpdated.map = self.mapView
+                            }
+                        }
+                    }
+                }
+            }
+
+            
+        }
+    }
+    
+    
     func transportationPick(sender: UIButton) {
         _ = self.allPolyLines.map { $0.map = nil }
         allPolyLines = []
