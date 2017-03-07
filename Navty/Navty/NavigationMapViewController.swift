@@ -356,12 +356,18 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             self.polyline.title = "\(self.colors[eachOne])"
                             self.allPolyLines.append(self.polyline)
                             self.polyline.map = self.mapView
+                            
+                            self.directionsTableView.reloadData()
                         }
                     }
                 }
             }
         }
     }
+    
+//    func getDirections() {
+//        api
+//    }
     
     //MARK: TRANSPORTATION CONTAINER
     func transportationPick(sender: UIButton) {
@@ -448,13 +454,23 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        for elements in 0..<directions.count {
+            return directions[elements].directionInstruction.count
+        }
+        return directions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DirectionsTableViewCell
         
-        cell.directionPointerImage.backgroundColor = .blue
+        let direction: GoogleDirections? = directions[0]
+        
+//        dump(self.directions[indexPath.row].directionInstruction[indexPath.row])
+        
+        cell.directionLabel.numberOfLines = 0
+        cell.directionLabel.text = direction?.directionInstruction[indexPath.row]
+        .trimmingCharacters(in: .init(charactersIn: "<>"))
+        
         return cell
     }
 
@@ -550,6 +566,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         return button
     }()
     
+
+    
     internal lazy var blur: UIVisualEffectView = {
         let blur = UIBlurEffect(style: UIBlurEffectStyle.light)
         var blurEffectView = UIVisualEffectView(effect: blur)
@@ -562,7 +580,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(DirectionsTableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 250
+        tableView.rowHeight = UITableViewAutomaticDimension
         return tableView
     }()
 }
