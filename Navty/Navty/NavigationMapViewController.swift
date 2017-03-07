@@ -42,10 +42,11 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     var transportationPicked = "walking"
     var newCoordinates = CLLocationCoordinate2D()
     
-    var wayPoints = [CLLocationCoordinate2D]()
     var searched: Bool = false
     var adjustedPath = [GoogleDirections]()
-    var availablePath = [GMSPath]()
+    var availablePath = GMSPath()
+    var polylineUpdated = GMSPolyline()
+    var pathOf = GMSPath()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -347,14 +348,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
     
+    
+    
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         if true {
-            let marker = GMSMarker(position: coordinate)
-            marker.title = String(describing: coordinate)
-            
-            DispatchQueue.main.async {
-                marker.map = self.mapView
-            }
             
             APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(newCoordinates.latitude),\(newCoordinates.longitude)&region=es&mode=\(self.transportationPicked)&waypoints=via:\(coordinate.latitude)%2C\(coordinate.longitude)%7C&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
             { (data) in
@@ -369,19 +366,19 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                         DispatchQueue.main.async {
                             
                             self.polyline.map = nil
+                            self.polylineUpdated.map = nil
                             for eachOne in 0 ..< self.adjustedPath.count {
-                                var polyline = GMSPolyline()
-                                var pathOf = GMSPath()
-                                pathOf = GMSPath(fromEncodedPath: self.adjustedPath[eachOne].overallPolyline)!
-                                self.availablePath.append(pathOf)
                                 
-                                polyline = GMSPolyline(path: self.availablePath[eachOne])
-                                polyline.strokeWidth = 7
-                                polyline.strokeColor = self.colors[eachOne]
+                                self.pathOf = GMSPath(fromEncodedPath: self.adjustedPath[eachOne].overallPolyline)!
+                                self.availablePath = self.pathOf
                                 
-                                polyline.title = "\(self.colors[eachOne])"
+                                self.polylineUpdated = GMSPolyline(path: self.availablePath)
+                                self.polylineUpdated.strokeWidth = 7
+                                self.polylineUpdated.strokeColor = self.colors[eachOne]
+                                
+                                self.polylineUpdated.title = "\(self.colors[eachOne])"
 
-                                polyline.map = self.mapView
+                                self.polylineUpdated.map = self.mapView
                             }
                         }
                     }
