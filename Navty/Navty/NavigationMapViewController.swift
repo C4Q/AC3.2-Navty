@@ -11,7 +11,7 @@ import GoogleMaps
 import SnapKit
 import SideMenu
 
-class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate {
+class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
     var userLatitude = Float()
     var userLongitude = Float()
@@ -40,6 +40,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     var colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.white]
     
     var transportationPicked = "walking"
+    var currentlocation = CLLocationCoordinate2D()
     var newCoordinates = CLLocationCoordinate2D()
     
     var searched: Bool = false
@@ -69,6 +70,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         setupNotificationForKeyboard()
     }
     
+    //MARK: SIDE MENU
     func sideMenu() {
         let menuLeftNavigationController = UISideMenuNavigationController(rootViewController: MenuViewController())
         
@@ -82,6 +84,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         SideMenuManager.menuFadeStatusBar = false
     }
 
+    //MARK: MOVE VIEWS WITH KEYBOARD
     func setupNotificationForKeyboard() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: Notification.Name.UIKeyboardWillHide, object: nil)
@@ -102,6 +105,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
     }
     
+    //MARK: CRIME DATA
     func getData() {
         APIRequestManager.manager.getData(endPoint: "https://data.cityofnewyork.us/resource/7x9x-zpz6.json") { (data) in
             if let validData = data {
@@ -128,8 +132,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             }
         }
     }
+    
+    
 
-
+    //MARK: VIEW HIERARCHY & VIEWS CONSTRAINTS
     func setupViewHierarchy() {
         self.edgesForExtendedLayout = []
         
@@ -154,6 +160,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         view.addSubview(menuButton)
         view.addSubview(searchDestination)
         view.addSubview(transportationContainer)
+        view.addSubview(directionsTableView)
         
         transportationContainer.addSubview(blur)
         transportationContainer.addSubview(drivingButton)
@@ -219,8 +226,14 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             view.centerY.equalTo(transportationContainer.snp.centerY)
         })
         
+        directionsTableView.snp.makeConstraints({ (view) in
+            view.leading.trailing.equalToSuperview()
+            view.height.equalToSuperview().multipliedBy(0.5)
+            view.top.equalTo(mapView.snp.bottom)
+        })
     }
     
+    //MARK: CLLOCATION
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
@@ -248,6 +261,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         userLatitude =  Float(locationValue.latitude)
         userLongitude = Float(locationValue.longitude)
         
+        self.currentlocation = locationValue
+        
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: locationValue.latitude, longitude: locationValue.longitude))
         
         geocoder.reverseGeocodeLocation(validLocation) { (placemarks: [CLPlacemark]?, error: Error?) in
@@ -267,6 +282,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         print("Error: \(error)")
     }
     
+    //MARK: SEARCHBAR
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchDestination.showsCancelButton = true
         
@@ -294,12 +310,18 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             } else if placemarks?[0] != nil {
                 let placemark: CLPlacemark = placemarks![0]
                 let coordinates: CLLocationCoordinate2D = placemark.location!.coordinate
+                
+                let bounds = GMSCoordinateBounds(coordinate: self.currentlocation, coordinate: coordinates)
+                //let camera = self.mapView.camera(for: bounds, insets: .zero)
+//                self.mapView.camera = camera!
+                self.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 15.0))
+                
                 self.newCoordinates = coordinates
                 self.marker = GMSMarker(position: coordinates)
                 self.marker.title = "\(placemark)"
                 self.marker.map = self.mapView
                 self.marker.icon = GMSMarker.markerImage(with: .blue)
-                self.mapView.animate(toLocation: coordinates)
+//                self.mapView.animate(toLocation: coordinates)
                 
                 print("old coor: \(coordinates)")
                 self.markerAwayFromPoint = GMSMarker(position: self.locationWithBearing(bearing: 270, distanceMeters: 150, origin: coordinates))
@@ -336,10 +358,12 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             self.polyline.strokeWidth = 7
 //                            self.polyline.strokeColor = UIColor.blue
                             self.polyline.strokeColor = self.colors[eachOne]
-//                            self.polyline.isTappable = true
+                            self.polyline.isTappable = true
                             self.polyline.title = "\(self.colors[eachOne])"
                             self.allPolyLines.append(self.polyline)
-                            self.allPolyLines[eachOne].map = self.mapView
+                            self.polyline.map = self.mapView
+                            
+                            self.directionsTableView.reloadData()
                         }
                     }
                 }
@@ -347,7 +371,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         }
     }
     
-    
+
+    //MARK: TRANSPORTATION CONTAINER
     
     
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
@@ -427,6 +452,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         }
     }
     
+    //MARK: GETTING POINT AWAY FROM INITIAL POINT
     func locationWithBearing(bearing:Double, distanceMeters:Double, origin:CLLocationCoordinate2D) -> CLLocationCoordinate2D {
         
         //
@@ -447,12 +473,53 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
     
+    func changeRoute() {
+        for eachCrime in self.crimesNYC {
+            guard eachCrime.latitude != "0" else {continue}
+            for point in directions {
+                let lat = point.endLocationForStepLat
+                let long = point.endLocationForStepLong
+                for location in lat {
+                    for location in long{
+                        
+                    }
+                }
+            }
+        }
+    }
 
+    //MARK: MENU BUTTON
     func buttonPressed () {
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
     }
-
     
+    //MARK: SETUP TABLE VIEW FOR DIRECTIONS
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        for elements in 0..<directions.count {
+            return directions[elements].directionInstruction.count
+        }
+        return directions.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DirectionsTableViewCell
+        
+        let direction: GoogleDirections? = directions[0]
+        
+//        dump(self.directions[indexPath.row].directionInstruction[indexPath.row])
+        
+        cell.directionLabel.numberOfLines = 0
+        cell.directionLabel.text = direction?.directionInstruction[indexPath.row]
+        .trimmingCharacters(in: .init(charactersIn: "<>"))
+        
+        return cell
+    }
+
+    //MARK: ANIMATIONS
     func fadeOutView(view: UIView, blur: UIVisualEffectView, hidden: Bool) {
         UIView.transition(with: view, duration: 1.0, options: .transitionCrossDissolve, animations: {() -> Void in
             view.isHidden = true
@@ -478,7 +545,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
     internal lazy var mapView: GMSMapView = {
         let mapView = GMSMapView()
-
         return mapView
     }()
     
@@ -545,6 +611,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         return button
     }()
     
+
+    
     internal lazy var blur: UIVisualEffectView = {
         let blur = UIBlurEffect(style: UIBlurEffectStyle.light)
         var blurEffectView = UIVisualEffectView(effect: blur)
@@ -552,4 +620,13 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         return blurEffectView
     }()
 
+    internal lazy var directionsTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(DirectionsTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.estimatedRowHeight = 250
+        tableView.rowHeight = UITableViewAutomaticDimension
+        return tableView
+    }()
 }

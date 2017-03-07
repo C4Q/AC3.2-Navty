@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		521E5B3D1E68D70400D9FDE9 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */; };
 		521E5B411E69E70100D9FDE9 /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */; };
+		571B55031E6E03CC005414E1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 571B55021E6E03CC005414E1 /* Info.plist */; };
+		571C71FA1E6DDA1C00B58E22 /* DirectionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */; };
 		571EAB0C1E660AB500CF2947 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB0B1E660AB500CF2947 /* AppDelegate.swift */; };
 		571EAB0E1E660AB500CF2947 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB0D1E660AB500CF2947 /* ViewController.swift */; };
 		571EAB131E660AB500CF2947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB121E660AB500CF2947 /* Assets.xcassets */; };
@@ -22,18 +24,18 @@
 		8760BC449F0D75C72A7B2E0A /* Pods_Navty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */; };
 		A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9201E663AC7007D5154 /* CrimeData.swift */; };
 		A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9241E672565007D5154 /* GoogleDirections.swift */; };
-		A20CA92A1E6DCC57007D5154 /* QuadTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9291E6DCC57007D5154 /* QuadTree.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
 		521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
+		571B55021E6E03CC005414E1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionsTableViewCell.swift; sourceTree = "<group>"; };
 		571EAB081E660AB500CF2947 /* Navty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		571EAB0B1E660AB500CF2947 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		571EAB0D1E660AB500CF2947 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		571EAB121E660AB500CF2947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		571EAB151E660AB500CF2947 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		571EAB171E660AB500CF2947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		571EAB211E660C6100CF2947 /* APIRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequestManager.swift; sourceTree = "<group>"; };
 		571EAB231E66156500CF2947 /* NavigationMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationMapViewController.swift; sourceTree = "<group>"; };
 		571EAB251E66212200CF2947 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -43,7 +45,6 @@
 		670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.debug.xcconfig"; sourceTree = "<group>"; };
 		A20CA9201E663AC7007D5154 /* CrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeData.swift; sourceTree = "<group>"; };
 		A20CA9241E672565007D5154 /* GoogleDirections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDirections.swift; sourceTree = "<group>"; };
-		A20CA9291E6DCC57007D5154 /* QuadTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuadTree.swift; sourceTree = "<group>"; };
 		A8F80816261FB17679C51DE6 /* Pods-Navty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.release.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.release.xcconfig"; sourceTree = "<group>"; };
 		B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -105,7 +106,7 @@
 				571EAB0B1E660AB500CF2947 /* AppDelegate.swift */,
 				571EAB121E660AB500CF2947 /* Assets.xcassets */,
 				571EAB141E660AB500CF2947 /* LaunchScreen.storyboard */,
-				571EAB171E660AB500CF2947 /* Info.plist */,
+				571B55021E6E03CC005414E1 /* Info.plist */,
 				571EAB251E66212200CF2947 /* GoogleService-Info.plist */,
 			);
 			name = "Supporting Files";
@@ -117,6 +118,7 @@
 				571EAB0D1E660AB500CF2947 /* ViewController.swift */,
 				571EAB231E66156500CF2947 /* NavigationMapViewController.swift */,
 				571EAB271E676FEB00CF2947 /* MenuViewController.swift */,
+				571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */,
 				521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */,
 				521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */,
 			);
@@ -192,10 +194,7 @@
 				TargetAttributes = {
 					571EAB071E660AB500CF2947 = {
 						CreatedOnToolsVersion = 8.2.1;
-
 						DevelopmentTeam = T878EV5QH2;
-
-
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -226,6 +225,7 @@
 				571EAB161E660AB500CF2947 /* LaunchScreen.storyboard in Resources */,
 				571EAB261E66212200CF2947 /* GoogleService-Info.plist in Resources */,
 				571EAB131E660AB500CF2947 /* Assets.xcassets in Resources */,
+				571B55031E6E03CC005414E1 /* Info.plist in Resources */,
 				571EAB561E6A252600CF2947 /* style.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,6 +294,7 @@
 				571EAB0C1E660AB500CF2947 /* AppDelegate.swift in Sources */,
 				571EAB241E66156500CF2947 /* NavigationMapViewController.swift in Sources */,
 				571EAB281E676FEB00CF2947 /* MenuViewController.swift in Sources */,
+				571C71FA1E6DDA1C00B58E22 /* DirectionsTableViewCell.swift in Sources */,
 				521E5B3D1E68D70400D9FDE9 /* ContactsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,13 +409,11 @@
 			baseConfigurationReference = 670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-
 				DEVELOPMENT_TEAM = T878EV5QH2;
-
 				INFOPLIST_FILE = Navty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -426,13 +425,11 @@
 			baseConfigurationReference = A8F80816261FB17679C51DE6 /* Pods-Navty.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-
 				DEVELOPMENT_TEAM = T878EV5QH2;
-
 				INFOPLIST_FILE = Navty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
