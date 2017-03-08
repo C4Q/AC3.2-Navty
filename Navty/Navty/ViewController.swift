@@ -17,7 +17,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         UIApplication.shared.statusBarStyle = .lightContent
         
         view.backgroundColor = .white
@@ -32,21 +31,6 @@ class ViewController: UIViewController {
         
         SideMenuManager.menuFadeStatusBar = false
     }
-
-//    func getData() {
-//        APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood4&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc") { (data) in
-//            if let validData = data {
-//                if let jsonData = try? JSONSerialization.jsonObject(with: validData, options: []) {
-////                    let google = jsonData as? [String: Any] {
-//                    self.directions = GoogleDirections.getData(from: google)
-//                    dump(self.directions)
-//                  
-//                }
-//            }
-//        }
-//    }
-
-
 
 }
 

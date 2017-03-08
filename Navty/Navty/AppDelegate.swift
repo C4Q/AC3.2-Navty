@@ -23,11 +23,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
     
         let navigationMapView = NavigationMapViewController()
-        
         let navController = UINavigationController(rootViewController: navigationMapView)
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
+        
         self.window?.rootViewController = navController
+        
+        //self.window?.rootViewController = SplashScreenViewController()
         self.window?.makeKeyAndVisible()
         
         locationManager.delegate = self

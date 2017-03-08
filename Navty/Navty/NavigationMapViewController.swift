@@ -19,12 +19,14 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     var userLatitude = Float()
     var userLongitude = Float()
     var zoomLevel: Float = 15.0
+    
     let locationManager: CLLocationManager = {
         let locMan: CLLocationManager = CLLocationManager()
         locMan.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locMan.distanceFilter = 50.0
         return locMan
     }()
+    
     let geocoder: CLGeocoder = CLGeocoder()
 
     
@@ -268,6 +270,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let validLocation: CLLocation = locations.last else { return }
+        
+        //MARK: - Should apply breaking point to Nav for the moment
         guard let locationValue: CLLocationCoordinate2D = (manager.location?.coordinate) else { return }
         
         userLatitude =  Float(locationValue.latitude)
