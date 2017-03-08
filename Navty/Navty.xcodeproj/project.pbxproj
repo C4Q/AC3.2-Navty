@@ -45,7 +45,6 @@
 		670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.debug.xcconfig"; sourceTree = "<group>"; };
 		A20CA9201E663AC7007D5154 /* CrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeData.swift; sourceTree = "<group>"; };
 		A20CA9241E672565007D5154 /* GoogleDirections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDirections.swift; sourceTree = "<group>"; };
-		A20CA92F1E6F6579007D5154 /* America.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = America.gpx; sourceTree = "<group>"; };
 		A8F80816261FB17679C51DE6 /* Pods-Navty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.release.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.release.xcconfig"; sourceTree = "<group>"; };
 		B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -109,7 +108,6 @@
 				571EAB141E660AB500CF2947 /* LaunchScreen.storyboard */,
 				571B55021E6E03CC005414E1 /* Info.plist */,
 				571EAB251E66212200CF2947 /* GoogleService-Info.plist */,
-				A20CA92F1E6F6579007D5154 /* America.gpx */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
