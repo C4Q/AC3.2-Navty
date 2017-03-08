@@ -93,14 +93,14 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
         
         do {
             try store.enumerateContacts(with: fetchRequest, usingBlock: { (contact, stop) -> Void in
-                let MobNumVar = (contact.phoneNumbers[0].value ).value(forKey: "digits") as! String
+                _ = (contact.phoneNumbers[0].value ).value(forKey: "digits") as! String
                 
                 
                 /* Get all mobile number */
                 
                 for ContctNumVar: CNLabeledValue in contact.phoneNumbers
                 {
-                    let MobNumVar  = (ContctNumVar.value).value(forKey: "digits") as? String
+                    _  = (ContctNumVar.value).value(forKey: "digits") as? String
                     
                 }
                 

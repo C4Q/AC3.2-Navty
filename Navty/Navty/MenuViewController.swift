@@ -14,9 +14,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
-        navigationController?.navigationBar.tintColor = ColorPalette.darkBlue
-        
+        view.backgroundColor = ColorPalette.darkBlue
         navigationController?.isNavigationBarHidden = true
         
         viewHierarchy()
@@ -25,22 +23,19 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
 
     
     func viewHierarchy(){
-        
         view.addSubview(profilePicture)
         view.addSubview(codewordButton)
         view.addSubview(contactButton)
         view.addSubview(communityButton)
         view.addSubview(profileButton)
-        
     }
     
     func constrainConfiguration(){
-        
         self.edgesForExtendedLayout = []
         
         profilePicture.snp.makeConstraints { (photo) in
-            photo.height.width.equalTo(60)
-            photo.top.equalTo(view.snp.top).offset(30)
+            photo.height.width.equalTo(150)
+            photo.top.equalTo(view.snp.top).offset(75)
             photo.centerX.equalTo(view.snp.centerX)
         }
         
@@ -87,8 +82,8 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
     
     internal lazy var profilePicture: UIImageView = {
         let photo = UIImageView()
-        photo.image = #imageLiteral(resourceName: "Cycling Road Filled-50")
-        photo.layer.cornerRadius = 30
+        photo.image = #imageLiteral(resourceName: "ic_photo_size_select_actual")
+        //photo.layer.cornerRadius = 30
         photo.layer.masksToBounds = true
         photo.contentMode = .scaleAspectFit
         return photo
@@ -96,8 +91,9 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
     
     internal var codewordButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = ColorPalette.lightGreen
+        //button.backgroundColor = ColorPalette.lightGreen
         button.setTitle("Codeword", for: .normal)
+        button.titleLabel?.textAlignment = .right
         button.alpha = 0.8
         button.layer.masksToBounds = true
         //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
@@ -107,7 +103,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
     
     internal var contactButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = ColorPalette.lightGreen
+        //button.backgroundColor = ColorPalette.lightGreen
         button.setTitle("Contact", for: .normal)
         button.alpha = 0.8
         button.layer.masksToBounds = true
@@ -117,7 +113,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
     
     internal var communityButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = ColorPalette.lightGreen
+        //button.backgroundColor = ColorPalette.lightGreen
         button.setTitle("Community", for: .normal)
         button.alpha = 0.8
         button.layer.masksToBounds = true
@@ -127,7 +123,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
     
     internal var profileButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.backgroundColor = ColorPalette.lightGreen
+        //button.backgroundColor = ColorPalette.lightGreen
         button.setTitle("Profile", for: .normal)
         button.alpha = 0.8
         button.layer.masksToBounds = true
