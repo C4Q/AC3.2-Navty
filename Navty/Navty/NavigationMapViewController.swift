@@ -266,10 +266,9 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 let coordinates: CLLocationCoordinate2D = placemark.location!.coordinate
                 
                 let bounds = GMSCoordinateBounds(coordinate: self.currentlocation, coordinate: coordinates)
-                self.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 15.0))
+                self.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 19.0))
                 
                 self.newCoordinates = coordinates
-                
                 
                 if !CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
                     print("Not allowed")
@@ -307,7 +306,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
                 self.markerAwayFromPoint.map = self.mapView
                 self.getPolylines(coordinates: coordinates)
-                self.mapView.animate(toLocation: coordinates)
+                //self.mapView.animate(toLocation: coordinates)
 //                
 //                print("old coor: \(coordinates)")
 //                self.markerAwayFromPoint = GMSMarker(position: self.locationWithBearing(bearing: 270, distanceMeters: 150, origin: coordinates))
@@ -535,10 +534,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         let direction: GoogleDirections? = directions[0]
         let stepDirection = direction?.directionInstruction[indexPath.row]
         
-        let swiftString = stepDirection?.html2String
+        let swiftString = stepDirection?.html2AttributedString
         
         cell.directionLabel.numberOfLines = 0
-        cell.directionLabel.text = swiftString
+        cell.directionLabel.attributedText = swiftString
         
         return cell
     }
@@ -635,7 +634,7 @@ extension String {
     var html2AttributedString: NSAttributedString? {
         guard let data = data(using: .utf8) else { return nil }
         do {
-            return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue], documentAttributes: nil)
+            return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.systemFont(ofSize: 32)]], documentAttributes: nil)
         } catch let error as NSError {
             print(error.localizedDescription)
             return  nil

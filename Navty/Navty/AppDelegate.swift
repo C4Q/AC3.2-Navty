@@ -25,11 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationMapView = NavigationMapViewController()
         let navController = UINavigationController(rootViewController: navigationMapView)
         
+        let userdefaults = UserDefaults.standard
+        
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        self.window?.rootViewController = navController
+        if userdefaults.bool(forKey: "onboardingComplete") {
+            self.window?.rootViewController = navController
+        } else {
+            self.window?.rootViewController = SplashScreenViewController()
+        }
         
-        //self.window?.rootViewController = SplashScreenViewController()
         self.window?.makeKeyAndVisible()
         
         locationManager.delegate = self
