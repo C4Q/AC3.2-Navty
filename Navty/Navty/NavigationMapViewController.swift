@@ -74,6 +74,12 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         setupNotificationForKeyboard()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     //MARK: SIDE MENU
     func sideMenu() {
         let menuLeftNavigationController = UISideMenuNavigationController(rootViewController: MenuViewController())
@@ -605,7 +611,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         searchBar.searchBarStyle = UISearchBarStyle.prominent
         searchBar.isTranslucent = false
         searchBar.barTintColor = .white
-        searchBar.placeholder = "Desination"
+        searchBar.placeholder = "Destination"
         searchBar.isUserInteractionEnabled = true
         searchBar.layer.borderColor = ColorPalette.lightBlue.cgColor
         searchBar.layer.borderWidth = 1

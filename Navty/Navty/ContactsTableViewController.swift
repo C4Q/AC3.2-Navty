@@ -21,7 +21,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.delegate = self
         tableView.dataSource = self
-        
+        tableView.rowHeight = 100
         self.navigationController?.isToolbarHidden = false
         self.navigationController?.isNavigationBarHidden = false
         
@@ -30,7 +30,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     
         let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
         toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),toolEditButton]
-        self.navigationController!.setToolbarHidden(false, animated: false)
+        self.navigationController?.setToolbarHidden(false, animated: false)
         
         
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
@@ -150,6 +150,18 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         return cell
     }
     
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+
+            let path = indexPath.row
+            
+            contacts.remove(at: path)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+        }
+
+    }
     // MARK: - Contacts Picker
     
     func showContactsPicker(_ sender: UIBarButtonItem) {
