@@ -42,6 +42,10 @@ class GetStartedCell: UICollectionViewCell {
     
     func toMapVC(){
     
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(true, forKey: "onboardingComplete")
+        userDefaults.synchronize()
+        
         let navController = UINavigationController(rootViewController: NavigationMapViewController())
         self.pushingViewController.pushViewController(viewController: navController)
 

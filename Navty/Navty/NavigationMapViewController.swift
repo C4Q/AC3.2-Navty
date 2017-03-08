@@ -183,7 +183,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         directionsTableView.snp.makeConstraints({ (view) in
             view.leading.trailing.equalToSuperview()
             view.height.equalToSuperview().multipliedBy(0.5)
-            view.bottom.equalTo(mapView.snp.bottom)
+            view.top.equalTo(mapView.snp.bottom)
         })
     }
     
@@ -266,7 +266,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 let coordinates: CLLocationCoordinate2D = placemark.location!.coordinate
                 
                 let bounds = GMSCoordinateBounds(coordinate: self.currentlocation, coordinate: coordinates)
-                self.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 15.0))
+                self.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 19.0))
                 
                 self.newCoordinates = coordinates
                 
@@ -306,7 +306,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
                 self.markerAwayFromPoint.map = self.mapView
                 self.getPolylines(coordinates: coordinates)
-                self.mapView.animate(toLocation: coordinates)
+                //self.mapView.animate(toLocation: coordinates)
 //                
 //                print("old coor: \(coordinates)")
 //                self.markerAwayFromPoint = GMSMarker(position: self.locationWithBearing(bearing: 270, distanceMeters: 150, origin: coordinates))
