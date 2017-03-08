@@ -183,7 +183,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         directionsTableView.snp.makeConstraints({ (view) in
             view.leading.trailing.equalToSuperview()
             view.height.equalToSuperview().multipliedBy(0.5)
-            view.top.equalTo(mapView.snp.bottom)
+            view.bottom.equalTo(mapView.snp.bottom)
         })
     }
     
@@ -269,7 +269,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 15.0))
                 
                 self.newCoordinates = coordinates
-                
                 
                 if !CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
                     print("Not allowed")
@@ -535,10 +534,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         let direction: GoogleDirections? = directions[0]
         let stepDirection = direction?.directionInstruction[indexPath.row]
         
-        let swiftString = stepDirection?.html2String
+        let swiftString = stepDirection?.html2AttributedString
         
         cell.directionLabel.numberOfLines = 0
-        cell.directionLabel.text = swiftString
+        cell.directionLabel.attributedText = swiftString
         
         return cell
     }
@@ -635,7 +634,7 @@ extension String {
     var html2AttributedString: NSAttributedString? {
         guard let data = data(using: .utf8) else { return nil }
         do {
-            return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue], documentAttributes: nil)
+            return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.systemFont(ofSize: 32)]], documentAttributes: nil)
         } catch let error as NSError {
             print(error.localizedDescription)
             return  nil

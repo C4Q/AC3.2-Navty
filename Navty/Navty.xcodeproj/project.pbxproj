@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		521E5B3D1E68D70400D9FDE9 /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */; };
 		521E5B411E69E70100D9FDE9 /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */; };
+		570495241E6F949C00376161 /* GQTPointQuadTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 570495201E6F949C00376161 /* GQTPointQuadTree.m */; };
+		570495251E6F949C00376161 /* GQTPointQuadTreeChild.m in Sources */ = {isa = PBXBuildFile; fileRef = 570495221E6F949C00376161 /* GQTPointQuadTreeChild.m */; };
 		571B55031E6E03CC005414E1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 571B55021E6E03CC005414E1 /* Info.plist */; };
 		571C71FA1E6DDA1C00B58E22 /* DirectionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */; };
 		571EAB0C1E660AB500CF2947 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB0B1E660AB500CF2947 /* AppDelegate.swift */; };
@@ -34,6 +36,14 @@
 /* Begin PBXFileReference section */
 		521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
 		521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
+		5704951D1E6F949C00376161 /* GQTBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQTBounds.h; sourceTree = "<group>"; };
+		5704951E1E6F949C00376161 /* GQTPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQTPoint.h; sourceTree = "<group>"; };
+		5704951F1E6F949C00376161 /* GQTPointQuadTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQTPointQuadTree.h; sourceTree = "<group>"; };
+		570495201E6F949C00376161 /* GQTPointQuadTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GQTPointQuadTree.m; sourceTree = "<group>"; };
+		570495211E6F949C00376161 /* GQTPointQuadTreeChild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQTPointQuadTreeChild.h; sourceTree = "<group>"; };
+		570495221E6F949C00376161 /* GQTPointQuadTreeChild.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GQTPointQuadTreeChild.m; sourceTree = "<group>"; };
+		570495231E6F949C00376161 /* GQTPointQuadTreeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQTPointQuadTreeItem.h; sourceTree = "<group>"; };
+		570495291E6F955E00376161 /* Navty-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Navty-Bridging-Header.h"; sourceTree = "<group>"; };
 		571B55021E6E03CC005414E1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionsTableViewCell.swift; sourceTree = "<group>"; };
 		571EAB081E660AB500CF2947 /* Navty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navty.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +90,20 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		5704951C1E6F949C00376161 /* QuadTree */ = {
+			isa = PBXGroup;
+			children = (
+				5704951D1E6F949C00376161 /* GQTBounds.h */,
+				5704951E1E6F949C00376161 /* GQTPoint.h */,
+				5704951F1E6F949C00376161 /* GQTPointQuadTree.h */,
+				570495201E6F949C00376161 /* GQTPointQuadTree.m */,
+				570495211E6F949C00376161 /* GQTPointQuadTreeChild.h */,
+				570495221E6F949C00376161 /* GQTPointQuadTreeChild.m */,
+				570495231E6F949C00376161 /* GQTPointQuadTreeItem.h */,
+			);
+			path = QuadTree;
+			sourceTree = "<group>";
+		};
 		571EAAFF1E660AB500CF2947 = {
 			isa = PBXGroup;
 			children = (
@@ -101,12 +125,13 @@
 		571EAB0A1E660AB500CF2947 /* Navty */ = {
 			isa = PBXGroup;
 			children = (
-				B9755D6A1E6F198900B63C0A /* OnboardFiles */,
-				571EAB291E67706000CF2947 /* Color Scheme */,
 				571EAB201E660BCA00CF2947 /* API Request */,
+				571EAB291E67706000CF2947 /* Color Scheme */,
 				571EAB1F1E660BAD00CF2947 /* Model */,
-				571EAB1E1E660BA000CF2947 /* ViewControllers */,
+				B9755D6A1E6F198900B63C0A /* OnboardFiles */,
+				5704951C1E6F949C00376161 /* QuadTree */,
 				571EAB1D1E660B9600CF2947 /* Supporting Files */,
+				571EAB1E1E660BA000CF2947 /* ViewControllers */,
 			);
 			path = Navty;
 			sourceTree = "<group>";
@@ -119,6 +144,7 @@
 				571EAB141E660AB500CF2947 /* LaunchScreen.storyboard */,
 				571B55021E6E03CC005414E1 /* Info.plist */,
 				571EAB251E66212200CF2947 /* GoogleService-Info.plist */,
+				570495291E6F955E00376161 /* Navty-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -308,6 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				570495241E6F949C00376161 /* GQTPointQuadTree.m in Sources */,
 				B9755D671E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift in Sources */,
 				521E5B411E69E70100D9FDE9 /* ContactsTableViewCell.swift in Sources */,
 				571EAB221E660C6100CF2947 /* APIRequestManager.swift in Sources */,
@@ -318,6 +345,7 @@
 				A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */,
 				B9755D681E6DF3DC00B63C0A /* Pages.swift in Sources */,
 				A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */,
+				570495251E6F949C00376161 /* GQTPointQuadTreeChild.m in Sources */,
 				571EAB0C1E660AB500CF2947 /* AppDelegate.swift in Sources */,
 				571EAB241E66156500CF2947 /* NavigationMapViewController.swift in Sources */,
 				571EAB281E676FEB00CF2947 /* MenuViewController.swift in Sources */,
@@ -443,6 +471,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -459,6 +488,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
