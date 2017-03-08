@@ -157,6 +157,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         view.addSubview(menuButton)
         view.addSubview(searchDestination)
         view.addSubview(directionsTableView)
+        
+        
     }
     
     func setupViews() {
@@ -239,6 +241,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         mapView.settings.myLocationButton = true
         searchDestination.resignFirstResponder()
+
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -266,6 +269,16 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
                 self.markerAwayFromPoint.map = self.mapView
                 self.getPolylines(coordinates: coordinates)
+                self.mapView.animate(toLocation: coordinates)
+//                
+//                print("old coor: \(coordinates)")
+//                self.markerAwayFromPoint = GMSMarker(position: self.locationWithBearing(bearing: 270, distanceMeters: 150, origin: coordinates))
+//                self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
+//                self.markerAwayFromPoint.map = self.mapView
+
+                
+                self.getPolylines(coordinates: self.newCoordinates)
+
             }
         })
     }
@@ -300,7 +313,15 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             self.allPolyLines.append(self.polyline)
                             //self.polyline.map = self.mapView
                             self.allPolyLines[eachOne].map = self.mapView
+                            
+//                            let marker = GMSMarker(position: coordinates)
+//                            marker.title = self.directions[eachOne].overallTime
+//                            marker.iconView = self.iconView
+                            
+//                            marker.map = self.mapView
+                            
                             self.directionsTableView.reloadData()
+
                         }
                     }
                 }
@@ -309,8 +330,25 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
 
-    //MARK: TRANSPORTATION CONTAINER
+//    internal var iconView: UIView = {
+//        var view = UIView()
+//        view.frame.size = CGSize(width: 20, height: 10)
+//        return view
+//    }()
+//    
+//    internal var iconLabel: UILabel = {
+//        var view = UILabel()
+//        view.text = "TEST TEST"
+//        return view
+//    }()
+//    
     
+    
+    
+
+
+    //MARK: TRANSPORTATION CONTAINER
+
     
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         if true {
@@ -352,6 +390,9 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
     
+    
+    
+    
     func transportationPick(sender: UIButton) {
         _ = self.allPolyLines.map { $0.map = nil }
         allPolyLines = []
@@ -388,6 +429,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
 //            }
 //        }
 //    }
+
     
     //MARK: GETTING POINT AWAY FROM INITIAL POINT
     func locationWithBearing(bearing:Double, distanceMeters:Double, origin:CLLocationCoordinate2D) -> CLLocationCoordinate2D {
@@ -426,6 +468,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     //MARK: MENU BUTTON
     func buttonPressed () {
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
+        
     }
     
     func startNavigationClicked() {
