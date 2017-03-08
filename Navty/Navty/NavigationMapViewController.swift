@@ -10,6 +10,9 @@ import UIKit
 import GoogleMaps
 import SnapKit
 import SideMenu
+import MapKit
+
+
 
 class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
@@ -326,6 +329,37 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 15.0))
                 
                 self.newCoordinates = coordinates
+                
+                
+                if !CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+                    print("Not allowed")
+                    return
+                }
+                
+                if CLLocationManager.authorizationStatus() != .authorizedAlways {
+                    print("Authorize us")
+                }
+                
+                let region = CLCircularRegion(center: coordinates, radius: 15, identifier: "Destination")
+//                region.notifyOnEntry = true
+//                region.notifyOnExit = true
+                
+                var radius = region.radius
+                if radius > self.locationManager.maximumRegionMonitoringDistance {
+                    radius = self.locationManager.maximumRegionMonitoringDistance
+                }
+                
+                
+               self.locationManager.startMonitoring(for: region)
+               
+                
+                
+                let alert = UIAlertController(title: "\(region)", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
+                let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+                alert.addAction(ok)
+                self.navigationController?.present(alert, animated: true, completion: nil)
+
+
                 self.marker = GMSMarker(position: coordinates)
                 self.marker.title = "\(placemark)"
                 self.marker.map = self.mapView
@@ -367,22 +401,13 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             self.availablePaths.append(self.path)
                             self.polyline = GMSPolyline(path: self.availablePaths[eachOne])
                             self.polyline.strokeWidth = 7
-//                            self.polyline.strokeColor = UIColor.blue
                             self.polyline.strokeColor = self.colors[eachOne]
                             self.polyline.isTappable = true
                             self.polyline.title = "\(self.directions[eachOne].overallTime)"
                             self.allPolyLines.append(self.polyline)
                             self.allPolyLines[eachOne].map = self.mapView
+  
                             
-//                            let marker = GMSMarker(position: coordinates)
-//                            marker.title = self.directions[eachOne].overallTime
-//                            marker.iconView = self.iconView
-                            
-//                            marker.map = self.mapView
-                            
-                            
-                            
-
                             
                             self.directionsTableView.reloadData()
 
@@ -394,12 +419,11 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
 
-//    internal var iconView: UIView = {
-//        var view = UIView()
-//        view.frame.size = CGSize(width: 20, height: 10)
-//        return view
-//    }()
-//    
+    internal var iconView: UIImage = {
+        var view = UIImage(named: "Trekking Filled-50")
+        return view!
+    }()
+//
 //    internal var iconLabel: UILabel = {
 //        var view = UILabel()
 //        view.text = "TEST TEST"
@@ -407,8 +431,30 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
 //    }()
 //    
     
+   //MARK -CLLManagerDelegates
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+         print("Monitoring failed for region with identifier: \(region!.identifier)")
+    }
     
+    func locationManager(_ manager: CLLocationManager, rangingBeaconsDidFailFor region: CLBeaconRegion, withError error: Error) {
+        print("Location Manager failed with the following error: \(error)")
+    }
     
+//    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+//        let alert = UIAlertController(title: "In the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
+//                let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+//                alert.addAction(ok)
+//               self.present(alert, animated: true, completion: nil)
+//
+//    }
+//    
+//    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+//        let alert = UIAlertController(title: "Out the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
+//        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+//        alert.addAction(ok)
+//        self.present(alert, animated: true, completion: nil)
+//    }
+//    
 
 
     //MARK: TRANSPORTATION CONTAINER
@@ -516,21 +562,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
     
-    func changeRoute() {
-        for eachCrime in self.crimesNYC {
-            guard eachCrime.latitude != "0" else {continue}
-            for point in directions {
-                let lat = point.endLocationForStepLat
-                let long = point.endLocationForStepLong
-                for location in lat {
-                    for location in long{
-                        
-                    }
-                }
-            }
-        }
-    }
-
+  
     //MARK: MENU BUTTON
     func buttonPressed () {
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
@@ -587,7 +619,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
    //MARK: -Initalize Views
 
     
-    internal lazy var mapView: GMSMapView = {
+    lazy var mapView: GMSMapView = {
         let mapView = GMSMapView()
         return mapView
     }()
