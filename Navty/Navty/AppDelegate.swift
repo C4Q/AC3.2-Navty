@@ -6,6 +6,7 @@
 //  Copyright © 2017 Edward Anchundia. All rights reserved.
 //
 
+import CoreLocation
 import UIKit
 import GoogleMaps
 
@@ -14,18 +15,25 @@ import GoogleMaps
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    let locationManager = CLLocationManager()
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
     
         let navigationMapView = NavigationMapViewController()
-        
         let navController = UINavigationController(rootViewController: navigationMapView)
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
+        
         self.window?.rootViewController = navController
+        
+        //self.window?.rootViewController = SplashScreenViewController()
         self.window?.makeKeyAndVisible()
+        
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
         
         return true
     }
@@ -52,6 +60,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    
+    func handleEvent(forRegion region: CLRegion!) {
+        let alert = UIAlertController(title: "In the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+        alert.addAction(ok)
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil) 
+       
+    }
+    
+    func handleEventExit(forRegion region: CLRegion!) {
+        let alert = UIAlertController(title: "Out the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+        alert.addAction(ok)
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+     
+    }
 
+}
+
+extension AppDelegate: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        if region is CLCircularRegion {
+            handleEvent(forRegion: region)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        if region is CLCircularRegion {
+            handleEventExit(forRegion: region)
+        }
+    }
 }
 
