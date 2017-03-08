@@ -9,7 +9,7 @@
 import Foundation
 
 enum errorEnum: Error {
-    case test, other, new , next
+    case test, other, new, next
 }
 
 class GoogleDirections {
@@ -27,8 +27,6 @@ class GoogleDirections {
     let startLocationForStepLong: [Float]
     let startLat: Float
     let startLong: Float
-    
-    
 
     init(directionInstruction:[String], overallPolyline: String, overallDistance: String, overallTime: String, distanceForStep: [String], timeForStep: [String], endLocationForStepLat: [Float], endLocationForStepLong: [Float], eachStepPolyline: [String], startLocationForStepLat: [Float], startLocationForStepLong: [Float], startLat: Float, startLong: Float) {
         self.directionInstruction = directionInstruction
@@ -46,12 +44,8 @@ class GoogleDirections {
         self.startLong = startLong
     }
 
-    
-
-    
     static func getData(from data: Data) -> [GoogleDirections]? {
         do {
-//            
             var legsInfo = [[String:Any]]()
             var stepsInfo = [[String:Any]]()
             let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
@@ -59,8 +53,6 @@ class GoogleDirections {
              guard let dict = jsonData as? [String: Any] else {return nil}
             guard let routes = dict["routes"] as? [[String: Any]] else { throw errorEnum.test}
            
-            
-            
             var overallPoly: String!
             var fullDistance: String!
             var fullTime: String!
