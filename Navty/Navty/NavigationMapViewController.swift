@@ -143,6 +143,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             let latitude = CLLocationDegrees(eachCrime.latitude)
                             let longitude = CLLocationDegrees(eachCrime.longitude )
                             
+                            
+                            
                             //new cluster code
                             let position = CLLocationCoordinate2D(latitude: latitude! , longitude:longitude!)
                             let item = ClusterCrimeData(position: position, name: eachCrime.description)

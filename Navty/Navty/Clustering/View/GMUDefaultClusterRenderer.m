@@ -308,6 +308,8 @@ static const double kGMUAnimationDuration = 0.5;  // seconds.
   if (clusterIcon != nil) {
     marker.icon = clusterIcon;
     marker.groundAnchor = CGPointMake(0.5, 0.5);
+  } else {
+//    marker.icon =  [self getCustomIconForItem:userData];
   }
   marker.zIndex = _zIndex;
 
