@@ -9,35 +9,41 @@
 import UIKit
 import Contacts
 import ContactsUI
+import SnapKit
 
-class ContactsTableViewController: UITableViewController, CNContactPickerDelegate {
+class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource, CNContactPickerDelegate {
     
-//    var detailViewController: DetailViewController? = nil
+    
     var contactStore = CNContactStore()
     var contacts = [CNContact]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "Cell")
-        tableView.delegate = self
-        tableView.dataSource = self
+        self.view.backgroundColor = .white
+        contactsTableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "Cell")
+        contactsTableView.delegate = self
+        contactsTableView.dataSource = self
+        setUpViews()
+        constaints()
         
         self.navigationController?.isToolbarHidden = false
         self.navigationController?.isNavigationBarHidden = false
         
-        let barButton = UIBarButtonItem(customView: addButton)
+        let barButton = UIBarButtonItem(customView: editButton)
         self.navigationItem.rightBarButtonItem = barButton
     
-        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
-        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),toolEditButton]
-        self.navigationController!.setToolbarHidden(false, animated: false)
+//        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
+//        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),toolEditButton]
+//        self.navigationController!.setToolbarHidden(false, animated: false)
+        
+        
         
         
         DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
             self.contacts = self.findContacts()
             
             DispatchQueue.main.async {
-                self.tableView!.reloadData()
+                self.contactsTableView.reloadData()
             }
         }
     }
@@ -52,9 +58,27 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         }
         DispatchQueue.main.async {
             
-            self.tableView.reloadData()
+            self.contactsTableView.reloadData()
         }
     }
+    
+    func setUpViews() {
+        self.view.addSubview(contactsTableView)
+        self.view.addSubview(addButton)
+    }
+    func constaints() {
+        contactsTableView.snp.makeConstraints { (tableView) in
+            tableView.top.leading.trailing.equalToSuperview()
+            tableView.bottom.equalToSuperview().inset(300)
+        }
+        addButton.snp.makeConstraints { (button) in
+            button.top.equalTo(contactsTableView).offset(20)
+            button.centerX.equalToSuperview()
+            button.bottom.equalToSuperview()
+        }
+    }
+    
+    
     
     func findContacts() -> [CNContact] {
         let store = CNContactStore()
@@ -103,7 +127,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     
     // MARK: - Table View
     
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
@@ -126,15 +150,15 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     
     
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ContactTableViewCell
         
         let contact = contacts[indexPath.row] as CNContact
@@ -179,4 +203,9 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         return button
     }()
     
+    lazy var contactsTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        return tableView
+    }()
 }
