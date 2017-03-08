@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps
 import SnapKit
 import SideMenu
+import StringExtensionHTML
 
 class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
@@ -24,7 +25,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }()
     let geocoder: CLGeocoder = CLGeocoder()
 
-    
     var crimesNYC = [CrimeData]()
     var directions = [GoogleDirections]()
     
@@ -56,17 +56,16 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
         setupViewHierarchy()
         setupViews()
+        setupToolbar()
 
         locationManager.delegate = self
         searchDestination.delegate = self
         mapView.delegate = self
         locationManager.startUpdatingLocation()
         
-        
         self.view.backgroundColor = UIColor.white
         sideMenu()
 //        getData()
-//        getPolylines(coordinates: CLLocationCoordinate2D(latitude: 40.849595621347405, longitude: -73.918020075426583) )
         setupNotificationForKeyboard()
     }
     
@@ -92,16 +91,15 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
     func adjustForKeyboard(notification : Notification) {
-        let userInfo = notification.userInfo!
         
-        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+//        let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         //let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
         
-        if notification.name == NSNotification.Name.UIKeyboardWillHide {
-            self.transportationContainer.frame.origin.y += keyboardScreenEndFrame.height
-        } else {
-            transportationContainer.frame.origin.y -= keyboardScreenEndFrame.height
-        }
+//        if notification.name == NSNotification.Name.UIKeyboardWillHide {
+//            self.transportationContainer.frame.origin.y += keyboardScreenEndFrame.height
+//        } else {
+//            transportationContainer.frame.origin.y -= keyboardScreenEndFrame.height
+//        }
         
     }
     
@@ -125,8 +123,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             
                             marker.map = self.mapView
                             
-                            }
-
+                        }
                     }
                 }
             }
@@ -159,18 +156,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
         view.addSubview(menuButton)
         view.addSubview(searchDestination)
-        view.addSubview(transportationContainer)
         view.addSubview(directionsTableView)
-        
-        transportationContainer.addSubview(blur)
-        transportationContainer.addSubview(drivingButton)
-        transportationContainer.addSubview(cyclingButton)
-        transportationContainer.addSubview(walkingButton)
-        transportationContainer.addSubview(anotherButton)
     }
     
     func setupViews() {
-        
         menuButton.snp.makeConstraints({ (view) in
             view.top.equalToSuperview().inset(30)
             view.leading.equalToSuperview().inset(8)
@@ -182,48 +171,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             view.width.equalToSuperview().multipliedBy(0.8)
             view.leading.equalTo(menuButton.snp.trailing).offset(10)
             view.top.equalToSuperview().inset(30)
-        })
-        
-        transportationContainer.snp.makeConstraints({ (view) in
-            view.width.equalToSuperview().multipliedBy(0.9)
-            view.centerX.equalToSuperview()
-            view.bottom.equalTo(self.view.snp.bottom)
-            view.height.equalTo(75)
-        })
-        
-        blur.snp.makeConstraints({ (view) in
-            view.leading.equalTo(transportationContainer.snp.leading)
-            view.width.equalToSuperview()
-            view.height.equalTo(transportationContainer.snp.height)
-            view.bottom.equalTo(self.view.snp.bottom)
-        })
-        
-        drivingButton.snp.makeConstraints({ (view) in
-            view.leading.equalTo(transportationContainer.snp.leading).inset(12)
-            view.height.equalTo(transportationContainer.snp.height).multipliedBy(0.8)
-            view.width.equalTo(transportationContainer.snp.width).multipliedBy(0.2)
-            view.centerY.equalTo(transportationContainer.snp.centerY)
-        })
-        
-        walkingButton.snp.makeConstraints({ (view) in
-            view.leading.equalTo(drivingButton.snp.trailing).offset(12)
-            view.height.equalTo(transportationContainer.snp.height).multipliedBy(0.8)
-            view.width.equalTo(transportationContainer.snp.width).multipliedBy(0.2)
-            view.centerY.equalTo(transportationContainer.snp.centerY)
-        })
-
-        cyclingButton.snp.makeConstraints({ (view) in
-            view.leading.equalTo(walkingButton.snp.trailing).offset(12)
-            view.height.equalTo(transportationContainer.snp.height).multipliedBy(0.8)
-            view.width.equalTo(transportationContainer.snp.width).multipliedBy(0.2)
-            view.centerY.equalTo(transportationContainer.snp.centerY)
-        })
-
-        anotherButton.snp.makeConstraints({ (view) in
-            view.leading.equalTo(cyclingButton.snp.trailing).offset(12)
-            view.height.equalTo(transportationContainer.snp.height).multipliedBy(0.8)
-            view.width.equalTo(transportationContainer.snp.width).multipliedBy(0.2)
-            view.centerY.equalTo(transportationContainer.snp.centerY)
         })
         
         directionsTableView.snp.makeConstraints({ (view) in
@@ -287,18 +234,15 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         searchDestination.showsCancelButton = true
         
         mapView.settings.myLocationButton = false
-        fadeInView(view: transportationContainer, blur: blur, hidden: false)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         mapView.settings.myLocationButton = true
         searchDestination.resignFirstResponder()
-        fadeOutView(view: transportationContainer, blur: blur, hidden: true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.addressLookUp = searchDestination.text!
-        print("\(searchBar.text)")
         self.marker.map = nil
         self.allPolyLines.forEach({ $0.map = nil })
         self.allPolyLines = []
@@ -312,8 +256,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 let coordinates: CLLocationCoordinate2D = placemark.location!.coordinate
                 
                 let bounds = GMSCoordinateBounds(coordinate: self.currentlocation, coordinate: coordinates)
-                //let camera = self.mapView.camera(for: bounds, insets: .zero)
-//                self.mapView.camera = camera!
                 self.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 15.0))
                 
                 self.newCoordinates = coordinates
@@ -321,18 +263,11 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 self.marker.title = "\(placemark)"
                 self.marker.map = self.mapView
                 self.marker.icon = GMSMarker.markerImage(with: .blue)
-//                self.mapView.animate(toLocation: coordinates)
-                
-                print("old coor: \(coordinates)")
-                self.markerAwayFromPoint = GMSMarker(position: self.locationWithBearing(bearing: 270, distanceMeters: 150, origin: coordinates))
                 self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
                 self.markerAwayFromPoint.map = self.mapView
-                
-                self.getPolylines(coordinates: self.newCoordinates)
-                
+                self.getPolylines(coordinates: coordinates)
             }
         })
-        
     }
     
 
@@ -344,25 +279,27 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             
         if data != nil {
                     
-                    
             if let validData = GoogleDirections.getData(from: data!) {
 
                     self.directions = validData
                     
                     DispatchQueue.main.async {
+                        //self.polyline.map = nil
                         
                         for eachOne in 0 ..< self.directions.count {
                             self.path = GMSPath(fromEncodedPath: self.directions[eachOne].overallPolyline)!
                             self.availablePaths.append(self.path)
-                            self.polyline = GMSPolyline(path: self.availablePaths[eachOne])
+                            //self.polyline = GMSPolyline(path: self.availablePaths[eachOne])
+                            self.polyline = GMSPolyline(path: self.path)
+                            self.polyline.title = self.directions[eachOne].overallTime
                             self.polyline.strokeWidth = 7
-//                            self.polyline.strokeColor = UIColor.blue
-                            self.polyline.strokeColor = self.colors[eachOne]
+//                            self.polyline.strokeColor = self.colors[eachOne]
+                            self.polyline.strokeColor = .red
                             self.polyline.isTappable = true
-                            self.polyline.title = "\(self.colors[eachOne])"
+                            //self.polyline.title = "\(self.colors[eachOne])"
                             self.allPolyLines.append(self.polyline)
-                            self.polyline.map = self.mapView
-                            
+                            //self.polyline.map = self.mapView
+                            self.allPolyLines[eachOne].map = self.mapView
                             self.directionsTableView.reloadData()
                         }
                     }
@@ -441,21 +378,19 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         }
     }
     
-    func mapView(_ mapView: GMSMapView, didTap overlay: GMSOverlay) {
-        print("\(overlay.title)")
-        for polylines in allPolyLines {
-            polylines.strokeColor = UIColor.blue
-            if overlay.title! == polylines.title {
-                polylines.strokeColor = UIColor.white
-                print("changed")
-            }
-        }
-    }
+//    func mapView(_ mapView: GMSMapView, didTap overlay: GMSOverlay) {
+//        print("\(overlay.title)")
+//        for polylines in allPolyLines {
+//            polylines.strokeColor = UIColor.blue
+//            if overlay.title! == polylines.title {
+//                polylines.strokeColor = UIColor.white
+//                print("changed")
+//            }
+//        }
+//    }
     
     //MARK: GETTING POINT AWAY FROM INITIAL POINT
     func locationWithBearing(bearing:Double, distanceMeters:Double, origin:CLLocationCoordinate2D) -> CLLocationCoordinate2D {
-        
-        //
         let distRadians = distanceMeters / (6372797.6) // earth radius in meters
         
         //M_PI is constant of Pi, 3.1415.....
@@ -493,6 +428,12 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
     }
     
+    func startNavigationClicked() {
+        //animate table view up
+        //change format of the map
+        
+    }
+    
     //MARK: SETUP TABLE VIEW FOR DIRECTIONS
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -509,12 +450,12 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DirectionsTableViewCell
         
         let direction: GoogleDirections? = directions[0]
+        let stepDirection = direction?.directionInstruction[indexPath.row]
         
-//        dump(self.directions[indexPath.row].directionInstruction[indexPath.row])
+        let swiftString = stepDirection?.html2String
         
         cell.directionLabel.numberOfLines = 0
-        cell.directionLabel.text = direction?.directionInstruction[indexPath.row]
-        .trimmingCharacters(in: .init(charactersIn: "<>"))
+        cell.directionLabel.text = swiftString
         
         return cell
     }
@@ -541,6 +482,26 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }
     
    //MARK: -Initalize Views
+    
+    func setupToolbar() {
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let carButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_drive_eta"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
+        
+        let walkingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_directions_walk"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
+        let cyclingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_motorcycle"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
+        let trainButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_train"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
+        
+        carButton.tag = 0
+        walkingButton.tag = 1
+        cyclingButton.tag = 2
+        trainButton.tag = 3
+        
+        toolbarItems = [carButton, spacer, walkingButton, spacer, cyclingButton, spacer, trainButton]
+        
+        navigationController?.isToolbarHidden = false
+        navigationController?.toolbar.barTintColor = ColorPalette.lightBlue
+        navigationController?.toolbar.tintColor = .white
+    }
 
     
     internal lazy var mapView: GMSMapView = {
@@ -550,7 +511,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
     internal lazy var menuButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor.white
+//        button.backgroundColor = UIColor.white
+        button.setImage(#imageLiteral(resourceName: "ic_menu"), for: .normal)
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         return button
     }()
@@ -558,66 +520,21 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     internal lazy var searchDestination: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.backgroundColor = UIColor.white
-        searchBar.searchBarStyle = UISearchBarStyle.default
+        searchBar.searchBarStyle = UISearchBarStyle.prominent
+        searchBar.isTranslucent = false
+        searchBar.barTintColor = .white
         searchBar.placeholder = "Desination"
         searchBar.isUserInteractionEnabled = true
+        searchBar.layer.borderColor = ColorPalette.lightBlue.cgColor
+        searchBar.layer.borderWidth = 1
         return searchBar
     }()
     
-    internal lazy var transportationContainer: UIView = {
-        let view = UIView()
-//        view.backgroundColor = UIColor.blue
-        view.isHidden = true
-        return view
-    }()
-    
-    internal lazy var drivingButton: UIButton = {
+    internal lazy var startNavigation: UIButton = {
         let button = UIButton()
-        //button.backgroundColor = UIColor.white
-        button.layer.cornerRadius = 30
-        button.setImage(#imageLiteral(resourceName: "Transportation Filled-50"), for: .normal)
-        button.tag = 0
-        button.addTarget(self, action: #selector(transportationPick(sender:)), for: .touchUpInside)
+        button.setImage(#imageLiteral(resourceName: "ic_navigation"), for: .normal)
+        button.addTarget(self, action: #selector(self.startNavigationClicked), for: .touchUpInside)
         return button
-    }()
-    
-    internal lazy var walkingButton: UIButton = {
-        let button = UIButton()
-        //button.backgroundColor = UIColor.white
-        button.layer.cornerRadius = 30
-        button.setImage(#imageLiteral(resourceName: "Trekking Filled-50"), for: .normal)
-        button.tag = 1
-        button.addTarget(self, action: #selector(transportationPick(sender:)), for: .touchUpInside)
-        return button
-    }()
-    
-    internal lazy var cyclingButton: UIButton = {
-        let button = UIButton()
-        //button.backgroundColor = UIColor.white
-        button.layer.cornerRadius = 30
-        button.setImage(#imageLiteral(resourceName: "Cycling Road Filled-50"), for: .normal)
-        button.tag = 2
-        button.addTarget(self, action: #selector(transportationPick(sender:)), for: .touchUpInside)
-        return button
-    }()
-    
-    internal lazy var anotherButton: UIButton = {
-        let button = UIButton()
-        //button.backgroundColor = UIColor.white
-        button.layer.cornerRadius = 30
-        button.setImage(#imageLiteral(resourceName: "Railway Station Filled-50"), for: .normal)
-        button.tag = 3
-        button.addTarget(self, action: #selector(transportationPick(sender:)), for: .touchUpInside)
-        return button
-    }()
-    
-
-    
-    internal lazy var blur: UIVisualEffectView = {
-        let blur = UIBlurEffect(style: UIBlurEffectStyle.light)
-        var blurEffectView = UIVisualEffectView(effect: blur)
-        blurEffectView.isHidden = true
-        return blurEffectView
     }()
 
     internal lazy var directionsTableView: UITableView = {
@@ -629,4 +546,19 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         tableView.rowHeight = UITableViewAutomaticDimension
         return tableView
     }()
+}
+
+extension String {
+    var html2AttributedString: NSAttributedString? {
+        guard let data = data(using: .utf8) else { return nil }
+        do {
+            return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue], documentAttributes: nil)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return  nil
+        }
+    }
+    var html2String: String {
+        return html2AttributedString?.string ?? ""
+    }
 }
