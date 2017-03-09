@@ -13,9 +13,7 @@ import SideMenu
 import StringExtensionHTML
 import MapKit
 
-
-
-class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
+class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, GMUClusterManagerDelegate {
 
     var userLatitude = Float()
     var userLongitude = Float()
@@ -54,6 +52,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     var polylineUpdated = GMSPolyline()
     var pathOf = GMSPath()
     
+    var countDown = 0
+    
+    var clusterManager: GMUClusterManager!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,14 +72,35 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
         self.view.backgroundColor = UIColor.white
         sideMenu()
+        clustering()
 //        getData()
         setupNotificationForKeyboard()
     }
     
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    //MARK: CLUSTERING
+    func clustering() {
+        var image: [UIImage] = []
+        for _ in 0...4 {
+            image.append(#imageLiteral(resourceName: "ic_warning"))
+        }
+        let iconGenerator = GMUDefaultClusterIconGenerator(buckets: [10, 50, 100, 200, 500], backgroundImages: image)
+        let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
+        let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
+        clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
+        
+        getData()
+        
+        clusterManager.cluster()
+        
+        clusterManager.setDelegate(self, mapDelegate: self)
+
     }
     
     //MARK: SIDE MENU
@@ -127,12 +150,18 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                         DispatchQueue.main.async {
                             let latitude = CLLocationDegrees(eachCrime.latitude)
                             let longitude = CLLocationDegrees(eachCrime.longitude )
-                            let position = CLLocationCoordinate2D(latitude: latitude! , longitude:longitude! )
                             
-                            let marker = GMSMarker(position: position)
-                            marker.title = eachCrime.description
                             
-                            marker.map = self.mapView
+                            
+                            //new cluster code
+                            let position = CLLocationCoordinate2D(latitude: latitude! , longitude:longitude!)
+                            let item = ClusterCrimeData(position: position, name: eachCrime.description)
+                            self.clusterManager.add(item)
+                            
+//                            let marker = GMSMarker(position: position)
+//                            marker.title = eachCrime.description
+//                            
+//                            marker.map = self.mapView
                             
                         }
                     }
@@ -141,7 +170,24 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         }
     }
     
+    func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
+        if true {
+            let newCamera = GMSCameraPosition.camera(withTarget: cluster.position, zoom: mapView.camera.zoom + 1)
+            let update = GMSCameraUpdate.setCamera(newCamera)
+            mapView.moveCamera(update)
+        }
+        
+        return false
+    }
     
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        if let markerItem = marker.userData as? ClusterCrimeData {
+            print("Did tap marker for cluster item \(markerItem.name)")
+        } else {
+            print("Did tap a normal marker")
+        }
+        return false
+    }
 
     //MARK: VIEW HIERARCHY & VIEWS CONSTRAINTS
     func setupViewHierarchy() {
@@ -168,8 +214,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         view.addSubview(menuButton)
         view.addSubview(searchDestination)
         view.addSubview(directionsTableView)
-        
-        
+        view.addSubview(startNavigation)
     }
     
     func setupViews() {
@@ -184,6 +229,12 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             view.width.equalToSuperview().multipliedBy(0.8)
             view.leading.equalTo(menuButton.snp.trailing).offset(10)
             view.top.equalToSuperview().inset(30)
+        })
+        
+        startNavigation.snp.makeConstraints({ (view) in
+            view.bottom.equalToSuperview()
+            view.centerX.equalToSuperview()
+            view.height.width.equalTo(50)
         })
         
         directionsTableView.snp.makeConstraints({ (view) in
@@ -264,6 +315,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         self.allPolyLines = []
         searchDestination.resignFirstResponder()
         
+        startNavigation.isHidden = false
+        
         geocoder.geocodeAddressString(addressLookUp, completionHandler: { (placemarks, error) -> Void in
             if error != nil {
                 dump(error)
@@ -297,7 +350,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 
                self.locationManager.startMonitoring(for: region)
                
-                
                 
                 let alert = UIAlertController(title: "\(region)", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
                 let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
@@ -348,6 +400,11 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             //self.polyline = GMSPolyline(path: self.availablePaths[eachOne])
                             self.polyline = GMSPolyline(path: self.path)
                             self.polyline.title = self.directions[eachOne].overallTime
+                            
+//                            self.countDown = Int(self.directions[eachOne].overallTime)
+                            let time = self.directions[eachOne].overallTime
+                            self.distanceTimeConversionToSeconds(time: time)
+                            
                             self.polyline.strokeWidth = 7
                             self.polyline.strokeColor = self.colors[eachOne]
                             self.polyline.isTappable = true
@@ -355,8 +412,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             self.allPolyLines.append(self.polyline)
                             //self.polyline.map = self.mapView
                             self.allPolyLines[eachOne].map = self.mapView
-  
-                            
                             
                             self.directionsTableView.reloadData()
 
@@ -365,6 +420,26 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 }
             }
         }
+    }
+    
+    func distanceTimeConversionToSeconds(time: String) {
+        let times = time.components(separatedBy: " ")
+        var seconds = 0
+        
+        print(times)
+        if times.count > 2 {
+            guard let hour = Int(times[0]), let min = Int(times[2]) else { return }
+            print(hour)
+            print(min)
+            seconds = hour * 60 * 60 + min * 60
+            print(seconds)
+        } else {
+            guard let min = Int(times[0]) else { return }
+            print(min)
+            seconds = min * 60
+        }
+        
+        self.countDown = seconds
     }
     
 
@@ -378,7 +453,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
 //        view.text = "TEST TEST"
 //        return view
 //    }()
-//    
+//
     
    //MARK -CLLManagerDelegates
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
@@ -443,7 +518,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                     }
                 }
             }
-
             
         }
     }
@@ -519,8 +593,35 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     func startNavigationClicked() {
         //animate table view up
         //change format of the map
+        var _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+        
+        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
+//            self.mapView.snp.makeConstraints({ (view) in
+//                view.leading.trailing.equalToSuperview()
+//                view.height.equalToSuperview().multipliedBy(0.5)
+//                view.top.equalToSuperview()
+//            })
+            
+            self.directionsTableView.snp.makeConstraints({ (view) in
+                view.leading.trailing.equalToSuperview()
+                view.height.equalToSuperview().multipliedBy(0.5)
+                view.bottom.equalTo(self.mapView.snp.bottom)
+            })
+        })
+//        UIView.transition(with: view, duration: 1.0, options: .transitionCrossDissolve, animations: {() -> Void in
+//            view.isHidden = false
+//        }, completion: { _ in })
         
     }
+    
+        func updateCounter() {
+            if countDown > 0 {
+                print("\(countDown) seconds")
+                countDown -= 1
+            } else {
+                //alert if needs more time to get home
+            }
+        }
     
     //MARK: SETUP TABLE VIEW FOR DIRECTIONS
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -622,6 +723,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "ic_navigation"), for: .normal)
         button.addTarget(self, action: #selector(self.startNavigationClicked), for: .touchUpInside)
+        button.isHidden = true
         return button
     }()
 
@@ -636,17 +738,17 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }()
 }
 
-extension String {
-    var html2AttributedString: NSAttributedString? {
-        guard let data = data(using: .utf8) else { return nil }
-        do {
-            return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.systemFont(ofSize: 32)]], documentAttributes: nil)
-        } catch let error as NSError {
-            print(error.localizedDescription)
-            return  nil
+    extension String {
+        var html2AttributedString: NSAttributedString? {
+            guard let data = data(using: .utf8) else { return nil }
+            do {
+                return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.systemFont(ofSize: 32)]], documentAttributes: nil)
+            } catch let error as NSError {
+                print(error.localizedDescription)
+                return  nil
+            }
+        }
+        var html2String: String {
+            return html2AttributedString?.string ?? ""
         }
     }
-    var html2String: String {
-        return html2AttributedString?.string ?? ""
-    }
-}
