@@ -9,6 +9,7 @@
 import CoreLocation
 import UIKit
 import GoogleMaps
+import Firebase
 
 
 @UIApplicationMain
@@ -20,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        FIRApp.configure()
+        
         GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
     
         let navigationMapView = NavigationMapViewController()
