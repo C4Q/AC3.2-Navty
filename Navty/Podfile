@@ -14,5 +14,5 @@ target 'Navty' do
   pod 'GoogleMaps'
   pod 'SideMenu'
   pod 'StringExtensionHTML'
- 
+ pod 'DZNEmptyDataSet'
 end
