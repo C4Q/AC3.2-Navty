@@ -13,68 +13,79 @@ import SnapKit
 
 class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource, CNContactPickerDelegate {
     
-    
     var contactStore = CNContactStore()
     var contacts = [CNContact]()
+    var userDefaults = UserDefaults.standard
+    var userIdentifier = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        contactsTableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "Cell")
-        contactsTableView.delegate = self
-        contactsTableView.dataSource = self
-        setUpViews()
-        constaints()
-        
-        self.navigationController?.isToolbarHidden = false
+        tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.delegate = self
+        tableView.dataSource = self
+//        tableView.rowHeight = 100
+//        self.navigationController?.isToolbarHidden = false
         self.navigationController?.isNavigationBarHidden = false
         
         let barButton = UIBarButtonItem(customView: editButton)
         self.navigationItem.rightBarButtonItem = barButton
-    
+
 //        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
 //        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),toolEditButton]
-//        self.navigationController!.setToolbarHidden(false, animated: false)
+//        self.navigationController?.setToolbarHidden(false, animated: false)
         
-        
-        
-//        
-//        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
-//            self.contacts = self.findContacts()
-//            
-           DispatchQueue.main.async {
-                self.contactsTableView.reloadData()
-        }
+            DispatchQueue.main.async {
+                self.tableView!.reloadData()
+            }
+
     }
+    
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        contacts.removeAll()
+        
+        for contact in userDefaults.dictionaryRepresentation()  {
+            let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
+            if let array = arrOfIdentifiers{
+                userIdentifier = array
+                for identifier in userIdentifier {
+                    if contact.key == identifier {
+                        let unarchived = NSKeyedUnarchiver.unarchiveObject(with: contact.value as! Data) as? CNContact
+                        contacts.append(unarchived!)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     func didFetchContacts(contacts: [CNContact]) {
         for contact in contacts {
-            self.contacts.append(contact)
-        }
-        DispatchQueue.main.async {
+            let uuid = "\(contact.identifier)"
+            userIdentifier.append(uuid)
+            userDefaults.set(userIdentifier, forKey: "identifierArr")
+            let test = archiveContact(contact: contact)
+            userDefaults.set(test, forKey: uuid)
             
-            self.contactsTableView.reloadData()
         }
+        
     }
     
-    func setUpViews() {
-        self.view.addSubview(contactsTableView)
-        self.view.addSubview(addButton)
+    func archiveContact(contact:CNContact) -> Data {
+        let archivedObject = NSKeyedArchiver.archivedData(withRootObject: contact) as NSData
+        return archivedObject as Data
     }
-    func constaints() {
-        contactsTableView.snp.makeConstraints { (tableView) in
-            tableView.top.leading.trailing.equalToSuperview()
-            tableView.bottom.equalToSuperview().inset(300)
+
+    func retrieveContact(contact: CNContact) -> CNContact? {
+        if let unarchivedObject = userDefaults.object(forKey: "Dog") as? Data {
+            return NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? CNContact
         }
-        addButton.snp.makeConstraints { (button) in
-            button.top.equalTo(contactsTableView).offset(20)
-            button.centerX.equalToSuperview()
-            button.bottom.equalToSuperview()
-        }
+        return nil
     }
     
     
@@ -130,37 +141,24 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
         return true
     }
     
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath){
-//        
-//        switch editingStyle{
-//        case .delete:
-//            let object = controller.object(at: indexPath)
-//            context.delete(object)
-//            try! context.save()
-//        default:
-//            break
-//            
-//        }
-//    }
-//    
-//    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        tableView.reloadData()
-//    }
     
-    
-    
-     func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return contacts.count
     }
     
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ContactTableViewCell
         
-        let contact = contacts[indexPath.row] as CNContact
+    
+        let contact = self.contacts[indexPath.row]
+
+        if contact.isKeyAvailable((CNContactPhoneNumbersKey)) {
+        print(contact.givenName)
+        }
         cell.nameLabel.text = "\(contact.givenName) \(contact.familyName)"
         
         
@@ -168,17 +166,33 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
             let MobNumVar = (contact.phoneNumbers[0].value ).value(forKey: "digits") as! String
              cell.phoneLabel.text = MobNumVar
         }
-        
+
        
         return cell
+        
     }
     
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+
+            let path = indexPath.row
+            
+            contacts.remove(at: path)
+            let removeFrom = userIdentifier[path]
+            userDefaults.removeObject(forKey: removeFrom)
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+        }
+
+    }
     // MARK: - Contacts Picker
     
     func showContactsPicker(_ sender: UIBarButtonItem) {
         let contactPicker = CNContactPickerViewController()
         contactPicker.delegate = self
-        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
+//        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
         let predicate = NSPredicate(value: true)
         contactPicker.predicateForSelectionOfContact = predicate
         self.present(contactPicker, animated: true, completion: nil)
