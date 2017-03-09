@@ -45,12 +45,11 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         }
         
     }
-    
-    
-    
+
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
 //        guard contacts.count <= 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
 
         
@@ -130,13 +129,13 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     
     //MARK: -DZNEmptyDataSet Delegates & DataSource
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        let str = "Looks like you have no saved jobs yet."
+        let str = "You have no Contacts."
         let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)]
         return NSAttributedString(string: str, attributes: attrs)
     }
     
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        let str = "Start your search!"
+        let str = "Add your Contacts"
         let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
         return NSAttributedString(string: str, attributes: attrs)
     }
