@@ -38,13 +38,12 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
         
         
         
-        
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
-            self.contacts = self.findContacts()
-            
-            DispatchQueue.main.async {
+//        
+//        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
+//            self.contacts = self.findContacts()
+//            
+           DispatchQueue.main.async {
                 self.contactsTableView.reloadData()
-            }
         }
     }
     
@@ -80,50 +79,50 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
     
     
     
-    func findContacts() -> [CNContact] {
-        let store = CNContactStore()
-        
-        let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
-                           CNContactImageDataKey,
-                           CNContactPhoneNumbersKey] as [Any]
-        
-        let fetchRequest = CNContactFetchRequest(keysToFetch: keysToFetch as! [CNKeyDescriptor])
-        
-        var contacts = [CNContact]()
-        
-        do {
-            try store.enumerateContacts(with: fetchRequest, usingBlock: { (contact, stop) -> Void in
-                _ = (contact.phoneNumbers[0].value ).value(forKey: "digits") as! String
-                
-                
-                /* Get all mobile number */
-                
-                for ContctNumVar: CNLabeledValue in contact.phoneNumbers
-                {
-                    _  = (ContctNumVar.value).value(forKey: "digits") as? String
-                    
-                }
-                
-                /* Get mobile number with mobile country code */
-                
-                for ContctNumVar: CNLabeledValue in contact.phoneNumbers
-                {
-                    let FulMobNumVar  = ContctNumVar.value
-                    let MccNamVar = FulMobNumVar.value(forKey: "countryCode") as? String
-                    let MobNumVar = FulMobNumVar.value(forKey: "digits") as? String
-                    print(contact.givenName)
-                    print(MccNamVar!)
-                    print(MobNumVar!)
-                }
-                contacts.append(contact)
-            })
-        }
-        catch let error as NSError {
-            print(error.localizedDescription)
-        }
-        
-        return contacts
-    }
+//    func findContacts() -> [CNContact] {
+//        let store = CNContactStore()
+//        
+//        let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
+//                           CNContactImageDataKey,
+//                           CNContactPhoneNumbersKey] as [Any]
+//        
+//        let fetchRequest = CNContactFetchRequest(keysToFetch: keysToFetch as! [CNKeyDescriptor])
+//        
+//        var contacts = [CNContact]()
+//        
+//        do {
+//            try store.enumerateContacts(with: fetchRequest, usingBlock: { (contact, stop) -> Void in
+//                _ = (contact.phoneNumbers[0].value ).value(forKey: "digits") as! String
+//                
+//                
+//                /* Get all mobile number */
+//                
+//                for ContctNumVar: CNLabeledValue in contact.phoneNumbers
+//                {
+//                    _  = (ContctNumVar.value).value(forKey: "digits") as? String
+//                    
+//                }
+//                
+//                /* Get mobile number with mobile country code */
+//                
+//                for ContctNumVar: CNLabeledValue in contact.phoneNumbers
+//                {
+//                    let FulMobNumVar  = ContctNumVar.value
+//                    let MccNamVar = FulMobNumVar.value(forKey: "countryCode") as? String
+//                    let MobNumVar = FulMobNumVar.value(forKey: "digits") as? String
+//                    print(contact.givenName)
+//                    print(MccNamVar!)
+//                    print(MobNumVar!)
+//                }
+//                contacts.append(contact)
+//            })
+//        }
+//        catch let error as NSError {
+//            print(error.localizedDescription)
+//        }
+//        
+//        return contacts
+//    }
     
     // MARK: - Table View
     
