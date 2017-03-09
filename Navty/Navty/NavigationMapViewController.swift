@@ -79,6 +79,13 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         setupNotificationForKeyboard()
     }
     
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     //MARK: CLUSTERING
     func clustering() {
         var image: [UIImage] = []
@@ -95,6 +102,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         clusterManager.cluster()
         
         clusterManager.setDelegate(self, mapDelegate: self)
+
     }
     
     //MARK: SIDE MENU
@@ -371,7 +379,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                self.locationManager.startMonitoring(for: region)
                
                 
-                
                 let alert = UIAlertController(title: "\(region)", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
                 let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
                 alert.addAction(ok)
@@ -544,7 +551,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                     }
                 }
             }
-
             
         }
     }
@@ -654,14 +660,14 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
     }
     
-    func updateCounter() {
-        if countDown > 0 {
-            print("\(countDown) seconds")
-            countDown -= 1
-        } else {
-            //alert if needs more time to get home
+        func updateCounter() {
+            if countDown > 0 {
+                print("\(countDown) seconds")
+                countDown -= 1
+            } else {
+                //alert if needs more time to get home
+            }
         }
-    }
     
     func cancelNavigation() {
         print("cancelled")
@@ -793,7 +799,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         searchBar.searchBarStyle = UISearchBarStyle.prominent
         searchBar.isTranslucent = false
         searchBar.barTintColor = .white
-        searchBar.placeholder = "Desination"
+        searchBar.placeholder = "Destination"
         searchBar.isUserInteractionEnabled = true
         searchBar.layer.borderColor = ColorPalette.lightBlue.cgColor
         searchBar.layer.borderWidth = 1
@@ -827,17 +833,17 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     }()
 }
 
-extension String {
-    var html2AttributedString: NSAttributedString? {
-        guard let data = data(using: .utf8) else { return nil }
-        do {
-            return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.systemFont(ofSize: 32)]], documentAttributes: nil)
-        } catch let error as NSError {
-            print(error.localizedDescription)
-            return  nil
+    extension String {
+        var html2AttributedString: NSAttributedString? {
+            guard let data = data(using: .utf8) else { return nil }
+            do {
+                return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.systemFont(ofSize: 32)]], documentAttributes: nil)
+            } catch let error as NSError {
+                print(error.localizedDescription)
+                return  nil
+            }
+        }
+        var html2String: String {
+            return html2AttributedString?.string ?? ""
         }
     }
-    var html2String: String {
-        return html2AttributedString?.string ?? ""
-    }
-}
