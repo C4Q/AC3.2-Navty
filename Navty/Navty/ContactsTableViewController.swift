@@ -15,6 +15,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     var contacts = [CNContact]()
     var userDefaults = UserDefaults.standard
     var userIdentifier = [String]()
+    let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,10 +43,11 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+//        guard contacts.count <= 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
         contacts.removeAll()
+        let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
         
         for contact in userDefaults.dictionaryRepresentation()  {
-            let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
             if let array = arrOfIdentifiers{
                 userIdentifier = array
                 for identifier in userIdentifier {
@@ -54,17 +56,18 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
                         contacts.append(unarchived!)
                     }
                 }
-                
+            }
+        }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-            }
-        }
+
     }
-    
+
     func didFetchContacts(contacts: [CNContact]) {
+        
         for contact in contacts {
-            let uuid = "\(contact.identifier)"
+            let uuid = "\(contact.identifier )"
             userIdentifier.append(uuid)
             userDefaults.set(userIdentifier, forKey: "identifierArr")
             let test = archiveContact(contact: contact)
@@ -77,13 +80,6 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     func archiveContact(contact:CNContact) -> Data {
         let archivedObject = NSKeyedArchiver.archivedData(withRootObject: contact) as NSData
         return archivedObject as Data
-    }
-    
-    func retrieveContact(contact: CNContact) -> CNContact? {
-        if let unarchivedObject = userDefaults.object(forKey: "Dog") as? Data {
-            return NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? CNContact
-        }
-        return nil
     }
     
     // MARK: - Table View
@@ -106,10 +102,11 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         
         
         let contact = self.contacts[indexPath.row]
-        
+
         if contact.isKeyAvailable((CNContactPhoneNumbersKey)) {
             print(contact.givenName)
         }
+
         cell.nameLabel.text = "\(contact.givenName) \(contact.familyName)"
         
         
@@ -130,11 +127,16 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
             let path = indexPath.row
             
             contacts.remove(at: path)
-            let removeFrom = userIdentifier[path]
-            userDefaults.removeObject(forKey: removeFrom)
+            userIdentifier.remove(at: path)
+            let removeIdentifier = userIdentifier[path]
+            
+            for index in
+            
+            userDefaults.removeObject(forKey: removeIdentifier)
+           
             
             tableView.deleteRows(at: [indexPath], with: .fade)
-            
+//            guard contacts.count < 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
         }
         
     }
