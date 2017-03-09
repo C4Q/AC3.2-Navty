@@ -5,13 +5,11 @@
 //  Created by Miti Shah on 3/2/17.
 //  Copyright © 2017 Edward Anchundia. All rights reserved.
 //
-
 import UIKit
 import Contacts
 import ContactsUI
-import SnapKit
 
-class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITableViewDataSource, CNContactPickerDelegate {
+class ContactsTableViewController: UITableViewController, CNContactPickerDelegate {
     
     var contactStore = CNContactStore()
     var contacts = [CNContact]()
@@ -23,24 +21,24 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
         tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.delegate = self
         tableView.dataSource = self
-//        tableView.rowHeight = 100
-//        self.navigationController?.isToolbarHidden = false
+        //        tableView.rowHeight = 100
+        //        self.navigationController?.isToolbarHidden = false
         self.navigationController?.isNavigationBarHidden = false
         
-        let barButton = UIBarButtonItem(customView: editButton)
+        let barButton = UIBarButtonItem(customView: addButton)
         self.navigationItem.rightBarButtonItem = barButton
-
-//        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
-//        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),toolEditButton]
-//        self.navigationController?.setToolbarHidden(false, animated: false)
         
-            DispatchQueue.main.async {
-                self.tableView!.reloadData()
-            }
-
+        //        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
+        //        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),toolEditButton]
+        //        self.navigationController?.setToolbarHidden(false, animated: false)
+        
+        DispatchQueue.main.async {
+            self.tableView!.reloadData()
+        }
+        
     }
     
-
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -80,7 +78,7 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
         let archivedObject = NSKeyedArchiver.archivedData(withRootObject: contact) as NSData
         return archivedObject as Data
     }
-
+    
     func retrieveContact(contact: CNContact) -> CNContact? {
         if let unarchivedObject = userDefaults.object(forKey: "Dog") as? Data {
             return NSKeyedUnarchiver.unarchiveObject(with: unarchivedObject as Data) as? CNContact
@@ -88,56 +86,9 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
         return nil
     }
     
-    
-    
-//    func findContacts() -> [CNContact] {
-//        let store = CNContactStore()
-//        
-//        let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
-//                           CNContactImageDataKey,
-//                           CNContactPhoneNumbersKey] as [Any]
-//        
-//        let fetchRequest = CNContactFetchRequest(keysToFetch: keysToFetch as! [CNKeyDescriptor])
-//        
-//        var contacts = [CNContact]()
-//        
-//        do {
-//            try store.enumerateContacts(with: fetchRequest, usingBlock: { (contact, stop) -> Void in
-//                _ = (contact.phoneNumbers[0].value ).value(forKey: "digits") as! String
-//                
-//                
-//                /* Get all mobile number */
-//                
-//                for ContctNumVar: CNLabeledValue in contact.phoneNumbers
-//                {
-//                    _  = (ContctNumVar.value).value(forKey: "digits") as? String
-//                    
-//                }
-//                
-//                /* Get mobile number with mobile country code */
-//                
-//                for ContctNumVar: CNLabeledValue in contact.phoneNumbers
-//                {
-//                    let FulMobNumVar  = ContctNumVar.value
-//                    let MccNamVar = FulMobNumVar.value(forKey: "countryCode") as? String
-//                    let MobNumVar = FulMobNumVar.value(forKey: "digits") as? String
-//                    print(contact.givenName)
-//                    print(MccNamVar!)
-//                    print(MobNumVar!)
-//                }
-//                contacts.append(contact)
-//            })
-//        }
-//        catch let error as NSError {
-//            print(error.localizedDescription)
-//        }
-//        
-//        return contacts
-//    }
-    
     // MARK: - Table View
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
@@ -150,24 +101,24 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
         return contacts.count
     }
     
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ContactTableViewCell
         
-    
+        
         let contact = self.contacts[indexPath.row]
-
+        
         if contact.isKeyAvailable((CNContactPhoneNumbersKey)) {
-        print(contact.givenName)
+            print(contact.givenName)
         }
         cell.nameLabel.text = "\(contact.givenName) \(contact.familyName)"
         
         
         if contact.phoneNumbers.count > 0 {
             let MobNumVar = (contact.phoneNumbers[0].value ).value(forKey: "digits") as! String
-             cell.phoneLabel.text = MobNumVar
+            cell.phoneLabel.text = MobNumVar
         }
-
-       
+        
+        
         return cell
         
     }
@@ -175,7 +126,7 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-
+            
             let path = indexPath.row
             
             contacts.remove(at: path)
@@ -185,14 +136,14 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
             tableView.deleteRows(at: [indexPath], with: .fade)
             
         }
-
+        
     }
     // MARK: - Contacts Picker
     
     func showContactsPicker(_ sender: UIBarButtonItem) {
         let contactPicker = CNContactPickerViewController()
         contactPicker.delegate = self
-//        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
+        //        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
         let predicate = NSPredicate(value: true)
         contactPicker.predicateForSelectionOfContact = predicate
         self.present(contactPicker, animated: true, completion: nil)
@@ -216,9 +167,4 @@ class ContactsTableViewController: UIViewController ,UITableViewDelegate, UITabl
         return button
     }()
     
-    lazy var contactsTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        return tableView
-    }()
 }
