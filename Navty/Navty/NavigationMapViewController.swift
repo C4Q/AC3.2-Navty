@@ -32,7 +32,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     var directions = [GoogleDirections]()
     
     var path = GMSPath()
-    var polyline = GMSPolyline()
+    var polyline: GMSPolyline? = nil
     var allPolyLines = [GMSPolyline]()
     var availablePaths = [GMSPath]()
 
@@ -52,7 +52,9 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     var polylineUpdated = GMSPolyline()
     var pathOf = GMSPath()
     
+    var timer = Timer()
     var countDown = 0
+    var eta = String()
     
     var clusterManager: GMUClusterManager!
     
@@ -90,7 +92,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         for _ in 0...4 {
             image.append(#imageLiteral(resourceName: "ic_warning"))
         }
-        let iconGenerator = GMUDefaultClusterIconGenerator(buckets: [10, 50, 100, 200, 500], backgroundImages: image)
+        let iconGenerator = GMUDefaultClusterIconGenerator()
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
         let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
@@ -213,6 +215,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
         view.addSubview(menuButton)
         view.addSubview(searchDestination)
+        view.addSubview(cancelNavigationButton)
         view.addSubview(directionsTableView)
         view.addSubview(startNavigation)
     }
@@ -229,6 +232,13 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             view.width.equalToSuperview().multipliedBy(0.8)
             view.leading.equalTo(menuButton.snp.trailing).offset(10)
             view.top.equalToSuperview().inset(30)
+        })
+        
+        cancelNavigationButton.snp.makeConstraints({ (view) in
+            view.width.height.equalTo(35)
+            view.top.equalToSuperview().inset(30)
+            view.trailing.equalToSuperview().inset(8)
+            
         })
         
         startNavigation.snp.makeConstraints({ (view) in
@@ -306,6 +316,21 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         mapView.settings.myLocationButton = true
         searchDestination.resignFirstResponder()
 
+        self.marker.map = nil
+        self.allPolyLines.forEach({ $0.map = nil })
+        self.allPolyLines = []
+        self.polyline = nil
+        
+        self.polylineUpdated.map = nil
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.marker.map = nil
+        self.allPolyLines.forEach({ $0.map = nil })
+        self.allPolyLines = []
+        self.polyline = nil
+        
+        self.polylineUpdated.map = nil
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -313,7 +338,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         self.marker.map = nil
         self.allPolyLines.forEach({ $0.map = nil })
         self.allPolyLines = []
+        self.polyline = nil
         searchDestination.resignFirstResponder()
+        
+        self.polylineUpdated.map = nil
         
         startNavigation.isHidden = false
         
@@ -399,17 +427,18 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                             self.availablePaths.append(self.path)
                             //self.polyline = GMSPolyline(path: self.availablePaths[eachOne])
                             self.polyline = GMSPolyline(path: self.path)
-                            self.polyline.title = self.directions[eachOne].overallTime
+                            self.polyline?.title = self.directions[eachOne].overallTime
                             
 //                            self.countDown = Int(self.directions[eachOne].overallTime)
                             let time = self.directions[eachOne].overallTime
                             self.distanceTimeConversionToSeconds(time: time)
+                            self.eta = time
                             
-                            self.polyline.strokeWidth = 7
-                            self.polyline.strokeColor = self.colors[eachOne]
-                            self.polyline.isTappable = true
+                            self.polyline?.strokeWidth = 7
+                            self.polyline?.strokeColor = self.colors[eachOne]
+                            self.polyline?.isTappable = true
                             //self.polyline.title = "\(self.colors[eachOne])"
-                            self.allPolyLines.append(self.polyline)
+                            self.allPolyLines.append(self.polyline!)
                             //self.polyline.map = self.mapView
                             self.allPolyLines[eachOne].map = self.mapView
                             
@@ -485,7 +514,9 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
 
     
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
-        if true {
+        if polyline == nil{
+            print("cant long press")
+        } else if polyline != nil {
             
             APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(newCoordinates.latitude),\(newCoordinates.longitude)&region=es&mode=\(self.transportationPicked)&waypoints=via:\(coordinate.latitude)%2C\(coordinate.longitude)%7C&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
             { (data) in
@@ -499,8 +530,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                         
                         DispatchQueue.main.async {
                             
-                            self.polyline.map = nil
+                            self.polyline?.map = nil
                             self.polylineUpdated.map = nil
+                            self.allPolyLines.forEach({ $0.map = nil })
+                            self.allPolyLines = []
                             for eachOne in 0 ..< self.adjustedPath.count {
                                 
                                 self.pathOf = GMSPath(fromEncodedPath: self.adjustedPath[eachOne].overallPolyline)!
@@ -530,25 +563,29 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         _ = self.allPolyLines.map { $0.map = nil }
         allPolyLines = []
         
-        switch sender.tag {
-        case 0:
-            print("tag 0")
-            self.transportationPicked = "driving"
-            self.getPolylines(coordinates: self.newCoordinates)
-        case 1:
-            print("tag 1")
-            self.transportationPicked = "walking"
-            self.getPolylines(coordinates: self.newCoordinates)
-        case 2:
-            print("tag 2")
-            self.transportationPicked = "bicycling"
-            self.getPolylines(coordinates: self.newCoordinates)
-        case 3:
-            print("tag 3")
-            self.transportationPicked = "transit"
-            self.getPolylines(coordinates: self.newCoordinates)
-        default:
-            break
+        if polyline == nil {
+            print("cant select transportation")
+        } else {
+            switch sender.tag {
+            case 0:
+                print("tag 0")
+                self.transportationPicked = "driving"
+                self.getPolylines(coordinates: self.newCoordinates)
+            case 1:
+                print("tag 1")
+                self.transportationPicked = "walking"
+                self.getPolylines(coordinates: self.newCoordinates)
+            case 2:
+                print("tag 2")
+                self.transportationPicked = "bicycling"
+                self.getPolylines(coordinates: self.newCoordinates)
+            case 3:
+                print("tag 3")
+                self.transportationPicked = "transit"
+                self.getPolylines(coordinates: self.newCoordinates)
+            default:
+                break
+            }
         }
     }
     
@@ -593,7 +630,15 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     func startNavigationClicked() {
         //animate table view up
         //change format of the map
-        var _ = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+        let alert = UIAlertController(title: "ETA", message: "You will arrive in \(eta).", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(ok)
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+        searchDestination.isHidden = true
+        cancelNavigationButton.isHidden = false
+        
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
         
         UITableView.animate(withDuration: 1.0, animations: { () -> Void in
 //            self.mapView.snp.makeConstraints({ (view) in
@@ -611,6 +656,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
 //        UIView.transition(with: view, duration: 1.0, options: .transitionCrossDissolve, animations: {() -> Void in
 //            view.isHidden = false
 //        }, completion: { _ in })
+        startNavigation.isHidden = true
         
     }
     
@@ -622,6 +668,46 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                 //alert if needs more time to get home
             }
         }
+    
+    func cancelNavigation() {
+        print("cancelled")
+        //hide table view
+        //stop timer
+        
+        directionsTableView.isHidden = true
+        cancelNavigationButton.isHidden = true
+        searchDestination.isHidden = false
+        startNavigation.isHidden = true
+        
+        self.marker.map = nil
+        self.allPolyLines.forEach({ $0.map = nil })
+        self.allPolyLines = []
+        self.polylineUpdated.map = nil
+        self.polyline = nil
+        
+        self.searchDestination.text = ""
+        
+        mapView.animate(toLocation: self.currentlocation)
+        
+        //zoom into current location
+        
+        timer.invalidate()
+        
+//        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
+//            //            self.mapView.snp.makeConstraints({ (view) in
+//            //                view.leading.trailing.equalToSuperview()
+//            //                view.height.equalToSuperview().multipliedBy(0.5)
+//            //                view.top.equalToSuperview()
+//            //            })
+//            
+//            self.directionsTableView.snp.makeConstraints({ (view) in
+//                view.leading.trailing.equalToSuperview()
+//                view.height.equalToSuperview().multipliedBy(0.5)
+//                view.top.equalTo(self.mapView.snp.bottom)
+//            })
+//            self.directionsTableView.layoutIfNeeded()
+//        })
+    }
     
     //MARK: SETUP TABLE VIEW FOR DIRECTIONS
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -675,7 +761,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     func setupToolbar() {
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let carButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_drive_eta"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
-        
         let walkingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_directions_walk"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
         let cyclingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_motorcycle"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
         let trainButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_train"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
@@ -687,9 +772,11 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
         toolbarItems = [carButton, spacer, walkingButton, spacer, cyclingButton, spacer, trainButton]
         
+        
         navigationController?.isToolbarHidden = false
         navigationController?.toolbar.barTintColor = ColorPalette.lightBlue
         navigationController?.toolbar.tintColor = .white
+        
     }
 
     
@@ -723,6 +810,14 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "ic_navigation"), for: .normal)
         button.addTarget(self, action: #selector(self.startNavigationClicked), for: .touchUpInside)
+        button.isHidden = true
+        return button
+    }()
+    
+    internal lazy var cancelNavigationButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "ic_close"), for: .normal)
+        button.addTarget(self, action: #selector(cancelNavigation), for: .touchUpInside)
         button.isHidden = true
         return button
     }()
