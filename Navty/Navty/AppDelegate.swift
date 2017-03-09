@@ -40,6 +40,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
+        //MARK: Nav-bar color change 
+        
+        UINavigationBar.appearance().tintColor = ColorPalette.lightBlue
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : ColorPalette.lightBlue]
+
+        
         return true
     }
 

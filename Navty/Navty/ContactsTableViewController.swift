@@ -1,4 +1,4 @@
-//
+ //
 //  ContactsTableViewController.swift
 //  Navty
 //
@@ -29,17 +29,20 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         self.navigationItem.rightBarButtonItem = barButton
     
         let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
-        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),toolEditButton]
+        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), toolEditButton]
         self.navigationController!.setToolbarHidden(false, animated: false)
         
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
-            self.contacts = self.findContacts()
-            
+        //DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
             DispatchQueue.main.async {
-                self.tableView!.reloadData()
+                
+                self.contacts = self.findContacts()
+                
+                DispatchQueue.main.async {
+                    self.tableView!.reloadData()
+                }
             }
-        }
+        //}
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -131,7 +134,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return contacts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

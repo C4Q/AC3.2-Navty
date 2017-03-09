@@ -74,6 +74,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         setupNotificationForKeyboard()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     //MARK: SIDE MENU
     func sideMenu() {
         let menuLeftNavigationController = UISideMenuNavigationController(rootViewController: MenuViewController())

@@ -28,6 +28,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         view.addSubview(contactButton)
         view.addSubview(communityButton)
         view.addSubview(profileButton)
+        view.addSubview(sms)
     }
     
     func constrainConfiguration(){
@@ -71,6 +72,14 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
             button.width.equalTo(view.snp.width).inset(20)
             button.top.equalTo(communityButton.snp.bottom).offset(20)
         }
+        
+        sms.snp.makeConstraints { (button) in
+            button.centerX.equalTo(view.snp.centerX)
+            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
+            button.height.equalTo(30)
+            button.width.equalTo(view.snp.width).inset(20)
+            button.top.equalTo(profileButton.snp.bottom).offset(20)
+        }
     }
     
     func contactsController() {
@@ -79,6 +88,12 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
             navVC.pushViewController(ContactsTC, animated: true)
         }
     }
+    
+    func sendSms() {
+       // present(textMessageViewController(), animated: true, completion: nil)
+        navigationController?.pushViewController(textMessageViewController(), animated: true)
+    }
+
     
     internal lazy var profilePicture: UIImageView = {
         let photo = UIImageView()
@@ -131,5 +146,15 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         return button
     }()
    
+    
+    internal var sms: UIButton = {
+        let button = UIButton(type: .custom)
+        //button.backgroundColor = ColorPalette.lightGreen
+        button.setTitle("SMS", for: .normal)
+        button.alpha = 0.8
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(sendSms), for: .touchUpInside)
+        return button
+    }()
 
 }

@@ -10,6 +10,7 @@ import Foundation
 import MessageUI
 
 let textMessageRecipients = [String]()
+let contactNumbers = ContactsTableViewController()
 
 class MessageComposer: NSObject, MFMessageComposeViewControllerDelegate {
 
@@ -20,7 +21,8 @@ class MessageComposer: NSObject, MFMessageComposeViewControllerDelegate {
     func configuredMessageComposeViewController() -> MFMessageComposeViewController {
         let messageComposeVC = MFMessageComposeViewController()
         messageComposeVC.messageComposeDelegate = self
-        messageComposeVC.recipients = textMessageRecipients
+        messageComposeVC.recipients = [String(describing: contactNumbers.contacts)]
+        //textMessageRecipients
         messageComposeVC.body =  "I arrieved home safely"
         return messageComposeVC
     }
