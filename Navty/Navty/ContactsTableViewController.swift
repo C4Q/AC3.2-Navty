@@ -42,8 +42,6 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         
     }
     
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //        guard contacts.count <= 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
