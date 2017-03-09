@@ -5,24 +5,32 @@
 //  Created by Miti Shah on 3/2/17.
 //  Copyright © 2017 Edward Anchundia. All rights reserved.
 //
-
 import UIKit
 import Contacts
 import ContactsUI
+import DZNEmptyDataSet
 
-class ContactsTableViewController: UITableViewController, CNContactPickerDelegate {
+class ContactsTableViewController: UITableViewController, CNContactPickerDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
     
-//    var detailViewController: DetailViewController? = nil
     var contactStore = CNContactStore()
     var contacts = [CNContact]()
+    var userDefaults = UserDefaults.standard
+    var userIdentifier = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "Cell")
-        tableView.delegate = self
-        tableView.dataSource = self
+
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//        tableView.rowHeight = 100
         
-        self.navigationController?.isToolbarHidden = false
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
+//
+//        self.navigationController?.isToolbarHidden = false
+
+
         self.navigationController?.isNavigationBarHidden = false
         
         let barButton = UIBarButtonItem(customView: addButton)
@@ -32,101 +40,69 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), toolEditButton]
         self.navigationController!.setToolbarHidden(false, animated: false)
         
+        //        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
+        //        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),toolEditButton]
+        //        self.navigationController?.setToolbarHidden(false, animated: false)
         
-        //DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
-            DispatchQueue.main.async {
-                
-                self.contacts = self.findContacts()
-                
-                DispatchQueue.main.async {
-                    self.tableView!.reloadData()
-                }
-            }
-        //}
+        DispatchQueue.main.async {
+            self.tableView!.reloadData()
+        }
+        
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+//        guard contacts.count <= 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
+
+        
+        contacts.removeAll()
+        let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
+        
+        for contact in userDefaults.dictionaryRepresentation()  {
+            if let array = arrOfIdentifiers{
+                userIdentifier = array
+                for identifier in userIdentifier {
+                    if contact.key == identifier {
+                        let unarchived = NSKeyedUnarchiver.unarchiveObject(with: contact.value as! Data) as? CNContact
+                        contacts.append(unarchived!)
+                    }
+                }
+            }
+        }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        
     }
     
     func didFetchContacts(contacts: [CNContact]) {
+        
         for contact in contacts {
-            self.contacts.append(contact)
-        }
-        DispatchQueue.main.async {
+            let uuid = "\(contact.identifier )"
+            userIdentifier.append(uuid)
+            let test = archiveContact(contact: contact)
             
-            self.tableView.reloadData()
+            userDefaults.set(userIdentifier, forKey: "identifierArr")
+            userDefaults.set(test, forKey: uuid)
+            
         }
+        
     }
     
-    func findContacts() -> [CNContact] {
-        let store = CNContactStore()
-        
-        let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
-                           CNContactImageDataKey,
-                           CNContactPhoneNumbersKey] as [Any]
-        
-        let fetchRequest = CNContactFetchRequest(keysToFetch: keysToFetch as! [CNKeyDescriptor])
-        
-        var contacts = [CNContact]()
-        
-        do {
-            try store.enumerateContacts(with: fetchRequest, usingBlock: { (contact, stop) -> Void in
-                _ = (contact.phoneNumbers[0].value ).value(forKey: "digits") as! String
-                
-                
-                /* Get all mobile number */
-                
-                for ContctNumVar: CNLabeledValue in contact.phoneNumbers
-                {
-                    _  = (ContctNumVar.value).value(forKey: "digits") as? String
-                    
-                }
-                
-                /* Get mobile number with mobile country code */
-                
-                for ContctNumVar: CNLabeledValue in contact.phoneNumbers
-                {
-                    let FulMobNumVar  = ContctNumVar.value
-                    let MccNamVar = FulMobNumVar.value(forKey: "countryCode") as? String
-                    let MobNumVar = FulMobNumVar.value(forKey: "digits") as? String
-                    print(contact.givenName)
-                    print(MccNamVar!)
-                    print(MobNumVar!)
-                }
-                contacts.append(contact)
-            })
-        }
-        catch let error as NSError {
-            print(error.localizedDescription)
-        }
-        
-        return contacts
+    func archiveContact(contact:CNContact) -> Data {
+        let archivedObject = NSKeyedArchiver.archivedData(withRootObject: contact) as NSData
+        return archivedObject as Data
     }
+    
     
     // MARK: - Table View
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath){
-//        
-//        switch editingStyle{
-//        case .delete:
-//            let object = controller.object(at: indexPath)
-//            context.delete(object)
-//            try! context.save()
-//        default:
-//            break
-//            
-//        }
-//    }
-//    
-//    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        tableView.reloadData()
-//    }
-    
     
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -140,33 +116,88 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ContactTableViewCell
         
-        let contact = contacts[indexPath.row] as CNContact
+        
+        let contact = self.contacts[indexPath.row]
+        
         cell.nameLabel.text = "\(contact.givenName) \(contact.familyName)"
         
         
         if contact.phoneNumbers.count > 0 {
             let MobNumVar = (contact.phoneNumbers[0].value ).value(forKey: "digits") as! String
-             cell.phoneLabel.text = MobNumVar
+            cell.phoneLabel.text = MobNumVar
         }
         
-       
+        
         return cell
+        
     }
+    
+    //MARK: -DZNEmptyDataSet Delegates & DataSource
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = "Looks like you have no saved jobs yet."
+        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        let str = "Start your search!"
+        let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+    
+    func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
+        return UIImage(named: "newIcon")
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let path = indexPath.row
+            let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
+            
+            let removeIdentifier = userIdentifier[path]
+            
+            for _ in arrOfIdentifiers! {
+                userDefaults.removeObject(forKey: removeIdentifier)
+            }
+
+            
+            contacts.remove(at: path)
+            userIdentifier.remove(at: path)
+           
+
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            //            guard contacts.count < 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
+        }
+        
+    }
+    
     
     // MARK: - Contacts Picker
     
     func showContactsPicker(_ sender: UIBarButtonItem) {
+        
         let contactPicker = CNContactPickerViewController()
         contactPicker.delegate = self
-        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
-        let predicate = NSPredicate(value: true)
+
+//        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
+
+        let predicate = NSPredicate(value: false)
+        let truePredicate = NSPredicate(value: true)
         contactPicker.predicateForSelectionOfContact = predicate
+        contactPicker.predicateForSelectionOfProperty = truePredicate
+        
         self.present(contactPicker, animated: true, completion: nil)
+        
     }
-    
+
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
         self.didFetchContacts(contacts: [contact])
     }
+    
+    
     
     lazy var addButton:  UIButton = {
         let button = UIButton(type: UIButtonType.contactAdd)

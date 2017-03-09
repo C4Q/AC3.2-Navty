@@ -89,11 +89,15 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         }
     }
     
-    func sendSms() {
-       // present(textMessageViewController(), animated: true, completion: nil)
-        navigationController?.pushViewController(textMessageViewController(), animated: true)
+    func LoginController() {
+        let LoginVC = LoginViewController()
+        if let navVC = self.navigationController {
+            navVC.pushViewController(LoginVC, animated: true)
+        }
     }
-
+    
+    
+    
     
     internal lazy var profilePicture: UIImageView = {
         let photo = UIImageView()
@@ -142,7 +146,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         button.setTitle("Profile", for: .normal)
         button.alpha = 0.8
         button.layer.masksToBounds = true
-        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(LoginController), for: .touchUpInside)
         return button
     }()
    
