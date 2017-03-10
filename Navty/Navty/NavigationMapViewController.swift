@@ -12,8 +12,9 @@ import SnapKit
 import SideMenu
 import StringExtensionHTML
 import MapKit
+import GooglePlaces
 
-class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, GMUClusterManagerDelegate {
+class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, GMUClusterManagerDelegate, GMSAutocompleteViewControllerDelegate {
 
     var userLatitude = Float()
     var userLongitude = Float()
@@ -305,11 +306,35 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         print("Error: \(error)")
     }
     
+    
+
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        print("Did AutoComplete")
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        print("Did Fail")
+    }
+   
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    
+    var resultsViewController: GMSAutocompleteResultsViewController?
+    var searchController: UISearchController?
+    var resultView: UITextView?
+    
     //MARK: SEARCHBAR
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchDestination.showsCancelButton = true
         
         mapView.settings.myLocationButton = false
+        
+//        resultsViewController = GMSAutocompleteResultsViewController()
+//        resultsViewController?.delegate = self
+//        present(autocompleteController, animated: true, completion: nil)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

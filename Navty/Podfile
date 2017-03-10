@@ -15,4 +15,7 @@ target 'Navty' do
   pod 'SideMenu'
   pod 'StringExtensionHTML'
  pod 'DZNEmptyDataSet'
+ pod 'GooglePlaces'
+  pod 'GooglePlacePicker'
+
 end

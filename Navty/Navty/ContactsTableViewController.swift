@@ -27,7 +27,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
-//
+        self.tableView.tableFooterView = UIView()
 //        self.navigationController?.isToolbarHidden = false
 
 
@@ -51,7 +51,6 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         super.viewWillAppear(animated)
         
 //        guard contacts.count <= 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
-
         
         contacts.removeAll()
         let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
@@ -145,6 +144,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     }
     
     
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
@@ -156,7 +156,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
             for _ in arrOfIdentifiers! {
                 userDefaults.removeObject(forKey: removeIdentifier)
             }
-
+            userDefaults.synchronize()
             
             contacts.remove(at: path)
             userIdentifier.remove(at: path)
@@ -181,9 +181,9 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
 
         let predicate = NSPredicate(value: false)
         let truePredicate = NSPredicate(value: true)
-        contactPicker.predicateForSelectionOfContact = predicate
-        contactPicker.predicateForSelectionOfProperty = truePredicate
-        
+//        contactPicker.predicateForSelectionOfContact = predicate
+//        contactPicker.predicateForSelectionOfProperty = truePredicate
+       
         self.present(contactPicker, animated: true, completion: nil)
         
     }
