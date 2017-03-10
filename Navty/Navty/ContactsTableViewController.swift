@@ -27,6 +27,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
+        tableView.tableFooterView = UIView()
 //
 //        self.navigationController?.isToolbarHidden = false
 
