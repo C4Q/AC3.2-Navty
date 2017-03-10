@@ -10,7 +10,7 @@ import CoreLocation
 import UIKit
 import GoogleMaps
 import Firebase
-
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         
         GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
-    
+        GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
         let navigationMapView = NavigationMapViewController()
         let navController = UINavigationController(rootViewController: navigationMapView)
         
