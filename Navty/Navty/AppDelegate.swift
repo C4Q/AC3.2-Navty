@@ -32,11 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        if userdefaults.bool(forKey: "onboardingComplete") {
-            self.window?.rootViewController = navController
-        } else {
+//        if userdefaults.bool(forKey: "onboardingComplete") {
+//            self.window?.rootViewController = navController
+//        } else {
             self.window?.rootViewController = SplashScreenViewController()
-        }
+        //}
         
         self.window?.makeKeyAndVisible()
         

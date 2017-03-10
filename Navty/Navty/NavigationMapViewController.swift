@@ -78,11 +78,14 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
 //        getData()
         setupNotificationForKeyboard()
     }
-    
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        //self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
     }
     
@@ -562,6 +565,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     func transportationPick(sender: UIButton) {
         _ = self.allPolyLines.map { $0.map = nil }
         allPolyLines = []
+        self.polylineUpdated.map = nil
         
         if polyline == nil {
             print("cant select transportation")
