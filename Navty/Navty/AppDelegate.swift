@@ -25,10 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
     
-        let navigationMapView = NavigationMapViewController()
-        let navController = UINavigationController(rootViewController: navigationMapView)
+//        let navigationMapView = NavigationMapViewController()
+//        let navController = UINavigationController(rootViewController: navigationMapView)
         
-        let userdefaults = UserDefaults.standard
+//        let userdefaults = UserDefaults.standard
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            self.window?.rootViewController = navController
 //        } else {
             self.window?.rootViewController = SplashScreenViewController()
-        //}
+//        }
         
         self.window?.makeKeyAndVisible()
         
