@@ -97,7 +97,9 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
     }
     
     
-    
+    func sendSms() {
+        present(textMessageViewController(), animated: true, completion: nil)
+    }
     
     internal lazy var profilePicture: UIImageView = {
         let photo = UIImageView()

@@ -19,7 +19,7 @@ class textMessageViewController: UIViewController {
         view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = false
         
-        self.navigationController!.navigationBar.isTranslucent = false
+        //self.navigationController!.navigationBar.isTranslucent = false
         
         view.addSubview(sendMessage)
         

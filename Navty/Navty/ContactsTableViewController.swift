@@ -27,7 +27,8 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
-//
+        self.tableView.tableFooterView = UIView()
+
 //        self.navigationController?.isToolbarHidden = false
 
 
@@ -50,13 +51,10 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         
     }
     
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
 //        guard contacts.count <= 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
-
         
         contacts.removeAll()
         let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
@@ -134,13 +132,13 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     
     //MARK: -DZNEmptyDataSet Delegates & DataSource
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        let str = "Looks like you have no saved jobs yet."
+        let str = "You have no Contacts."
         let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)]
         return NSAttributedString(string: str, attributes: attrs)
     }
     
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        let str = "Start your search!"
+        let str = "Add your Contacts"
         let attrs = [NSFontAttributeName: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
         return NSAttributedString(string: str, attributes: attrs)
     }
@@ -148,6 +146,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
         return UIImage(named: "newIcon")
     }
+    
     
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -161,7 +160,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
             for _ in arrOfIdentifiers! {
                 userDefaults.removeObject(forKey: removeIdentifier)
             }
-
+            userDefaults.synchronize()
             
             contacts.remove(at: path)
             userIdentifier.remove(at: path)
@@ -186,9 +185,9 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
 
         let predicate = NSPredicate(value: false)
         let truePredicate = NSPredicate(value: true)
-        contactPicker.predicateForSelectionOfContact = predicate
-        contactPicker.predicateForSelectionOfProperty = truePredicate
-        
+//        contactPicker.predicateForSelectionOfContact = predicate
+//        contactPicker.predicateForSelectionOfProperty = truePredicate
+       
         self.present(contactPicker, animated: true, completion: nil)
         
     }
