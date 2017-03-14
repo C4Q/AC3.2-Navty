@@ -20,18 +20,12 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "Cell")
-
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//        tableView.rowHeight = 100
         
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
         self.tableView.tableFooterView = UIView()
 
 //        self.navigationController?.isToolbarHidden = false
-
-
         self.navigationController?.isNavigationBarHidden = false
         
         let barButton = UIBarButtonItem(customView: addButton)
@@ -76,11 +70,10 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         
         for contact in contacts {
             let uuid = "\(contact.identifier )"
+            let contactAsData = archiveContact(contact: contact)
             userIdentifier.append(uuid)
-            let test = archiveContact(contact: contact)
-            
             userDefaults.set(userIdentifier, forKey: "identifierArr")
-            userDefaults.set(test, forKey: uuid)
+            userDefaults.set(contactAsData, forKey: uuid)
             
         }
         
@@ -151,10 +144,11 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
             let path = indexPath.row
             let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
             
-            let removeIdentifier = userIdentifier[path]
+            var removeIdentifier = userIdentifier[path]
             
             for _ in arrOfIdentifiers! {
                 userDefaults.removeObject(forKey: removeIdentifier)
+//                removeIdentifier = ""
             }
             userDefaults.synchronize()
             
@@ -164,7 +158,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
 
             
             tableView.deleteRows(at: [indexPath], with: .fade)
-            //            guard contacts.count < 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
+        
         }
         
     }
