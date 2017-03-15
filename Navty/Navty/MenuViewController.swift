@@ -92,7 +92,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
     
     internal lazy var profilePicture: UIImageView = {
         let photo = UIImageView()
-        photo.image = #imageLiteral(resourceName: "newIcon")
+        photo.image = UIImage(named: "newIcon")
         //photo.layer.cornerRadius = 30
         photo.layer.masksToBounds = true
         photo.contentMode = .scaleAspectFit
