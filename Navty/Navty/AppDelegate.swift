@@ -18,6 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let locationManager = CLLocationManager()
     
+    let messageComposer = MessageComposer()
+    
+    //MARK: Text message
+
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -32,15 +36,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-//        if userdefaults.bool(forKey: "onboardingComplete") {
-//            self.window?.rootViewController = navController
-//        } else {
+        if userdefaults.bool(forKey: "onboardingComplete") {
+            self.window?.rootViewController = navController
+        } else {
             self.window?.rootViewController = SplashScreenViewController()
-        //}
+        }
         
         self.window?.makeKeyAndVisible()
         
-        locationManager.delegate = self
+        //locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
         //MARK: Nav-bar color change 
@@ -74,13 +78,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-    
     func handleEvent(forRegion region: CLRegion!) {
-        let alert = UIAlertController(title: "In the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
-        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+        let alert = UIAlertController(title: "Closed to the destination", message: "Do you want to send messsage?", preferredStyle: UIAlertControllerStyle.alert)
+        //let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) -> Void in
+            
+            if (self.messageComposer.canSendText()) {
+                
+                let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
+                alert.dismiss(animated: true, completion: { 
+                    
+                    self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
+                })
+                self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
+            }
+        }
+        
+        
         alert.addAction(ok)
-        self.window?.rootViewController?.present(alert, animated: true, completion: nil) 
-       
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        
     }
     
     func handleEventExit(forRegion region: CLRegion!) {
@@ -88,10 +105,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
         alert.addAction(ok)
         self.window?.rootViewController?.present(alert, animated: true, completion: nil)
-     
+        
     }
-
 }
+
 
 extension AppDelegate: CLLocationManagerDelegate {
     

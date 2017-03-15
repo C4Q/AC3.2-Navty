@@ -1,4 +1,4 @@
-//
+ //
 //  NavigationMapViewController.swift
 //  Navty
 //
@@ -407,10 +407,10 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
                self.locationManager.startMonitoring(for: region)
                
                 
-                let alert = UIAlertController(title: "\(region)", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
-                let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
-                alert.addAction(ok)
-                self.navigationController?.present(alert, animated: true, completion: nil)
+//                let alert = UIAlertController(title: "\(region)", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
+//                let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+//                alert.addAction(ok)
+//                self.navigationController?.present(alert, animated: true, completion: nil)
 
 
                 self.marker = GMSMarker(position: coordinates)
@@ -657,6 +657,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         
     }
     
+
+    
     func startNavigationClicked() {
         //animate table view up
         //change format of the map
@@ -664,6 +666,8 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(ok)
         self.navigationController?.present(alert, animated: true, completion: nil)
+        
+     
         
         searchDestination.isHidden = true
         cancelNavigationButton.isHidden = false
@@ -861,6 +865,9 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         tableView.rowHeight = UITableViewAutomaticDimension
         return tableView
     }()
+    
+    //MARK: ADD ALEART 
+    
 }
 
     extension String {
@@ -877,3 +884,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             return html2AttributedString?.string ?? ""
         }
     }
+
+
+
