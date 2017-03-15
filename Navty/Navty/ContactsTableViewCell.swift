@@ -32,12 +32,12 @@ class ContactTableViewCell: UITableViewCell {
     
     func makeConstraints() {
         nameLabel.snp.makeConstraints { (label) in
-            label.top.equalToSuperview()
+            label.top.equalToSuperview().offset(20)
             label.leading.equalToSuperview().inset(5)
         }
         
         phoneLabel.snp.makeConstraints { (label) in
-            label.top.equalToSuperview()
+            label.top.equalToSuperview().offset(20)
             label.trailing.equalToSuperview().inset(30)
         }
         

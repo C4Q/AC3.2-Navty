@@ -20,18 +20,12 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: "Cell")
-
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//        tableView.rowHeight = 100
         
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
         self.tableView.tableFooterView = UIView()
 
 //        self.navigationController?.isToolbarHidden = false
-
-
         self.navigationController?.isNavigationBarHidden = false
         
         let barButton = UIBarButtonItem(customView: addButton)
@@ -54,7 +48,6 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        guard contacts.count <= 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
         
         contacts.removeAll()
         let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
@@ -73,19 +66,24 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+        guard contacts.count <= 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
         
     }
     
     func didFetchContacts(contacts: [CNContact]) {
         
         for contact in contacts {
+            //Give the Contact a userIdentifier
             let uuid = "\(contact.identifier )"
+            //Turn the Contact Class into Data
+            let contactAsData = archiveContact(contact: contact)
+            //Adding userIdentifier to Array
             userIdentifier.append(uuid)
-            let test = archiveContact(contact: contact)
-            
+            //Add all identifiers as an array into UserDefaults
             userDefaults.set(userIdentifier, forKey: "identifierArr")
-            userDefaults.set(test, forKey: uuid)
-            
+            //Add the Contact as Data in UserDefaults
+            userDefaults.set(contactAsData, forKey: uuid)
+            userDefaults.synchronize()
         }
         
     }
@@ -130,6 +128,10 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
     //MARK: -DZNEmptyDataSet Delegates & DataSource
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
         let str = "You have no Contacts."
@@ -153,13 +155,10 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         if editingStyle == .delete {
             
             let path = indexPath.row
-            let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
+            var arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
             
-            let removeIdentifier = userIdentifier[path]
-            
-            for _ in arrOfIdentifiers! {
-                userDefaults.removeObject(forKey: removeIdentifier)
-            }
+            arrOfIdentifiers?.remove(at: path)
+            userDefaults.set(arrOfIdentifiers, forKey: "identifierArr")
             userDefaults.synchronize()
             
             contacts.remove(at: path)
@@ -168,7 +167,10 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
 
             
             tableView.deleteRows(at: [indexPath], with: .fade)
-            //            guard contacts.count < 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
+            if contacts.count <= 4 {
+                addButton.isEnabled = true
+                addButton.alpha = 1
+            }
         }
         
     }
@@ -183,8 +185,8 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
 
 //        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
 
-        let predicate = NSPredicate(value: false)
-        let truePredicate = NSPredicate(value: true)
+//        let predicate = NSPredicate(value: false)
+//        let truePredicate = NSPredicate(value: true)
 //        contactPicker.predicateForSelectionOfContact = predicate
 //        contactPicker.predicateForSelectionOfProperty = truePredicate
        
