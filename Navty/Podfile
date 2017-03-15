@@ -14,8 +14,9 @@ target 'Navty' do
   pod 'GoogleMaps'
   pod 'SideMenu'
   pod 'StringExtensionHTML'
- pod 'DZNEmptyDataSet'
- pod 'GooglePlaces'
+  pod 'DZNEmptyDataSet'
+  pod 'GooglePlaces'
   pod 'GooglePlacePicker'
+  pod "PubNub", "~> 4"
 
 end

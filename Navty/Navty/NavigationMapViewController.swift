@@ -13,8 +13,9 @@ import SideMenu
 import StringExtensionHTML
 import MapKit
 import GooglePlaces
+import PubNub
 
-class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, GMUClusterManagerDelegate, GMSAutocompleteViewControllerDelegate {
+class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, GMUClusterManagerDelegate, GMSAutocompleteViewControllerDelegate, PNObjectEventListener {
 
     var userLatitude = Float()
     var userLongitude = Float()
@@ -59,6 +60,9 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
     
     var clusterManager: GMUClusterManager!
     
+    var client: PubNub!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -78,6 +82,12 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         clustering()
 //        getData()
         setupNotificationForKeyboard()
+        
+        let configuration = PNConfiguration(publishKey: "pub-c-28163faf-5853-487e-8cc9-1d8f955ad129", subscribeKey: "sub-c-0ee17ac4-08cb-11e7-b95c-0619f8945a4f")
+        self.client = PubNub.clientWithConfiguration(configuration)
+        self.client.addListener(self)
+
+        self.client.subscribeToChannels(["map-channel"], withPresence: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -263,7 +273,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("Authorized")
-            manager.stopUpdatingLocation()
+            //manager.stopUpdatingLocation()
         case .denied, .restricted:
             print("Authorization denied or restricted")
         case .notDetermined:
@@ -291,6 +301,18 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         self.currentlocation = locationValue
         
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: locationValue.latitude, longitude: locationValue.longitude))
+        
+        
+        let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
+        print(message)
+        self.client.publish(message, toChannel: "map-channel", compressed: false, withCompletion: { (status) in
+            if !status.isError {
+                print("Sucess")
+            } else {
+                print("Error: \(status)")
+            }
+            
+        })
         
         geocoder.reverseGeocodeLocation(validLocation) { (placemarks: [CLPlacemark]?, error: Error?) in
             //error handling
