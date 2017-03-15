@@ -28,6 +28,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         view.addSubview(contactButton)
         view.addSubview(communityButton)
         view.addSubview(profileButton)
+        view.addSubview(trackingButton)
     }
     
     func constrainConfiguration(){
@@ -71,6 +72,14 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
             button.width.equalTo(view.snp.width).inset(20)
             button.top.equalTo(communityButton.snp.bottom).offset(20)
         }
+        
+        trackingButton.snp.makeConstraints { (button) in
+            button.centerX.equalTo(view.snp.centerX)
+            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
+            button.height.equalTo(30)
+            button.width.equalTo(view.snp.width).inset(20)
+            button.top.equalTo(profileButton.snp.bottom).offset(20)
+        }
     }
     
     func contactsController() {
@@ -87,7 +96,12 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         }
     }
     
-    
+    func trackingController() {
+        let trackingVC = TrackingViewController()
+        if let navVC = self.navigationController {
+            navVC.pushViewController(trackingVC, animated: true)
+        }
+    }
     
     
     internal lazy var profilePicture: UIImageView = {
@@ -141,5 +155,12 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         return button
     }()
    
-
+    internal var trackingButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Tracking", for: .normal)
+        button.alpha = 0.8
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(trackingController), for: .touchUpInside)
+        return button
+    }()
 }

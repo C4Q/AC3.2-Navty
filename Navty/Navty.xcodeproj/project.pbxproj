@@ -34,6 +34,7 @@
 		571EAB281E676FEB00CF2947 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB271E676FEB00CF2947 /* MenuViewController.swift */; };
 		571EAB2B1E67707000CF2947 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB2A1E67707000CF2947 /* Utility.swift */; };
 		571EAB561E6A252600CF2947 /* style.json in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB551E6A252600CF2947 /* style.json */; };
+		57263B8D1E79A7C3009177BD /* TrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57263B8C1E79A7C3009177BD /* TrackingViewController.swift */; };
 		8760BC449F0D75C72A7B2E0A /* Pods_Navty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */; };
 		A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9201E663AC7007D5154 /* CrimeData.swift */; };
 		A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9241E672565007D5154 /* GoogleDirections.swift */; };
@@ -127,6 +128,7 @@
 		571EAB271E676FEB00CF2947 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		571EAB2A1E67707000CF2947 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		571EAB551E6A252600CF2947 /* style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = style.json; sourceTree = "<group>"; };
+		57263B8C1E79A7C3009177BD /* TrackingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingViewController.swift; sourceTree = "<group>"; };
 		670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.debug.xcconfig"; sourceTree = "<group>"; };
 		A20CA9201E663AC7007D5154 /* CrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeData.swift; sourceTree = "<group>"; };
 		A20CA9241E672565007D5154 /* GoogleDirections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDirections.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */,
 				521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */,
 				52A835431E70FB7800BFB89F /* LoginViewController .swift */,
+				57263B8C1E79A7C3009177BD /* TrackingViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */,
 				5704954B1E70937800376161 /* GMUStaticCluster.m in Sources */,
 				570495251E6F949C00376161 /* GQTPointQuadTreeChild.m in Sources */,
+				57263B8D1E79A7C3009177BD /* TrackingViewController.swift in Sources */,
 				52A835441E70FB7800BFB89F /* LoginViewController .swift in Sources */,
 				571EAB0C1E660AB500CF2947 /* AppDelegate.swift in Sources */,
 				571EAB241E66156500CF2947 /* NavigationMapViewController.swift in Sources */,
