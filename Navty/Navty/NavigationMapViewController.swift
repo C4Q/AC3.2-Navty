@@ -15,8 +15,9 @@ import MapKit
 import GooglePlaces
 
 
-
-class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
+class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+    
+//, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
 
     var userLatitude = Float()
     var userLongitude = Float()
@@ -63,6 +64,11 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     var clusterManager: GMUClusterManager!
     
     var resultsArray = [String]()
+    var gestureRegonizer = UIGestureRecognizer()
+    
+    var resultsViewController: GMSAutocompleteResultsViewController?
+    var searchController: UISearchController?
+    var resultView: UITextView?
     
     
     override func viewDidLoad() {
@@ -76,7 +82,9 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
 
         locationManager.delegate = self
         searchDestination.delegate = self
+        gestureRegonizer.delegate = self
         mapView.delegate = self
+        scrollView.delegate = self
         locationManager.startUpdatingLocation()
         
         self.view.backgroundColor = UIColor.white
@@ -90,14 +98,26 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         self.navigationController?.isNavigationBarHidden = true
     }
     
-    
+    func tapped(recognizer: UITapGestureRecognizer) {
+        
+        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
+
+            self.directionsTableView.snp.remakeConstraints({ (view) in
+                view.leading.trailing.equalToSuperview()
+                view.height.equalTo(0)
+                view.bottom.equalTo(self.mapView.snp.bottom)
+            })
+        })
+        
+        startNavigation.isHidden = false
+    }
     //MARK: VIEW HIERARCHY & VIEWS CONSTRAINTS
     func setupViewHierarchy() {
         self.edgesForExtendedLayout = []
         
         let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude), zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
-        
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(tapped(recognizer:)) )
         do {
             if let styleURL = Bundle.main.url(forResource: "style", withExtension: "json") {
                 mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
@@ -116,9 +136,15 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         view.addSubview(menuButton)
         view.addSubview(searchDestination)
         view.addSubview(cancelNavigationButton)
+        
+       
         view.addSubview(directionsTableView)
+//        view.addSubview(scrollView)
         view.addSubview(startNavigation)
         view.addSubview(timerLabel)
+//        scrollView.addSubview(embeddedView)
+//        embeddedView.addSubview(directionsTableView)
+//      headerViewew.addGestureRecognizer(recognizer)
     }
     
     func setupViews() {
@@ -155,6 +181,25 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             view.height.width.equalTo(50)
         })
         
+        
+//        scrollView.snp.makeConstraints { (view) in
+//            
+//            view.leading.equalToSuperview()
+//            view.height.equalToSuperview().multipliedBy(0.5)
+//            view.width.equalToSuperview().multipliedBy(2.0)
+//            view.top.equalTo(mapView.snp.bottom)
+//        }
+//        
+//        embeddedView.snp.makeConstraints { (view) in
+//            view.top.bottom.leading.trailing.equalToSuperview()
+//            view.width.height.equalToSuperview()
+//        }
+        
+//        directionsTableView.snp.makeConstraints { (view) in
+//            view.top.trailing.bottom.equalToSuperview()
+//            view.height.equalToSuperview()
+//            view.width.equalTo(UIScreen.main.bounds.width)
+//        }
         directionsTableView.snp.makeConstraints({ (view) in
             view.leading.trailing.equalToSuperview()
             view.height.equalToSuperview().multipliedBy(0.5)
@@ -243,11 +288,6 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
 
     
     
-
-    var resultsViewController: GMSAutocompleteResultsViewController?
-    var searchController: UISearchController?
-    var resultView: UITextView?
-    
     //MARK: SEARCHBAR
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchDestination.showsCancelButton = true
@@ -294,11 +334,12 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         if polyline == nil{
             
-            //Add ability for marker to come up and get address
+            longPressMarker.map = nil
             
-//            let marker = longPressMarker(position: coordinate)
-//            longPressMarker.map = mapView
+            longPressMarker =  GMSMarker(position: coordinate)
+            longPressMarker.map = mapView
             
+            self.startNavigation.isHidden = false
         } else if polyline != nil {
             
             APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(newCoordinates.latitude),\(newCoordinates.longitude)&region=es&mode=\(self.transportationPicked)&waypoints=via:\(coordinate.latitude)%2C\(coordinate.longitude)%7C&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
@@ -451,7 +492,45 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                 view.bottom.equalTo(self.mapView.snp.bottom)
             })
         })
-
+    
+        
+//        UIScrollView.animate(withDuration: 1.0) {
+//            self.scrollView.snp.remakeConstraints({ (view) in
+//                view.leading.equalToSuperview()
+//                view.height.equalToSuperview().multipliedBy(0.5)
+//                view.width.equalToSuperview().multipliedBy(2.0)
+//                view.bottom.equalToSuperview()
+//                
+////                view.leading.equalToSuperview()
+////                view.height.equalToSuperview().multipliedBy(0.5)
+////                view.width.equalToSuperview().multipliedBy(2.0)
+////                 view.bottom.equalToSuperview()
+//            })
+//            
+//        
+//        }
+//        
+//        UIView.animate(withDuration: 1.0) { 
+//            self.embeddedView.snp.remakeConstraints({ (view) in
+//                view.top.bottom.leading.trailing.equalToSuperview()
+//                 view.width.height.equalToSuperview()
+//            })
+//        }
+//        
+//        
+//        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
+//            
+//            self.directionsTableView.snp.makeConstraints({ (view) in
+//                view.trailing.bottom.top.equalToSuperview()
+//                view.height.equalToSuperview()
+//                view.width.equalTo(UIScreen.main.bounds.width)
+//            })
+//        })
+        
+        
+        
+//       self.scrollView.isHidden = false
+        self.directionsTableView.isHidden = false
         startNavigation.isHidden = true
         
         
@@ -551,6 +630,17 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         
         return cell
     }
+    
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 200
+    }
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        return headerView
+//    }
+    
+    
 
     //MARK: ANIMATIONS
     func fadeOutView(view: UIView, blur: UIVisualEffectView, hidden: Bool) {
@@ -604,6 +694,27 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         return mapView
     }()
     
+    
+    internal var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.isHidden = true
+        view.contentSize = CGSize(width: UIScreen.main.bounds.width , height: UIScreen.main.bounds.height )
+        
+        view.isScrollEnabled = true
+        view.showsHorizontalScrollIndicator = true
+        view.backgroundColor = .red
+        return view
+    }()
+    
+    internal var embeddedView: UIView = {
+        let view = UIView()
+        view.isUserInteractionEnabled = true
+    
+        return view
+    }()
+    
+    
+    
     internal lazy var timerLabel: UILabel = {
         let label = UILabel()
         return label
@@ -651,7 +762,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         tableView.dataSource = self
         tableView.register(DirectionsTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.contentSize.height = 200
-//        estimatedRowHeight = 200
+        tableView.bounces = false
         tableView.rowHeight = UITableViewAutomaticDimension
         return tableView
     }()
@@ -726,6 +837,8 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
                 let validPlace: CLPlacemark = validPlaceMarks.last else { return }
             print(validPlace)
         }
+        
+         mapView.camera = GMSCameraPosition(target: validLocation.coordinate , zoom: 15, bearing: 0, viewingAngle: 0)
         
     }
     
@@ -806,6 +919,7 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
             }
         })
 
+        
         searchDestination.text = "\(place.name )"
         dismiss(animated: true, completion: nil)
     }
@@ -818,10 +932,13 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
     func wasCancelled(_ viewController: GMSAutocompleteViewController) {
         mapView.settings.myLocationButton = true
         
+        searchDestination.text = nil
+    
         self.marker.map = nil
         self.allPolyLines.forEach({ $0.map = nil })
         self.allPolyLines = []
         self.polyline = nil
+//        self.locationManager.stopMonitoring(for: region)
         
         self.polylineUpdated.map = nil
         dismiss(animated: true, completion: nil)
@@ -868,4 +985,8 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
         
         return false
     }
+}
+
+extension NavigationMapViewController: UIGestureRecognizerDelegate {
+
 }
