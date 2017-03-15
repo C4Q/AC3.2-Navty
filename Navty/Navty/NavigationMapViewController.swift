@@ -14,8 +14,7 @@ import StringExtensionHTML
 import MapKit
 import GooglePlaces
 
-
-class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
     
 //, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
 
@@ -60,6 +59,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     var timer = Timer()
     var countDown = 0
     var eta = String()
+    var timerCountingDown: Bool = false
     
     var clusterManager: GMUClusterManager!
     
@@ -84,7 +84,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         searchDestination.delegate = self
         gestureRegonizer.delegate = self
         mapView.delegate = self
-        scrollView.delegate = self
+        searchDestination.delegate = self
         locationManager.startUpdatingLocation()
         
         self.view.backgroundColor = UIColor.white
@@ -96,6 +96,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
+        self.searchDestination.endEditing(false)
     }
     
     func tapped(recognizer: UITapGestureRecognizer) {
@@ -107,7 +108,16 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                 view.height.equalTo(0)
                 view.bottom.equalTo(self.mapView.snp.bottom)
             })
+        
         })
+    
+        GMSMapView.animate(withDuration: 1.0) {
+            self.mapView.snp.remakeConstraints({ (view) in
+                view.leading.trailing.top.equalToSuperview()
+                view.height.equalToSuperview()
+            })
+        }
+
         
         startNavigation.isHidden = false
     }
@@ -141,10 +151,9 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         view.addSubview(directionsTableView)
 //        view.addSubview(scrollView)
         view.addSubview(startNavigation)
-        view.addSubview(timerLabel)
-//        scrollView.addSubview(embeddedView)
-//        embeddedView.addSubview(directionsTableView)
-//      headerViewew.addGestureRecognizer(recognizer)
+
+    
+        timerLabel.addGestureRecognizer(recognizer)
     }
     
     func setupViews() {
@@ -157,10 +166,10 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             view.height.equalTo(42)
         })
         
-        timerLabel.snp.makeConstraints { (view) in
-            view.centerX.equalToSuperview()
-            view.top.equalTo(topLayoutGuide.snp.bottom).offset(20)
-        }
+//        timerLabel.snp.makeConstraints { (view) in
+//            view.centerX.equalToSuperview()
+//            view.top.equalTo(topLayoutGuide.snp.bottom).offset(20)
+//        }
         
         searchDestination.snp.makeConstraints({ (view) in
             view.width.equalToSuperview().multipliedBy(0.8)
@@ -283,6 +292,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         } else {
             print("Did tap a normal marker")
         }
+        
         return false
     }
 
@@ -290,8 +300,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     
     //MARK: SEARCHBAR
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchDestination.showsCancelButton = true
-        mapView.settings.myLocationButton = false
+//        searchDestination.showsCancelButton = true
         searchDestination.resignFirstResponder()
         
         let autocompleteController = GMSAutocompleteViewController()
@@ -299,6 +308,8 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         present(autocompleteController, animated: true, completion: nil)
 
 }
+    
+
     
     func distanceTimeConversionToSeconds(time: String) {
         let times = time.components(separatedBy: " ")
@@ -339,7 +350,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             longPressMarker =  GMSMarker(position: coordinate)
             longPressMarker.map = mapView
             
-            self.startNavigation.isHidden = false
+//            self.startNavigation.isHidden = false
         } else if polyline != nil {
             
             APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(newCoordinates.latitude),\(newCoordinates.longitude)&region=es&mode=\(self.transportationPicked)&waypoints=via:\(coordinate.latitude)%2C\(coordinate.longitude)%7C&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
@@ -470,6 +481,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     func startNavigationClicked() {
         //animate table view up
         //change format of the map
+        if timerCountingDown == false {
         let alert = UIAlertController(title: "ETA", message: "You will arrive in \(eta).", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(ok)
@@ -480,67 +492,47 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         searchDestination.isHidden = true
         cancelNavigationButton.isHidden = false
         
+        
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
         
         
-        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
-//            self.mapView.snp.makeConstraints({ (view) in
-//                view.leading.trailing.equalToSuperview()
-//                view.height.equalToSuperview().multipliedBy(0.5)
-//                view.top.equalToSuperview()
-//            })
-            
-            self.directionsTableView.snp.makeConstraints({ (view) in
-                view.leading.trailing.equalToSuperview()
-                view.height.equalToSuperview().multipliedBy(0.5)
-                view.bottom.equalTo(self.mapView.snp.bottom)
-            })
-        })
-    
+        timerLabel.isHidden = false
         
-//        UIScrollView.animate(withDuration: 1.0) {
-//            self.scrollView.snp.remakeConstraints({ (view) in
-//                view.leading.equalToSuperview()
-//                view.height.equalToSuperview().multipliedBy(0.5)
-//                view.width.equalToSuperview().multipliedBy(2.0)
-//                view.bottom.equalToSuperview()
-//                
-////                view.leading.equalToSuperview()
-////                view.height.equalToSuperview().multipliedBy(0.5)
-////                view.width.equalToSuperview().multipliedBy(2.0)
-////                 view.bottom.equalToSuperview()
-//            })
-//            
-//        
-//        }
-//        
-//        UIView.animate(withDuration: 1.0) { 
-//            self.embeddedView.snp.remakeConstraints({ (view) in
-//                view.top.bottom.leading.trailing.equalToSuperview()
-//                 view.width.height.equalToSuperview()
-//            })
-//        }
-//        
-//        
-//        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
-//            
-//            self.directionsTableView.snp.makeConstraints({ (view) in
-//                view.trailing.bottom.top.equalToSuperview()
-//                view.height.equalToSuperview()
-//                view.width.equalTo(UIScreen.main.bounds.width)
-//            })
-//        })
+
         
-        
-        
-//       self.scrollView.isHidden = false
         self.directionsTableView.isHidden = false
         startNavigation.isHidden = true
+        timerCountingDown = true
+        }
         
         
+        
+        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
+            //            self.mapView.snp.makeConstraints({ (view) in
+            //                view.leading.trailing.equalToSuperview()
+            //                view.height.equalToSuperview().multipliedBy(0.5)
+            //                view.top.equalToSuperview()
+            //            })
+            
+            self.directionsTableView.snp.makeConstraints({ (view) in
+                view.leading.trailing.bottom.equalToSuperview()
+                view.height.equalToSuperview().multipliedBy(0.5)
+//                view.bottom.equalTo(self.mapView.snp.bottom)
+            })
+        })
+        
+        GMSMapView.animate(withDuration: 1.0) { 
+            self.mapView.snp.remakeConstraints({ (view) in
+                view.leading.trailing.top.equalToSuperview()
+                view.height.equalToSuperview().multipliedBy(0.5)
+            })
+        }
+        
+     mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude)))
     }
     
-        func updateCounter() {
+    func updateCounter() {
+        
             if countDown > 0 {
                 print("\(countDown) seconds")
                 self.timerLabel.text = String(convertToUsableTime(seconds: countDown))
@@ -548,7 +540,8 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             } else {
                 //alert if needs more time to get home
             }
-        }
+        
+    }
     
     func convertToUsableTime(seconds: Int) -> String {
         let minutes = seconds / 60
@@ -558,12 +551,12 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         
         let nothing = ""
         if seconds < 60 {
-            
+            return "\(dispSeconds)"
         } else if seconds < 3600 {
-            return "\(minutes) minutes \(dispSeconds) seconds"
+            return "\(minutes) : \(dispSeconds)"
         }
         else {
-        let count = "\(hours) hours \(dispMinutes) minutes \(dispSeconds) seconds"
+        let count = "\(hours) : \(dispMinutes) : \(dispSeconds)"
             return count
         }
         return nothing
@@ -592,21 +585,16 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         //zoom into current location
         
         timer.invalidate()
+        timerLabel.isHidden = true
+        timerCountingDown = false
         
-//        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
-//            //            self.mapView.snp.makeConstraints({ (view) in
-//            //                view.leading.trailing.equalToSuperview()
-//            //                view.height.equalToSuperview().multipliedBy(0.5)
-//            //                view.top.equalToSuperview()
-//            //            })
-//            
-//            self.directionsTableView.snp.makeConstraints({ (view) in
-//                view.leading.trailing.equalToSuperview()
-//                view.height.equalToSuperview().multipliedBy(0.5)
-//                view.top.equalTo(self.mapView.snp.bottom)
-//            })
-//            self.directionsTableView.layoutIfNeeded()
-//        })
+        GMSMapView.animate(withDuration: 1.0) {
+            self.mapView.snp.remakeConstraints({ (view) in
+                view.leading.trailing.top.equalToSuperview()
+                view.height.equalToSuperview()
+            })
+        }
+
     }
     
     //MARK: SETUP TABLE VIEW FOR DIRECTIONS
@@ -626,23 +614,24 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         
         let direction: GoogleDirections? = directions[0]
         let stepDirection = direction?.directionInstruction[indexPath.row]
+        let stepDistance = direction?.distanceForStep[indexPath.row]
         
         let swiftString = stepDirection?.html2AttributedString
         
         cell.directionLabel.numberOfLines = 0
         cell.directionLabel.attributedText = swiftString
-        
+        cell.directionTimeLabel.text = stepDistance
         return cell
     }
     
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 200
+        return 50
     }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        return headerView
-//    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return timerLabel
+    }
     
     
 
@@ -717,10 +706,11 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         return view
     }()
     
-    
-    
+   
     internal lazy var timerLabel: UILabel = {
         let label = UILabel()
+        label.isUserInteractionEnabled = true
+        label.textAlignment = .center
         return label
     }()
     
@@ -779,7 +769,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         var html2AttributedString: NSAttributedString? {
             guard let data = data(using: .utf8) else { return nil }
             do {
-                return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.systemFont(ofSize: 32)]], documentAttributes: nil)
+                return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.italicSystemFont(ofSize: 32)]], documentAttributes: nil)
             } catch let error as NSError {
                 print(error.localizedDescription)
                 return  nil
@@ -793,6 +783,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
 
 
 extension NavigationMapViewController: CLLocationManagerDelegate {
+    
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
         print("Monitoring failed for region with identifier: \(region!.identifier)")
     }
@@ -805,7 +796,7 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("Authorized")
-            manager.stopUpdatingLocation()
+//            manager.stopUpdatingLocation()
         case .denied, .restricted:
             print("Authorization denied or restricted")
         case .notDetermined:
@@ -845,8 +836,6 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
             print(validPlace)
         }
         
-         mapView.camera = GMSCameraPosition(target: validLocation.coordinate , zoom: 15, bearing: 0, viewingAngle: 0)
-        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -866,7 +855,8 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
         self.allPolyLines.forEach({ $0.map = nil })
         self.allPolyLines = []
         self.polyline = nil
-//        searchDestination.resignFirstResponder()
+        self.longPressMarker.map = nil
+
         
         self.polylineUpdated.map = nil
         
@@ -904,14 +894,7 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
                 
                 
                 self.locationManager.startMonitoring(for: region)
-                
-                
-//                let alert = UIAlertController(title: "\(region)", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
-//                let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
-//                alert.addAction(ok)
-//                self.navigationController?.present(alert, animated: true, completion: nil)
-                
-                
+        
                 self.marker = GMSMarker(position: coordinates)
                 self.marker.title = "\(placemark)"
                 self.marker.map = self.mapView
@@ -937,16 +920,16 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
     }
     
     func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-        mapView.settings.myLocationButton = true
-        
         searchDestination.text = nil
-    
+        
         self.marker.map = nil
         self.allPolyLines.forEach({ $0.map = nil })
         self.allPolyLines = []
         self.polyline = nil
 //        self.locationManager.stopMonitoring(for: region)
         
+      self.searchDestination.endEditing(true)
+       
         self.polylineUpdated.map = nil
         dismiss(animated: true, completion: nil)
     }

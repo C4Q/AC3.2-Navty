@@ -86,7 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
                 })
-                self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
             }
         }
         
