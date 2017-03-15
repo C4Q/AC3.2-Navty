@@ -438,7 +438,7 @@
 					};
 					A20CA9351E74BC3D007D5154 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 2E9D85U478;
+						DevelopmentTeam = G33WGC6L8H;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -741,10 +741,10 @@
 		A20CA9441E74BC3F007D5154 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 2E9D85U478;
+				DEVELOPMENT_TEAM = G33WGC6L8H;
 				INFOPLIST_FILE = Widget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty.Widget;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy.Widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -754,10 +754,10 @@
 		A20CA9451E74BC3F007D5154 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 2E9D85U478;
+				DEVELOPMENT_TEAM = G33WGC6L8H;
 				INFOPLIST_FILE = Widget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty.Widget;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy.Widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -792,6 +792,7 @@
 				A20CA9451E74BC3F007D5154 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

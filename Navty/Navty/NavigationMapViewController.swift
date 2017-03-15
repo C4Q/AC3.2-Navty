@@ -15,7 +15,7 @@ import MapKit
 import GooglePlaces
 import PubNub
 
-class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, GMUClusterManagerDelegate, GMSAutocompleteViewControllerDelegate, PNObjectEventListener {
+class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, PNObjectEventListener {
 
     var userLatitude = Float()
     var userLongitude = Float()
@@ -98,7 +98,7 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
         self.client = PubNub.clientWithConfiguration(configuration)
         self.client.addListener(self)
 
-        self.client.subscribeToChannels(["map-channel"], withPresence: false)
+        //self.client.subscribeToChannels(["map-channel"], withPresence: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -213,56 +213,6 @@ class NavigationMapViewController: UIViewController, CLLocationManagerDelegate, 
             view.top.equalTo(mapView.snp.bottom)
         })
     }
-    
-    //MARK: CLLOCATION
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .authorizedAlways, .authorizedWhenInUse:
-            print("Authorized")
-            //manager.stopUpdatingLocation()
-        case .denied, .restricted:
-            print("Authorization denied or restricted")
-        case .notDetermined:
-            print("Authorization undetermined")
-            locationManager.requestAlwaysAuthorization()
-        }
-    }
-    
-    func centerMapOnLocation(_ location: CLLocation) {
-        let coordinateRegion = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        
-        
-        
-        
-        self.currentlocation = locationValue
-        
-        mapView.animate(toLocation: CLLocationCoordinate2D(latitude: locationValue.latitude, longitude: locationValue.longitude))
-        
-        
-        let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
-        print(message)
-        self.client.publish(message, toChannel: "map-channel", compressed: false, withCompletion: { (status) in
-            if !status.isError {
-                print("Sucess")
-            } else {
-                print("Error: \(status)")
-            }
-            
-        })
-        
-        geocoder.reverseGeocodeLocation(validLocation) { (placemarks: [CLPlacemark]?, error: Error?) in
-            //error handling
-            if error != nil {
-                dump(error!)
-            }
-            
-            guard let validPlaceMarks: [CLPlacemark] = placemarks,
-                let validPlace: CLPlacemark = validPlaceMarks.last else { return }
-            print(validPlace)
-        }
-       
-    }
-   
     
     //MARK: SIDE MENU
     func sideMenu() {
@@ -878,6 +828,16 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
         self.currentlocation = locationValue
         
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: locationValue.latitude, longitude: locationValue.longitude))
+        
+        let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
+        print(message)
+        self.client.publish(message, toChannel: "map-channel", compressed: false, withCompletion: { (status) in
+            if !status.isError {
+                print("Sucess")
+            } else {
+                print("Error: \(status)")
+            }
+        })
         
         geocoder.reverseGeocodeLocation(validLocation) { (placemarks: [CLPlacemark]?, error: Error?) in
             //error handling
