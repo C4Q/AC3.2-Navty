@@ -17,5 +17,5 @@ target 'Navty' do
  pod 'DZNEmptyDataSet'
  pod 'GooglePlaces'
   pod 'GooglePlacePicker'
-
+ 
 end
