@@ -588,7 +588,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         //zoom into current location
         
         timer.invalidate()
-        
+        timerLabel.isHidden = true
 //        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
 //            //            self.mapView.snp.makeConstraints({ (view) in
 //            //                view.leading.trailing.equalToSuperview()
@@ -798,7 +798,7 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("Authorized")
-            manager.stopUpdatingLocation()
+//            manager.stopUpdatingLocation()
         case .denied, .restricted:
             print("Authorization denied or restricted")
         case .notDetermined:
@@ -838,7 +838,7 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
             print(validPlace)
         }
         
-         mapView.camera = GMSCameraPosition(target: validLocation.coordinate , zoom: 15, bearing: 0, viewingAngle: 0)
+      
         
     }
     
