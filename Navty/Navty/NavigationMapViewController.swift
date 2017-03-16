@@ -339,7 +339,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                             
                             //new cluster code
                             let position = CLLocationCoordinate2D(latitude: latitude! , longitude:longitude!)
-                            let item = ClusterCrimeData(position: position, name: eachCrime.description)
+                            let item = ClusterCrimeData(position: position, name: eachCrime.description, crime: eachCrime)
                             self.clusterManager.add(item)
                             
 
@@ -1234,18 +1234,28 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
         renderer.delegate = self
         
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
-        
         getData()
-        
         clusterManager.cluster()
-        
         clusterManager.setDelegate(self, mapDelegate: self)
         
     }
     
     func renderer(_ renderer: GMUClusterRenderer, willRenderMarker marker: GMSMarker) {
-        if marker.userData is ClusterCrimeData {
-            marker.icon = #imageLiteral(resourceName: "ic_warning")
+        if let crimeData = marker.userData as? ClusterCrimeData {
+            
+            var dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.dateStyle = .full
+            let d = TimeInterval(1467345600)
+            
+            
+                var cDate = crimeData.crime.crimeDate
+                var sDate = dateFormatter.date(from: cDate)
+                if (sDate?.timeIntervalSince1970)! >= d {
+                    marker.icon = UIImage(named: "Map Pin-20")
+                } else {
+                    marker.icon = UIImage(named: "Map BPin-20")
+            }
         }
     }
     
