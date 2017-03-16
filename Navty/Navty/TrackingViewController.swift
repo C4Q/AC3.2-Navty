@@ -18,13 +18,19 @@ class TrackingViewController: UIViewController, PNObjectEventListener, GMSMapVie
     private var polyline = GMSPolyline()
     private var currentPositionMarker = GMSMarker()
     private var isFirstMessage = true
+    private var channel = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationController?.isNavigationBarHidden = false
         setupMap()
+        
+        alertForChannel()
+        
         setupPubNub()
+        
+        
     }
 
     func setupMap() {
@@ -50,7 +56,8 @@ class TrackingViewController: UIViewController, PNObjectEventListener, GMSMapVie
         self.client = PubNub.clientWithConfiguration(configuration)
         self.client.addListener(self)
         
-        self.client.subscribeToChannels(["map-channel"], withPresence: true)
+//        self.client.subscribeToChannels(["\(channel)"], withPresence: true)
+        print("this is the clients channel: \(client.channels())")
     }
     
     func client(_ client: PubNub, didReceiveMessage message: PNMessageResult) {
@@ -92,6 +99,20 @@ class TrackingViewController: UIViewController, PNObjectEventListener, GMSMapVie
         self.currentPositionMarker = GMSMarker(position: currentLocation.coordinate)
         self.currentPositionMarker.icon = GMSMarker.markerImage(with: UIColor.cyan)
         self.currentPositionMarker.map = self.mapView
+    }
+    
+    func alertForChannel() {
+        let alert = UIAlertController(title: "Channel Name", message: "Enter Channel:", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: { (textfield) in
+            textfield.placeholder = "Channel Here"
+        })
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0]
+            self.channel = (textField?.text)!
+            print(self.channel)
+            self.client.subscribeToChannels(["\(self.channel)"], withPresence: true)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     lazy var mapView: GMSMapView = {

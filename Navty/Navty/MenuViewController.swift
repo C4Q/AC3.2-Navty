@@ -20,6 +20,10 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         viewHierarchy()
         constrainConfiguration()    
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.dismiss(animated: true, completion: nil)
+    }
 
     
     func viewHierarchy(){
@@ -97,6 +101,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
     }
     
     func trackingController() {
+        dismiss(animated: true, completion: nil)
         let trackingVC = TrackingViewController()
         if let navVC = self.navigationController {
             navVC.pushViewController(trackingVC, animated: true)

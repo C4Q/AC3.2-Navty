@@ -15,7 +15,7 @@ import MapKit
 import GooglePlaces
 import PubNub
 
-class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, PNObjectEventListener {
+class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, PNObjectEventListener,GMUClusterRendererDelegate {
 
     var userLatitude = Float()
     var userLongitude = Float()
@@ -236,6 +236,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
         
         SideMenuManager.menuFadeStatusBar = false
+        SideMenuManager.menuPresentMode = .menuDissolveIn
     }
 
     //MARK: MOVE VIEWS WITH KEYBOARD
@@ -483,25 +484,25 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         //animate table view up
         //change format of the map
         if timerCountingDown == false {
-        let alert = UIAlertController(title: "ETA", message: "You will arrive in \(eta).", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(ok)
-        self.navigationController?.present(alert, animated: true, completion: nil)
-        
-        searchDestination.isHidden = true
-        cancelNavigationButton.isHidden = false
-        
-        
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
-        
-        
-        timerLabel.isHidden = false
-        
+            let alert = UIAlertController(title: "ETA", message: "You will arrive in \(eta).", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(ok)
+            self.navigationController?.present(alert, animated: true, completion: nil)
+            
+            searchDestination.isHidden = true
+            cancelNavigationButton.isHidden = false
+            
+            
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+            
+            
+            timerLabel.isHidden = false
+            
 
-        
-        self.directionsTableView.isHidden = false
-        startNavigation.isHidden = true
-        timerCountingDown = true
+            
+            self.directionsTableView.isHidden = false
+            startNavigation.isHidden = true
+            timerCountingDown = true
         }
         
         
@@ -761,20 +762,20 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     }()
 }
 
-    extension String {
-        var html2AttributedString: NSAttributedString? {
-            guard let data = data(using: .utf8) else { return nil }
-            do {
-                return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.italicSystemFont(ofSize: 32)]], documentAttributes: nil)
-            } catch let error as NSError {
-                print(error.localizedDescription)
-                return  nil
-            }
-        }
-        var html2String: String {
-            return html2AttributedString?.string ?? ""
+extension String {
+    var html2AttributedString: NSAttributedString? {
+        guard let data = data(using: .utf8) else { return nil }
+        do {
+            return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.italicSystemFont(ofSize: 32)]], documentAttributes: nil)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return  nil
         }
     }
+    var html2String: String {
+        return html2AttributedString?.string ?? ""
+    }
+}
 
 
 
@@ -961,6 +962,8 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
         let iconGenerator = GMUDefaultClusterIconGenerator()
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
         let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
+        renderer.delegate = self
+        
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
         
         getData()
@@ -969,6 +972,12 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
         
         clusterManager.setDelegate(self, mapDelegate: self)
         
+    }
+    
+    func renderer(_ renderer: GMUClusterRenderer, willRenderMarker marker: GMSMarker) {
+        if marker.userData is ClusterCrimeData {
+            marker.icon = #imageLiteral(resourceName: "ic_warning")
+        }
     }
     
     
