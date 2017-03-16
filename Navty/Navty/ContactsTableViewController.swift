@@ -24,8 +24,6 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
         self.tableView.tableFooterView = UIView()
-
-//        self.navigationController?.isToolbarHidden = false
         self.navigationController?.isNavigationBarHidden = false
         
         let barButton = UIBarButtonItem(customView: addButton)
@@ -43,7 +41,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+       // self.navigationController?.isToolbarHidden = true
         
         contacts.removeAll()
         let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
@@ -62,7 +60,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-        guard contacts.count <= 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
+        guard contacts.count < 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
         
     }
     
@@ -167,7 +165,14 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
                 addButton.isEnabled = true
                 addButton.alpha = 1
             }
+            
+            if contacts.count == 0 {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
         }
+        
         
     }
     
@@ -183,9 +188,9 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
 
 //        let predicate = NSPredicate(value: false)
 //        let truePredicate = NSPredicate(value: true)
-//        contactPicker.predicateForSelectionOfContact = predicate
+//        contactPicker.predicateForSelectionOfContact = truePredicate
 //        contactPicker.predicateForSelectionOfProperty = truePredicate
-       
+//        contactPicker.predicateForEnablingContact = truePredicate
         self.present(contactPicker, animated: true, completion: nil)
         
     }
