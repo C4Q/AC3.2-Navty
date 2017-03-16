@@ -44,13 +44,15 @@ class DirectionsTableViewCell: UITableViewCell {
 //            view.leading.equalTo(directionPointerImage.snp.trailing).offset(10)
 //            view.trailing.equalTo(contentView.snp.trailing).inset(10)
             view.centerX.equalToSuperview()
-            view.trailing.equalTo(directionTimeLabel)
+            view.trailing.equalTo(directionTimeLabel.snp.leading)
             view.leading.equalToSuperview().offset(15)
             view.height.equalTo(contentView.snp.height)
+             view.top.bottom.equalToSuperview()
         })
         
         directionTimeLabel.snp.makeConstraints { (view) in
             view.centerX.equalToSuperview()
+            view.top.bottom.equalToSuperview()
             view.trailing.equalToSuperview().inset(15)
             view.width.equalToSuperview().multipliedBy(0.2)
             view.height.equalTo(contentView.snp.height)

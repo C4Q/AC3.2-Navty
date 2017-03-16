@@ -78,7 +78,7 @@
 
 /* Begin PBXFileReference section */
 		521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
-		521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
+		521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsTableViewCell.swift; path = Navty/ContactsTableViewCell.swift; sourceTree = "<group>"; };
 		52A835431E70FB7800BFB89F /* LoginViewController .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginViewController .swift"; sourceTree = "<group>"; };
 		52A835451E71009800BFB89F /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		5704951D1E6F949C00376161 /* GQTBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQTBounds.h; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 		570495451E70937800376161 /* GMUDefaultClusterRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMUDefaultClusterRenderer.m; sourceTree = "<group>"; };
 		5704954F1E70969100376161 /* ClusterCrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterCrimeData.swift; sourceTree = "<group>"; };
 		571B55021E6E03CC005414E1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionsTableViewCell.swift; sourceTree = "<group>"; };
+		571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DirectionsTableViewCell.swift; path = Navty/DirectionsTableViewCell.swift; sourceTree = "<group>"; };
 		571EAB081E660AB500CF2947 /* Navty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		571EAB0B1E660AB500CF2947 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		571EAB0D1E660AB500CF2947 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -306,9 +306,7 @@
 				571EAB231E66156500CF2947 /* NavigationMapViewController.swift */,
 				A20CA9301E746605007D5154 /* SearchResultsController.swift */,
 				571EAB271E676FEB00CF2947 /* MenuViewController.swift */,
-				571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */,
 				521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */,
-				521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */,
 				52A835431E70FB7800BFB89F /* LoginViewController .swift */,
 				57263B8C1E79A7C3009177BD /* TrackingViewController.swift */,
 			);
@@ -359,6 +357,8 @@
 			children = (
 				B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */,
 				B9755D621E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift */,
+				571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */,
+				521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */,
 			);
 			name = View;
 			path = ..;
