@@ -8,9 +8,12 @@
 
 import UIKit
 import SnapKit
+import PubNub
 
-class MenuViewController: UIViewController, UISplitViewControllerDelegate {
+class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObjectEventListener {
 
+    var client: PubNub!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,11 +21,18 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         navigationController?.isNavigationBarHidden = true
         
         viewHierarchy()
-        constrainConfiguration()    
+        constrainConfiguration()
+        
+        let configuration = PNConfiguration(publishKey: "pub-c-28163faf-5853-487e-8cc9-1d8f955ad129", subscribeKey: "sub-c-0ee17ac4-08cb-11e7-b95c-0619f8945a4f")
+        self.client = PubNub.clientWithConfiguration(configuration)
+        self.client.addListener(self)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.dismiss(animated: true, completion: nil)
+        print("willdisappear")
+        
+       
     }
     
     func viewHierarchy(){
@@ -137,6 +147,20 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
             print("its on")
             switchLabel.text = "Tracking Enabled"
             Settings.shared.trackingEnabled = true
+            
+            if Settings.shared.navigationStarted == true {
+                let alert = UIAlertController(title: "Channel Name", message: "Enter Channel:", preferredStyle: .alert)
+                alert.addTextField(configurationHandler: { (textfield) in
+                    textfield.placeholder = "Channel Here"
+                })
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                    let textField = alert?.textFields![0]
+                    Settings.shared.channelName = (textField?.text)!
+                    print(Settings.shared.channelName)
+                    self.client.subscribeToChannels([Settings.shared.channelName], withPresence: true)
+                }))
+                self.navigationController?.present(alert, animated: true, completion: nil)
+            }
         } else {
             print("its off")
             switchLabel.text = "Tracking Disabled"
