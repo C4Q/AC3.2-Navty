@@ -8,11 +8,18 @@
 
 import Foundation
 import MessageUI
+import Contacts
 
 let textMessageRecipients = [String]()
+let contactList = ContactsTableViewController()
 
 class MessageComposer: NSObject, MFMessageComposeViewControllerDelegate {
 
+    let userDefaults = UserDefaults.standard
+    var userIdentifier = [String]()
+    var contacts = [CNContact]()
+    var contactPhoneNumberString = [String]()
+    
     func canSendText() -> Bool {
         return MFMessageComposeViewController.canSendText()
     }
@@ -20,8 +27,30 @@ class MessageComposer: NSObject, MFMessageComposeViewControllerDelegate {
     func configuredMessageComposeViewController() -> MFMessageComposeViewController {
         let messageComposeVC = MFMessageComposeViewController()
         messageComposeVC.messageComposeDelegate = self
-        messageComposeVC.recipients = textMessageRecipients
-        messageComposeVC.body =  "I arrieved home safely"
+        let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
+        contacts.removeAll()
+        contactPhoneNumberString.removeAll()
+        
+        for contact in userDefaults.dictionaryRepresentation()  {
+            if let array = arrOfIdentifiers{
+                userIdentifier = array
+                for identifier in userIdentifier {
+                    if contact.key == identifier {
+                        let unarchived = NSKeyedUnarchiver.unarchiveObject(with: contact.value as! Data) as? CNContact
+                        contacts.append(unarchived!)
+                    }
+                }
+            }
+        }
+        
+        for x in 0..<contacts.count {
+            for num in contacts[x].phoneNumbers {
+                contactPhoneNumberString.append(num.value.stringValue)
+            }
+        }
+        
+        messageComposeVC.recipients = contactPhoneNumberString
+        messageComposeVC.body =  "I arrived home safely"
         return messageComposeVC
     }
     

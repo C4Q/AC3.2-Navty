@@ -14,9 +14,11 @@ import StringExtensionHTML
 import MapKit
 import GooglePlaces
 import PubNub
+import UserNotifications
 
 class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, PNObjectEventListener,GMUClusterRendererDelegate {
     
+    let messageComposer = MessageComposer()
 //, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     var animator = UIViewPropertyAnimator(duration: 3.0, curve: .linear , animations: nil)
     var userLatitude = Float()
@@ -88,7 +90,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
 
         locationManager.delegate = self
         searchDestination.delegate = self
-        gestureRegonizer.delegate = self
+       
         mapView.delegate = self
         locationManager.startUpdatingLocation()
         
@@ -274,7 +276,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         transportationIndicator.snp.makeConstraints { (view) in
             view.top.equalTo(walkingView.snp.bottom)
             view.width.equalToSuperview().multipliedBy(0.25)
-            view.height.equalToSuperview().multipliedBy(0.1)
+            view.height.equalToSuperview().multipliedBy(0.05)
             view.leading.trailing.equalTo(walkingView)
         }
         
@@ -603,11 +605,11 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             case 0:
                 print("tag 0")
                 
-               
+                transportationIndicator.transform = CGAffineTransform.identity
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.carView.snp.bottom)
-                        view.height.equalToSuperview().multipliedBy(0.1)
+                        view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.carView)
                     })
                 
@@ -625,7 +627,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.walkingView.snp.bottom)
-                        view.height.equalToSuperview().multipliedBy(0.1)
+                        view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.walkingView)
                     })
                 
@@ -644,7 +646,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.bikeView.snp.bottom)
-                        view.height.equalToSuperview().multipliedBy(0.1)
+                        view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.bikeView)
                     })
                 
@@ -662,7 +664,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.publicTransportView.snp.bottom)
-                        view.height.equalToSuperview().multipliedBy(0.1)
+                        view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.publicTransportView)
                     })
                 
@@ -893,28 +895,21 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     
     internal var carView: UIView = {
         let view = UIView()
-        view.backgroundColor = .red
-        
         return view
     }()
     
     internal var walkingView: UIView = {
         let view = UIView()
-        view.backgroundColor = .blue
         return view
     }()
     
     internal var bikeView: UIView = {
         let view = UIView()
-        view.backgroundColor = .green
-
         return view
     }()
 
     internal var publicTransportView: UIView = {
         let view = UIView()
-        view.backgroundColor = .orange
-
         return view
     }()
     
@@ -982,6 +977,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     internal var transportationIndicator: UIView = {
         let view = UIView()
         view.backgroundColor = .white
+        view.layer.cornerRadius = 3.0
         return view
     }()
 
@@ -1246,6 +1242,41 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
     }
 }
 
-extension NavigationMapViewController: UIGestureRecognizerDelegate {
-
+extension NavigationMapViewController: UNUserNotificationCenterDelegate {
+    
+    
+    func userNotificationCenter(_: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // some other way of handling notification
+        completionHandler([.alert, .sound])
+    }
+    
+    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        
+        switch response.actionIdentifier {
+        case "agree":
+            
+            //
+            if (self.messageComposer.canSendText()) {
+                
+                let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
+                
+                self.present(messageComposeVC, animated: true, completion: nil)
+                
+                
+            }else{
+                print("Can not present the View Controller")
+            }
+            
+            //present(DetailViewController(), animated: true, completion: nil)
+        //imageView.image = UIImage(named: "firstGuy")
+        case "disagree":
+            print("I disagree")
+        default:
+            break
+        }
+        
+        completionHandler()
+        
+    }
 }
