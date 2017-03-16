@@ -95,6 +95,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isToolbarHidden = false
         self.navigationController?.isNavigationBarHidden = true
         self.searchDestination.endEditing(false)
     }
@@ -928,7 +929,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         return searchBar
     }()
     
-    internal var transportationIndicator: UIView = {
+    public var transportationIndicator: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         return view

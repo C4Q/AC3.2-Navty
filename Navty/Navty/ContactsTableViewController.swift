@@ -24,8 +24,6 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
         self.tableView.tableFooterView = UIView()
-
-//        self.navigationController?.isToolbarHidden = false
         self.navigationController?.isNavigationBarHidden = false
         
         let barButton = UIBarButtonItem(customView: addButton)
@@ -43,7 +41,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.navigationController?.isToolbarHidden = true
         
         contacts.removeAll()
         let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
@@ -62,7 +60,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-        guard contacts.count <= 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
+        guard contacts.count < 5 else { addButton.isEnabled = false; addButton.alpha = 0.5; return }
         
     }
     
@@ -181,11 +179,11 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
 
 //        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
 
-//        let predicate = NSPredicate(value: false)
-//        let truePredicate = NSPredicate(value: true)
-//        contactPicker.predicateForSelectionOfContact = predicate
-//        contactPicker.predicateForSelectionOfProperty = truePredicate
-       
+        let predicate = NSPredicate(value: false)
+        let truePredicate = NSPredicate(value: true)
+        contactPicker.predicateForSelectionOfContact = truePredicate
+        contactPicker.predicateForSelectionOfProperty = truePredicate
+        contactPicker.predicateForEnablingContact = truePredicate
         self.present(contactPicker, animated: true, completion: nil)
         
     }
