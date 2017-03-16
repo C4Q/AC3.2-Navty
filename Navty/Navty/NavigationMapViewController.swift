@@ -1043,7 +1043,7 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
         
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: locationValue.latitude, longitude: locationValue.longitude))
         
-        if trackingEnabled != false {
+        if Settings.shared.trackingEnabled != false {
             let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
             print(message)
             self.client.publish(message, toChannel: "map-channel", compressed: false, withCompletion: { (status) in

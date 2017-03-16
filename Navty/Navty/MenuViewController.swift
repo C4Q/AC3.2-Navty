@@ -24,7 +24,6 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         self.dismiss(animated: true, completion: nil)
     }
-
     
     func viewHierarchy(){
         view.addSubview(profilePicture)
@@ -33,6 +32,8 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         view.addSubview(communityButton)
         view.addSubview(profileButton)
         view.addSubview(trackingButton)
+        view.addSubview(switchLabel)
+        view.addSubview(trackingSwitch)
     }
     
     func constrainConfiguration(){
@@ -84,6 +85,18 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
             button.width.equalTo(view.snp.width).inset(20)
             button.top.equalTo(profileButton.snp.bottom).offset(20)
         }
+        
+        switchLabel.snp.makeConstraints({ (view) in
+            view.leading.equalToSuperview().inset(20)
+            view.bottom.equalToSuperview().inset(15)
+            view.height.equalTo(25)
+            view.width.equalTo(150)
+        })
+        
+        trackingSwitch.snp.makeConstraints({ (view) in
+            view.bottom.equalToSuperview().inset(15)
+            view.leading.equalTo(switchLabel.snp.trailing).offset(15)
+        })
     }
     
     func contactsController() {
@@ -105,6 +118,18 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         let trackingVC = TrackingViewController()
         if let navVC = self.navigationController {
             navVC.pushViewController(trackingVC, animated: true)
+        }
+    }
+    
+    func switchValueChanged(sender: UISwitch) {
+        if sender.isOn == true {
+            print("its on")
+            switchLabel.text = "Tracking Enabled"
+            Settings.shared.trackingEnabled = true
+        } else {
+            print("its off")
+            switchLabel.text = "Tracking Disabled"
+            Settings.shared.trackingEnabled = false
         }
     }
     
@@ -167,5 +192,18 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(trackingController), for: .touchUpInside)
         return button
+    }()
+    
+    internal var switchLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Tracking Disabled"
+        label.textColor = .white
+        return label
+    }()
+    
+    internal var trackingSwitch: UISwitch = {
+        let trackingSwitch = UISwitch()
+        trackingSwitch.addTarget(self, action: #selector(switchValueChanged(sender:)), for: .valueChanged)
+        return trackingSwitch
     }()
 }
