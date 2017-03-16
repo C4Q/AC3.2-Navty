@@ -34,6 +34,8 @@
 		571EAB281E676FEB00CF2947 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB271E676FEB00CF2947 /* MenuViewController.swift */; };
 		571EAB2B1E67707000CF2947 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB2A1E67707000CF2947 /* Utility.swift */; };
 		571EAB561E6A252600CF2947 /* style.json in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB551E6A252600CF2947 /* style.json */; };
+		571F80E01E7AF536001E4AF8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571F80DF1E7AF536001E4AF8 /* Settings.swift */; };
+		57263B8D1E79A7C3009177BD /* TrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57263B8C1E79A7C3009177BD /* TrackingViewController.swift */; };
 		8760BC449F0D75C72A7B2E0A /* Pods_Navty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */; };
 		A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9201E663AC7007D5154 /* CrimeData.swift */; };
 		A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9241E672565007D5154 /* GoogleDirections.swift */; };
@@ -62,7 +64,7 @@
 
 /* Begin PBXFileReference section */
 		521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
-		521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
+		521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsTableViewCell.swift; path = Navty/ContactsTableViewCell.swift; sourceTree = "<group>"; };
 		52A835431E70FB7800BFB89F /* LoginViewController .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginViewController .swift"; sourceTree = "<group>"; };
 		52A835451E71009800BFB89F /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		5704951D1E6F949C00376161 /* GQTBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQTBounds.h; sourceTree = "<group>"; };
@@ -100,7 +102,7 @@
 		570495451E70937800376161 /* GMUDefaultClusterRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMUDefaultClusterRenderer.m; sourceTree = "<group>"; };
 		5704954F1E70969100376161 /* ClusterCrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterCrimeData.swift; sourceTree = "<group>"; };
 		571B55021E6E03CC005414E1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionsTableViewCell.swift; sourceTree = "<group>"; };
+		571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DirectionsTableViewCell.swift; path = Navty/DirectionsTableViewCell.swift; sourceTree = "<group>"; };
 		571EAB081E660AB500CF2947 /* Navty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		571EAB0B1E660AB500CF2947 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		571EAB0D1E660AB500CF2947 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +114,8 @@
 		571EAB271E676FEB00CF2947 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		571EAB2A1E67707000CF2947 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		571EAB551E6A252600CF2947 /* style.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = style.json; sourceTree = "<group>"; };
+		571F80DF1E7AF536001E4AF8 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		57263B8C1E79A7C3009177BD /* TrackingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingViewController.swift; sourceTree = "<group>"; };
 		670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.debug.xcconfig"; sourceTree = "<group>"; };
 		A20CA9201E663AC7007D5154 /* CrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeData.swift; sourceTree = "<group>"; };
 		A20CA9241E672565007D5154 /* GoogleDirections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDirections.swift; sourceTree = "<group>"; };
@@ -252,6 +256,7 @@
 				571EAB201E660BCA00CF2947 /* API Request */,
 				571EAB291E67706000CF2947 /* Color Scheme */,
 				571EAB1F1E660BAD00CF2947 /* Model */,
+				571F80E11E7AFB2D001E4AF8 /* Settings */,
 				571EAB1D1E660B9600CF2947 /* Supporting Files */,
 			);
 			path = Navty;
@@ -279,10 +284,9 @@
 				571EAB231E66156500CF2947 /* NavigationMapViewController.swift */,
 				A20CA9301E746605007D5154 /* SearchResultsController.swift */,
 				571EAB271E676FEB00CF2947 /* MenuViewController.swift */,
-				571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */,
 				521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */,
-				521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */,
 				52A835431E70FB7800BFB89F /* LoginViewController .swift */,
+				57263B8C1E79A7C3009177BD /* TrackingViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -316,6 +320,14 @@
 			name = "Color Scheme";
 			sourceTree = "<group>";
 		};
+		571F80E11E7AFB2D001E4AF8 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				571F80DF1E7AF536001E4AF8 /* Settings.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
 		A20CA9391E74BC3E007D5154 /* Widget */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,6 +343,8 @@
 			children = (
 				B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */,
 				B9755D621E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift */,
+				571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */,
+				521E5B401E69E70100D9FDE9 /* ContactsTableViewCell.swift */,
 			);
 			name = View;
 			path = ..;
@@ -501,10 +515,12 @@
 				B9755D661E6DF3DC00B63C0A /* OboardViewController.swift in Sources */,
 				A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */,
 				52A835461E71009800BFB89F /* Users.swift in Sources */,
+				571F80E01E7AF536001E4AF8 /* Settings.swift in Sources */,
 				B9755D681E6DF3DC00B63C0A /* Pages.swift in Sources */,
 				A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */,
 				5704954B1E70937800376161 /* GMUStaticCluster.m in Sources */,
 				570495251E6F949C00376161 /* GQTPointQuadTreeChild.m in Sources */,
+				57263B8D1E79A7C3009177BD /* TrackingViewController.swift in Sources */,
 				52A835441E70FB7800BFB89F /* LoginViewController .swift in Sources */,
 				571EAB0C1E660AB500CF2947 /* AppDelegate.swift in Sources */,
 				571EAB241E66156500CF2947 /* NavigationMapViewController.swift in Sources */,

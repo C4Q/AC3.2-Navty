@@ -13,11 +13,12 @@ import SideMenu
 import StringExtensionHTML
 import MapKit
 import GooglePlaces
+import PubNub
 
-class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource {
+class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, PNObjectEventListener,GMUClusterRendererDelegate {
     
 //, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
-
+    var animator = UIViewPropertyAnimator(duration: 3.0, curve: .linear , animations: nil)
     var userLatitude = Float()
     var userLongitude = Float()
     var zoomLevel: Float = 15.0
@@ -71,6 +72,10 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     var resultView: UITextView?
     
     
+    var client: PubNub!
+    //var trackingEnabled = false
+    var channel = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -84,7 +89,6 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         searchDestination.delegate = self
         gestureRegonizer.delegate = self
         mapView.delegate = self
-        searchDestination.delegate = self
         locationManager.startUpdatingLocation()
         
         self.view.backgroundColor = UIColor.white
@@ -92,11 +96,33 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         clustering()
         
         setupNotificationForKeyboard()
+        
+        let configuration = PNConfiguration(publishKey: "pub-c-28163faf-5853-487e-8cc9-1d8f955ad129", subscribeKey: "sub-c-0ee17ac4-08cb-11e7-b95c-0619f8945a4f")
+        self.client = PubNub.clientWithConfiguration(configuration)
+        self.client.addListener(self)
+
+        //self.client.subscribeToChannels(["map-channel"], withPresence: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isToolbarHidden = false
         self.navigationController?.isNavigationBarHidden = true
+       
         self.searchDestination.endEditing(false)
+        
+        transportationIndicator.backgroundColor = .white
+        print("viewwillappear")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        transportationIndicator.backgroundColor = .clear
+        print("viewwilldisappear")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("hello")
     }
     
     func tapped(recognizer: UITapGestureRecognizer) {
@@ -121,13 +147,37 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         
         startNavigation.isHidden = false
     }
+    
+    func panGesturePressed(recognizer: UIPanGestureRecognizer) {
+        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
+            
+            self.directionsTableView.snp.remakeConstraints({ (view) in
+                view.leading.trailing.equalToSuperview()
+                view.height.equalTo(0)
+                view.bottom.equalTo(self.mapView.snp.bottom)
+            })
+            
+        })
+        
+        GMSMapView.animate(withDuration: 1.0) {
+            self.mapView.snp.remakeConstraints({ (view) in
+                view.leading.trailing.top.equalToSuperview()
+                view.height.equalToSuperview()
+            })
+        }
+        
+        startNavigation.isHidden = false
+    }
+    
     //MARK: VIEW HIERARCHY & VIEWS CONSTRAINTS
     func setupViewHierarchy() {
         self.edgesForExtendedLayout = []
-        
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(tapped(recognizer:)) )
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesturePressed(recognizer:)))
+//        let swipe = UISwipeGestureRecognizerDirection.down
         let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude), zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(tapped(recognizer:)) )
+        
         do {
             if let styleURL = Bundle.main.url(forResource: "style", withExtension: "json") {
                 mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
@@ -144,17 +194,23 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         mapView.settings.myLocationButton = true
         
         view.addSubview(menuButton)
-        view.addSubview(searchDestination)
+        view.addSubview(searchDestinationButton)
         view.addSubview(cancelNavigationButton)
         
        
         view.addSubview(directionsTableView)
-//        view.addSubview(scrollView)
         view.addSubview(startNavigation)
-
-    
+        
+        navigationController?.toolbar.addSubview(carView)
+        navigationController?.toolbar.addSubview(walkingView)
+        navigationController?.toolbar.addSubview(bikeView)
+        navigationController?.toolbar.addSubview(publicTransportView)
+        
+        navigationController?.toolbar.addSubview(transportationIndicator)
         timerLabel.addGestureRecognizer(recognizer)
+//        timerLabel.addGestureRecognizer(panGesture)
     }
+    
     
     func setupViews() {
         
@@ -166,12 +222,8 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             view.height.equalTo(42)
         })
         
-//        timerLabel.snp.makeConstraints { (view) in
-//            view.centerX.equalToSuperview()
-//            view.top.equalTo(topLayoutGuide.snp.bottom).offset(20)
-//        }
         
-        searchDestination.snp.makeConstraints({ (view) in
+        searchDestinationButton.snp.makeConstraints({ (view) in
             view.width.equalToSuperview().multipliedBy(0.8)
             view.leading.equalTo(menuButton.snp.trailing).offset(10)
             view.top.equalToSuperview().inset(30)
@@ -191,24 +243,6 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         })
         
         
-//        scrollView.snp.makeConstraints { (view) in
-//            
-//            view.leading.equalToSuperview()
-//            view.height.equalToSuperview().multipliedBy(0.5)
-//            view.width.equalToSuperview().multipliedBy(2.0)
-//            view.top.equalTo(mapView.snp.bottom)
-//        }
-//        
-//        embeddedView.snp.makeConstraints { (view) in
-//            view.top.bottom.leading.trailing.equalToSuperview()
-//            view.width.height.equalToSuperview()
-//        }
-        
-//        directionsTableView.snp.makeConstraints { (view) in
-//            view.top.trailing.bottom.equalToSuperview()
-//            view.height.equalToSuperview()
-//            view.width.equalTo(UIScreen.main.bounds.width)
-//        }
         directionsTableView.snp.makeConstraints({ (view) in
             view.leading.trailing.equalToSuperview()
             view.height.equalToSuperview().multipliedBy(0.5)
@@ -217,9 +251,40 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         
         
         
+        carView.snp.makeConstraints{(view) in
+            view.top.leading.equalToSuperview()
+            view.width.equalToSuperview().multipliedBy(0.25)
+            
+        }
+        
+        walkingView.snp.makeConstraints { (view) in
+            view.top.equalToSuperview()
+            view.leading.equalTo(carView.snp.trailing)
+            view.width.equalToSuperview().multipliedBy(0.25)
+        }
+        
+        bikeView.snp.makeConstraints { (view) in
+            view.top.equalToSuperview()
+            view.leading.equalTo(walkingView.snp.trailing)
+            view.width.equalToSuperview().multipliedBy(0.25)
+        }
+        
+        publicTransportView.snp.makeConstraints { (view) in
+            view.top.equalToSuperview()
+            view.leading.equalTo(bikeView.snp.trailing)
+            view.width.equalToSuperview().multipliedBy(0.25)
+        }
+        
+        transportationIndicator.snp.makeConstraints { (view) in
+            view.top.equalTo(walkingView.snp.bottom)
+            view.width.equalToSuperview().multipliedBy(0.25)
+            view.height.equalToSuperview().multipliedBy(0.1)
+            view.leading.trailing.equalTo(walkingView)
+        }
+        
+        
         
     }
-   
     
     //MARK: SIDE MENU
     func sideMenu() {
@@ -233,6 +298,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
         
         SideMenuManager.menuFadeStatusBar = false
+        SideMenuManager.menuPresentMode = .menuDissolveIn
     }
 
     //MARK: MOVE VIEWS WITH KEYBOARD
@@ -273,7 +339,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                             
                             //new cluster code
                             let position = CLLocationCoordinate2D(latitude: latitude! , longitude:longitude!)
-                            let item = ClusterCrimeData(position: position, name: eachCrime.description)
+                            let item = ClusterCrimeData(position: position, name: eachCrime.description, crime: eachCrime)
                             self.clusterManager.add(item)
                             
 
@@ -297,11 +363,17 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     }
 
     
+    func searchBarPressed(button: UIButton) {
+        
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = self
+        present(autocompleteController, animated: true, completion: nil)
+    }
     
     //MARK: SEARCHBAR
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 //        searchDestination.showsCancelButton = true
-        searchDestination.resignFirstResponder()
+//        searchDestination.resignFirstResponder()
         
         let autocompleteController = GMSAutocompleteViewController()
         autocompleteController.delegate = self
@@ -350,8 +422,71 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             longPressMarker =  GMSMarker(position: coordinate)
             longPressMarker.map = mapView
             
+           
+//           
+//            self.marker.map = nil
+//            self.allPolyLines.forEach({ $0.map = nil })
+//            self.allPolyLines = []
+//            self.polyline = nil
+//            self.longPressMarker.map = nil
+//            
+//            
+//            self.polylineUpdated.map = nil
+//            
+//            startNavigation.isHidden = false
+//            
+//            geocoder.geocodeAddressString(addressLookUp, completionHandler: { (placemarks, error) -> Void in
+//                if error != nil {
+//                    dump(error)
+//                } else if placemarks?[0] != nil {
+//                    let placemark: CLPlacemark = placemarks![0]
+//                    let coordinates: CLLocationCoordinate2D = placemark.location!.coordinate
+//                    
+//                    let bounds = GMSCoordinateBounds(coordinate: self.currentlocation, coordinate: coordinates)
+//                    self.mapView.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 19.0))
+//                    
+//                    self.newCoordinates = coordinates
+//                    
+//                    if !CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+//                        print("Not allowed")
+//                        return
+//                    }
+//                    
+//                    if CLLocationManager.authorizationStatus() != .authorizedAlways {
+//                        print("Authorize us")
+//                    }
+//                    
+//                    let region = CLCircularRegion(center: coordinates, radius: 15, identifier: "Destination")
+//                    //                region.notifyOnEntry = true
+//                    //                region.notifyOnExit = true
+//                    
+//                    var radius = region.radius
+//                    if radius > self.locationManager.maximumRegionMonitoringDistance {
+//                        radius = self.locationManager.maximumRegionMonitoringDistance
+//                    }
+//                    
+//                    
+//                    self.locationManager.startMonitoring(for: region)
+//                    
+//                    self.marker = GMSMarker(position: coordinates)
+//                    self.marker.title = "\(placemark)"
+//                    self.marker.map = self.mapView
+//                    self.marker.icon = GMSMarker.markerImage(with: .blue)
+//                    self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
+//                    self.markerAwayFromPoint.map = self.mapView
+//                    self.getPolylines(coordinates: coordinates)
+//                    //self.mapView.animate(toLocation: coordinates)
+//                    
+//                    self.getPolylines(coordinates: self.newCoordinates)
+//                    
+//                }
+//            })
+            
+            
+//            searchDestination.text = "\(place.name )"
+            
 //            self.startNavigation.isHidden = false
-        } else if polyline != nil {
+        } else if polyline != nil && transportationPicked != "transit" {
             
             APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(newCoordinates.latitude),\(newCoordinates.longitude)&region=es&mode=\(self.transportationPicked)&waypoints=via:\(coordinate.latitude)%2C\(coordinate.longitude)%7C&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
             { (data) in
@@ -435,6 +570,28 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         }
     }
 
+  
+    func setupToolbar() {
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let carButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_drive_eta"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
+        let walkingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_directions_walk"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
+        let cyclingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_motorcycle"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
+        let trainButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_train"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
+        
+        carButton.tag = 0
+        walkingButton.tag = 1
+        cyclingButton.tag = 2
+        trainButton.tag = 3
+        
+        toolbarItems = [carButton, spacer, walkingButton, spacer, cyclingButton, spacer, trainButton]
+        
+        
+        navigationController?.isToolbarHidden = false
+        navigationController?.toolbar.barTintColor = ColorPalette.lightBlue
+        navigationController?.toolbar.tintColor = .white
+        
+    }
+    
     
     func transportationPick(sender: UIButton) {
         _ = self.allPolyLines.map { $0.map = nil }
@@ -442,23 +599,83 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         self.polylineUpdated.map = nil
         
         if polyline == nil {
+            
+            
             print("cant select transportation")
         } else {
             switch sender.tag {
             case 0:
                 print("tag 0")
+                
+               
+                    self.transportationIndicator.snp.remakeConstraints({ (view) in
+                        
+                        view.top.equalTo(self.carView.snp.bottom)
+                        view.height.equalToSuperview().multipliedBy(0.1)
+                        view.leading.trailing.equalTo(self.carView)
+                    })
+                
+                animator.addAnimations {
+                    self.view.layoutIfNeeded()
+                }
+                
+                animator.startAnimation()
+                
                 self.transportationPicked = "driving"
                 self.getPolylines(coordinates: self.newCoordinates)
             case 1:
                 print("tag 1")
+                
+                    self.transportationIndicator.snp.remakeConstraints({ (view) in
+                        
+                        view.top.equalTo(self.walkingView.snp.bottom)
+                        view.height.equalToSuperview().multipliedBy(0.1)
+                        view.leading.trailing.equalTo(self.walkingView)
+                    })
+                
+                animator.addAnimations {
+                    self.view.layoutIfNeeded()
+                }
+                
+                animator.startAnimation()
+               
                 self.transportationPicked = "walking"
                 self.getPolylines(coordinates: self.newCoordinates)
             case 2:
                 print("tag 2")
+                
+                
+                    self.transportationIndicator.snp.remakeConstraints({ (view) in
+                        
+                        view.top.equalTo(self.bikeView.snp.bottom)
+                        view.height.equalToSuperview().multipliedBy(0.1)
+                        view.leading.trailing.equalTo(self.bikeView)
+                    })
+                
+                animator.addAnimations {
+                    self.view.layoutIfNeeded()
+                }
+                
+                animator.startAnimation()
+               
                 self.transportationPicked = "bicycling"
                 self.getPolylines(coordinates: self.newCoordinates)
             case 3:
                 print("tag 3")
+                
+                    self.transportationIndicator.snp.remakeConstraints({ (view) in
+                        
+                        view.top.equalTo(self.publicTransportView.snp.bottom)
+                        view.height.equalToSuperview().multipliedBy(0.1)
+                        view.leading.trailing.equalTo(self.publicTransportView)
+                    })
+                
+                animator.addAnimations {
+                    self.view.layoutIfNeeded()
+                }
+                
+                animator.startAnimation()
+               
                 self.transportationPicked = "transit"
                 self.getPolylines(coordinates: self.newCoordinates)
             default:
@@ -471,7 +688,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
   
     //MARK: MENU BUTTON
     func buttonPressed () {
-        searchDestination.resignFirstResponder()
+//        searchDestination.resignFirstResponder()
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
         
     }
@@ -482,28 +699,26 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         //animate table view up
         //change format of the map
         if timerCountingDown == false {
-        let alert = UIAlertController(title: "ETA", message: "You will arrive in \(eta).", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(ok)
-        self.navigationController?.present(alert, animated: true, completion: nil)
-        
-     
-        
-        searchDestination.isHidden = true
-        cancelNavigationButton.isHidden = false
-        
-        
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
-        
-        
-        timerLabel.isHidden = false
-        
+//            let alert = UIAlertController(title: "ETA", message: "You will arrive in \(eta).", preferredStyle: .alert)
+//            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+//            alert.addAction(ok)
+//            self.navigationController?.present(alert, animated: true, completion: nil)
+            
+            searchDestinationButton.isHidden = true
+            cancelNavigationButton.isHidden = false
+            
+            
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+            
+            
+            timerLabel.isHidden = false
+            
 
         
         self.directionsTableView.isHidden = false
-        startNavigation.isHidden = true
         timerCountingDown = true
         }
+        startNavigation.isHidden = true
         
         
         
@@ -528,7 +743,25 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             })
         }
         
-     mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude)))
+        mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude)))
+        
+        if Settings.shared.trackingEnabled == true {
+            let alert = UIAlertController(title: "Channel Name", message: "Enter Channel:", preferredStyle: .alert)
+            alert.addTextField(configurationHandler: { (textfield) in
+                textfield.placeholder = "Channel Here"
+            })
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                let textField = alert?.textFields![0]
+                Settings.shared.channelName = (textField?.text)!
+                print(Settings.shared.channelName)
+                self.client.subscribeToChannels([Settings.shared.channelName], withPresence: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
+            Settings.shared.channelInput = true
+        }
+        
+        Settings.shared.navigationStarted = true
+        
     }
     
     func updateCounter() {
@@ -549,17 +782,25 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         let dispMinutes = minutes % 60
         let dispSeconds = seconds % 60
         
-        let nothing = ""
+        
+//        let nothing = ""
         if seconds < 60 {
-            return "\(dispSeconds)"
+            return "0\(dispSeconds)"
         } else if seconds < 3600 {
+            if dispSeconds < 10 {
+            return "\(minutes) : 0\(dispSeconds)"
+            } else {
             return "\(minutes) : \(dispSeconds)"
+            }
         }
         else {
-        let count = "\(hours) : \(dispMinutes) : \(dispSeconds)"
-            return count
+            if dispSeconds < 10 {
+                return "\(hours) : \(dispMinutes) : 0\(dispSeconds)"
+            } else {
+        return "\(hours) : \(dispMinutes) : 0\(dispSeconds)"
+            }
         }
-        return nothing
+//        return nothing
     }
     
     func cancelNavigation() {
@@ -569,7 +810,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         
         directionsTableView.isHidden = true
         cancelNavigationButton.isHidden = true
-        searchDestination.isHidden = false
+        searchDestinationButton.isHidden = false
         startNavigation.isHidden = true
         
         self.marker.map = nil
@@ -578,7 +819,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         self.polylineUpdated.map = nil
         self.polyline = nil
         
-        self.searchDestination.text = ""
+//        self.searchDestination.text = ""
         
         mapView.animate(toLocation: self.currentlocation)
         
@@ -595,6 +836,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             })
         }
 
+        Settings.shared.navigationStarted = false
     }
     
     //MARK: SETUP TABLE VIEW FOR DIRECTIONS
@@ -660,33 +902,37 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     
    //MARK: -Initalize Views
     
-    func setupToolbar() {
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let carButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_drive_eta"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
-        let walkingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_directions_walk"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
-        let cyclingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_motorcycle"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
-        let trainButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_train"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
-        
-        carButton.tag = 0
-        walkingButton.tag = 1
-        cyclingButton.tag = 2
-        trainButton.tag = 3
-        
-        toolbarItems = [carButton, spacer, walkingButton, spacer, cyclingButton, spacer, trainButton]
-        
-        
-        navigationController?.isToolbarHidden = false
-        navigationController?.toolbar.barTintColor = ColorPalette.lightBlue
-        navigationController?.toolbar.tintColor = .white
-        
-    }
-
-    
     lazy var mapView: GMSMapView = {
         let mapView = GMSMapView()
         return mapView
     }()
     
+    internal var carView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .red
+        
+        return view
+    }()
+    
+    internal var walkingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .blue
+        return view
+    }()
+    
+    internal var bikeView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .green
+
+        return view
+    }()
+
+    internal var publicTransportView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .orange
+
+        return view
+    }()
     
     internal var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -711,6 +957,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         let label = UILabel()
         label.isUserInteractionEnabled = true
         label.textAlignment = .center
+        label.backgroundColor = ColorPalette.bgColor
         return label
     }()
     
@@ -718,6 +965,20 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "ic_menu"), for: .normal)
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    internal lazy var searchDestinationButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderColor = ColorPalette.lightBlue.cgColor
+        button.layer.borderWidth = 1
+        button.isUserInteractionEnabled = true
+        button.setTitle(" Destination", for: .normal)
+        button.setTitleColor( ColorPalette.lightGrey  , for: .normal)
+        button.titleLabel?.font = UIFont(name: "ArialHebrew", size: 18)
+        button.titleLabel?.textAlignment = .center
+        button.addTarget(self, action: #selector(searchBarPressed(button:)), for: .touchUpInside)
+        button.backgroundColor = UIColor.white
         return button
     }()
     
@@ -733,6 +994,13 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         searchBar.layer.borderWidth = 1
         return searchBar
     }()
+    
+    internal var transportationIndicator: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+
     
     internal lazy var startNavigation: UIButton = {
         let button = UIButton()
@@ -765,20 +1033,20 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     
 }
 
-    extension String {
-        var html2AttributedString: NSAttributedString? {
-            guard let data = data(using: .utf8) else { return nil }
-            do {
-                return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.italicSystemFont(ofSize: 32)]], documentAttributes: nil)
-            } catch let error as NSError {
-                print(error.localizedDescription)
-                return  nil
-            }
-        }
-        var html2String: String {
-            return html2AttributedString?.string ?? ""
+extension String {
+    var html2AttributedString: NSAttributedString? {
+        guard let data = data(using: .utf8) else { return nil }
+        do {
+            return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue, NSDefaultAttributesDocumentAttribute: [NSFontAttributeName: UIFont.italicSystemFont(ofSize: 32)]], documentAttributes: nil)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return  nil
         }
     }
+    var html2String: String {
+        return html2AttributedString?.string ?? ""
+    }
+}
 
 
 
@@ -824,6 +1092,19 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
         self.currentlocation = locationValue
         
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: locationValue.latitude, longitude: locationValue.longitude))
+        if Settings.shared.navigationStarted != false {
+            if Settings.shared.trackingEnabled != false {
+                let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
+                print(message)
+                self.client.publish(message, toChannel: Settings.shared.channelName, compressed: false, withCompletion: { (status) in
+                    if !status.isError {
+                        print("Sucess")
+                    } else {
+                        print("Error: \(status)")
+                    }
+                })
+            }
+        }
         
         geocoder.reverseGeocodeLocation(validLocation) { (placemarks: [CLPlacemark]?, error: Error?) in
             //error handling
@@ -883,7 +1164,7 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
                     print("Authorize us")
                 }
                 
-                let region = CLCircularRegion(center: coordinates, radius: 15, identifier: "Destination")
+                let region = CLCircularRegion(center: coordinates, radius: 5, identifier: "Destination")
                 //                region.notifyOnEntry = true
                 //                region.notifyOnExit = true
                 
@@ -955,14 +1236,32 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
         let iconGenerator = GMUDefaultClusterIconGenerator()
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
         let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
+        renderer.delegate = self
+        
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
-        
         getData()
-        
         clusterManager.cluster()
-        
         clusterManager.setDelegate(self, mapDelegate: self)
         
+    }
+    
+    func renderer(_ renderer: GMUClusterRenderer, willRenderMarker marker: GMSMarker) {
+//        if let crimeData = marker.userData as? ClusterCrimeData {
+//            
+//            var dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "yyyy-MM-dd"
+//            dateFormatter.dateStyle = .full
+//            let d = TimeInterval(1467345600)
+//            
+//            
+//                var cDate = crimeData.crime.crimeDate
+//                var sDate = dateFormatter.date(from: cDate)
+//                if (sDate?.timeIntervalSince1970)! >= d {
+//                    marker.icon = UIImage(named: "Map Pin-20")
+//                } else {
+//                    marker.icon = UIImage(named: "Map BPin-20")
+//            }
+//        }
     }
     
     
