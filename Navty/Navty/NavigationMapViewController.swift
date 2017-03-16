@@ -75,6 +75,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     var client: PubNub!
     var trackingEnabled = false
     
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,7 +90,6 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         searchDestination.delegate = self
         gestureRegonizer.delegate = self
         mapView.delegate = self
-        searchDestination.delegate = self
         locationManager.startUpdatingLocation()
         
         self.view.backgroundColor = UIColor.white
@@ -108,7 +108,17 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isToolbarHidden = false
         self.navigationController?.isNavigationBarHidden = true
+       
         self.searchDestination.endEditing(false)
+        
+        transportationIndicator.backgroundColor = .white
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        transportationIndicator.backgroundColor = .clear
+        
     }
     
     func tapped(recognizer: UITapGestureRecognizer) {
@@ -180,7 +190,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         mapView.settings.myLocationButton = true
         
         view.addSubview(menuButton)
-        view.addSubview(searchDestination)
+        view.addSubview(searchDestinationButton)
         view.addSubview(cancelNavigationButton)
         
        
@@ -209,7 +219,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         })
         
         
-        searchDestination.snp.makeConstraints({ (view) in
+        searchDestinationButton.snp.makeConstraints({ (view) in
             view.width.equalToSuperview().multipliedBy(0.8)
             view.leading.equalTo(menuButton.snp.trailing).offset(10)
             view.top.equalToSuperview().inset(30)
@@ -349,11 +359,17 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     }
 
     
+    func searchBarPressed(button: UIButton) {
+        
+        let autocompleteController = GMSAutocompleteViewController()
+        autocompleteController.delegate = self
+        present(autocompleteController, animated: true, completion: nil)
+    }
     
     //MARK: SEARCHBAR
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
 //        searchDestination.showsCancelButton = true
-        searchDestination.resignFirstResponder()
+//        searchDestination.resignFirstResponder()
         
         let autocompleteController = GMSAutocompleteViewController()
         autocompleteController.delegate = self
@@ -668,7 +684,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
   
     //MARK: MENU BUTTON
     func buttonPressed () {
-        searchDestination.resignFirstResponder()
+//        searchDestination.resignFirstResponder()
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
         
     }
@@ -682,7 +698,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
 //            alert.addAction(ok)
 //            self.navigationController?.present(alert, animated: true, completion: nil)
             
-            searchDestination.isHidden = true
+            searchDestinationButton.isHidden = true
             cancelNavigationButton.isHidden = false
             
             
@@ -778,7 +794,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         
         directionsTableView.isHidden = true
         cancelNavigationButton.isHidden = true
-        searchDestination.isHidden = false
+        searchDestinationButton.isHidden = false
         startNavigation.isHidden = true
         
         self.marker.map = nil
@@ -787,7 +803,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         self.polylineUpdated.map = nil
         self.polyline = nil
         
-        self.searchDestination.text = ""
+//        self.searchDestination.text = ""
         
         mapView.animate(toLocation: self.currentlocation)
         
@@ -936,6 +952,20 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         return button
     }()
     
+    internal lazy var searchDestinationButton: UIButton = {
+        let button = UIButton()
+        button.layer.borderColor = ColorPalette.lightBlue.cgColor
+        button.layer.borderWidth = 1
+        button.isUserInteractionEnabled = true
+        button.setTitle(" Destination", for: .normal)
+        button.setTitleColor( ColorPalette.lightGrey  , for: .normal)
+        button.titleLabel?.font = UIFont(name: "ArialHebrew", size: 18)
+        button.titleLabel?.textAlignment = .center
+        button.addTarget(self, action: #selector(searchBarPressed(button:)), for: .touchUpInside)
+        button.backgroundColor = UIColor.white
+        return button
+    }()
+    
     internal lazy var searchDestination: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.backgroundColor = UIColor.white
@@ -949,7 +979,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         return searchBar
     }()
     
-    public var transportationIndicator: UIView = {
+    internal var transportationIndicator: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         return view

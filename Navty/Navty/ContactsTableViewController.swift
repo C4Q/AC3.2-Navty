@@ -41,7 +41,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isToolbarHidden = true
+       // self.navigationController?.isToolbarHidden = true
         
         contacts.removeAll()
         let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
@@ -165,7 +165,14 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
                 addButton.isEnabled = true
                 addButton.alpha = 1
             }
+            
+            if contacts.count == 0 {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
         }
+        
         
     }
     
@@ -179,11 +186,11 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
 
 //        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
 
-        let predicate = NSPredicate(value: false)
-        let truePredicate = NSPredicate(value: true)
-        contactPicker.predicateForSelectionOfContact = truePredicate
-        contactPicker.predicateForSelectionOfProperty = truePredicate
-        contactPicker.predicateForEnablingContact = truePredicate
+//        let predicate = NSPredicate(value: false)
+//        let truePredicate = NSPredicate(value: true)
+//        contactPicker.predicateForSelectionOfContact = truePredicate
+//        contactPicker.predicateForSelectionOfProperty = truePredicate
+//        contactPicker.predicateForEnablingContact = truePredicate
         self.present(contactPicker, animated: true, completion: nil)
         
     }
