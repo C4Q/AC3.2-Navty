@@ -8,9 +8,12 @@
 
 import UIKit
 import SnapKit
+import PubNub
 
-class MenuViewController: UIViewController, UISplitViewControllerDelegate {
+class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObjectEventListener {
 
+    var client: PubNub!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,22 +21,30 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         navigationController?.isNavigationBarHidden = true
         
         viewHierarchy()
-        constrainConfiguration()    
+        constrainConfiguration()
+        
+        let configuration = PNConfiguration(publishKey: "pub-c-28163faf-5853-487e-8cc9-1d8f955ad129", subscribeKey: "sub-c-0ee17ac4-08cb-11e7-b95c-0619f8945a4f")
+        self.client = PubNub.clientWithConfiguration(configuration)
+        self.client.addListener(self)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.dismiss(animated: true, completion: nil)
+        print("willdisappear")
+        
+       
     }
     
     func viewHierarchy(){
         view.addSubview(profilePicture)
-        view.addSubview(codewordButton)
+        //view.addSubview(codewordButton)
         view.addSubview(contactButton)
-        view.addSubview(communityButton)
-        view.addSubview(profileButton)
+        //view.addSubview(communityButton)
+        //view.addSubview(profileButton)
         view.addSubview(trackingButton)
         view.addSubview(switchLabel)
         view.addSubview(trackingSwitch)
+        view.addSubview(panicButton)
     }
     
     func constrainConfiguration(){
@@ -45,47 +56,51 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
             photo.centerX.equalTo(view.snp.centerX)
         }
         
-        codewordButton.snp.makeConstraints { (button) in
-            button.centerX.equalTo(view.snp.centerX)
-//            button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
-            button.height.equalTo(30)
-            button.width.equalTo(view.snp.width).inset(20)
-            button.top.equalTo(profilePicture.snp.bottom).offset(20)
-            
-        }
+//        codewordButton.snp.makeConstraints { (button) in
+//            button.centerX.equalTo(view.snp.centerX)
+////            button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
+//            button.height.equalTo(30)
+//            button.width.equalTo(view.snp.width).inset(20)
+//            button.top.equalTo(profilePicture.snp.bottom).offset(20)
+//            
+//        }
         
         contactButton.snp.makeConstraints { (button) in
             button.centerX.equalTo(view.snp.centerX)
             //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
             button.height.equalTo(30)
             button.width.equalTo(view.snp.width).inset(20)
-            button.top.equalTo(codewordButton.snp.bottom).offset(20)
+            button.top.equalTo(profilePicture.snp.bottom).offset(20)
         }
 
-        communityButton.snp.makeConstraints { (button) in
-            button.centerX.equalTo(view.snp.centerX)
-            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
-            button.height.equalTo(30)
-            button.width.equalTo(view.snp.width).inset(20)
-            button.top.equalTo(contactButton.snp.bottom).offset(20)
-        }
+//        communityButton.snp.makeConstraints { (button) in
+//            button.centerX.equalTo(view.snp.centerX)
+//            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
+//            button.height.equalTo(30)
+//            button.width.equalTo(view.snp.width).inset(20)
+//            button.top.equalTo(contactButton.snp.bottom).offset(20)
+//        }
 
-        profileButton.snp.makeConstraints { (button) in
-            button.centerX.equalTo(view.snp.centerX)
-            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
-            button.height.equalTo(30)
-            button.width.equalTo(view.snp.width).inset(20)
-            button.top.equalTo(communityButton.snp.bottom).offset(20)
-        }
+//        profileButton.snp.makeConstraints { (button) in
+//            button.centerX.equalTo(view.snp.centerX)
+//            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
+//            button.height.equalTo(30)
+//            button.width.equalTo(view.snp.width).inset(20)
+//            button.top.equalTo(communityButton.snp.bottom).offset(20)
+//        }
         
         trackingButton.snp.makeConstraints { (button) in
             button.centerX.equalTo(view.snp.centerX)
             //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
             button.height.equalTo(30)
             button.width.equalTo(view.snp.width).inset(20)
-            button.top.equalTo(profileButton.snp.bottom).offset(20)
+            button.top.equalTo(contactButton.snp.bottom).offset(20)
         }
-        
+        panicButton.snp.makeConstraints { (button) in
+            button.top.equalTo(trackingButton.snp.bottom).offset(75)
+            button.height.width.equalTo(75)
+            button.centerX.equalToSuperview()
+        }
         switchLabel.snp.makeConstraints({ (view) in
             view.leading.equalToSuperview().inset(20)
             view.bottom.equalToSuperview().inset(15)
@@ -106,11 +121,17 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         }
     }
     
-    func LoginController() {
-        let LoginVC = LoginViewController()
-        if let navVC = self.navigationController {
-            navVC.pushViewController(LoginVC, animated: true)
-        }
+//    func LoginController() {
+//        let LoginVC = LoginViewController()
+//        if let navVC = self.navigationController {
+//            navVC.pushViewController(LoginVC, animated: true)
+//        }
+//    }
+    
+    func callButton(_ sender: UIButton) {
+        let url = NSURL(string: "tel://911")!
+        UIApplication.shared.openURL(url as URL)
+        print("calling")
     }
     
     func trackingController() {
@@ -126,6 +147,20 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
             print("its on")
             switchLabel.text = "Tracking Enabled"
             Settings.shared.trackingEnabled = true
+            
+            if Settings.shared.navigationStarted == true {
+                let alert = UIAlertController(title: "Channel Name", message: "Enter Channel:", preferredStyle: .alert)
+                alert.addTextField(configurationHandler: { (textfield) in
+                    textfield.placeholder = "Channel Here"
+                })
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                    let textField = alert?.textFields![0]
+                    Settings.shared.channelName = (textField?.text)!
+                    print(Settings.shared.channelName)
+                    self.client.subscribeToChannels([Settings.shared.channelName], withPresence: true)
+                }))
+                self.navigationController?.present(alert, animated: true, completion: nil)
+            }
         } else {
             print("its off")
             switchLabel.text = "Tracking Disabled"
@@ -134,7 +169,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
     }
     
     
-    internal lazy var profilePicture: UIImageView = {
+    internal var profilePicture: UIImageView = {
         let photo = UIImageView()
         photo.image = UIImage(named: "newIcon")
         //photo.layer.cornerRadius = 30
@@ -181,7 +216,18 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate {
         button.setTitle("Profile", for: .normal)
         button.alpha = 0.8
         button.layer.masksToBounds = true
-        button.addTarget(self, action: #selector(LoginController), for: .touchUpInside)
+        //button.addTarget(self, action: #selector(LoginController), for: .touchUpInside)
+        return button
+    }()
+    
+    internal var panicButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.backgroundColor = ColorPalette.red
+        button.setTitle("PANIC", for: .normal)
+        button.layer.cornerRadius = 37.5
+        button.alpha = 0.8
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(callButton(_:)), for: .touchUpInside)
         return button
     }()
    
