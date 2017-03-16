@@ -73,9 +73,8 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     
     
     var client: PubNub!
-    var trackingEnabled = false
-    
-   
+    //var trackingEnabled = false
+    var channel = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,13 +111,18 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         self.searchDestination.endEditing(false)
         
         transportationIndicator.backgroundColor = .white
+        print("viewwillappear")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         transportationIndicator.backgroundColor = .clear
-        
+        print("viewwilldisappear")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("hello")
     }
     
     func tapped(recognizer: UITapGestureRecognizer) {
@@ -739,13 +743,23 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude)))
         
-        let trackingAlert = UIAlertController(title: "Tracking", message: "Would you like to be tracked?", preferredStyle: .alert)
-        trackingAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (alert) in
-            self.trackingEnabled = true
-            //send message to users contact the tracking code
-        }))
-        trackingAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-        self.present(trackingAlert, animated: true, completion: nil)
+        if Settings.shared.trackingEnabled == true {
+            let alert = UIAlertController(title: "Channel Name", message: "Enter Channel:", preferredStyle: .alert)
+            alert.addTextField(configurationHandler: { (textfield) in
+                textfield.placeholder = "Channel Here"
+            })
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+                let textField = alert?.textFields![0]
+                Settings.shared.channelName = (textField?.text)!
+                print(Settings.shared.channelName)
+                self.client.subscribeToChannels([Settings.shared.channelName], withPresence: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
+            Settings.shared.channelInput = true
+        }
+        
+        Settings.shared.navigationStarted = true
+        
     }
     
     func updateCounter() {
@@ -820,7 +834,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             })
         }
 
-        trackingEnabled = false
+        Settings.shared.navigationStarted = false
     }
     
     //MARK: SETUP TABLE VIEW FOR DIRECTIONS
@@ -1073,17 +1087,18 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
         self.currentlocation = locationValue
         
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: locationValue.latitude, longitude: locationValue.longitude))
-        
-        if Settings.shared.trackingEnabled != false {
-            let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
-            print(message)
-            self.client.publish(message, toChannel: "map-channel", compressed: false, withCompletion: { (status) in
-                if !status.isError {
-                    print("Sucess")
-                } else {
-                    print("Error: \(status)")
-                }
-            })
+        if Settings.shared.navigationStarted != false {
+            if Settings.shared.trackingEnabled != false {
+                let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
+                print(message)
+                self.client.publish(message, toChannel: Settings.shared.channelName, compressed: false, withCompletion: { (status) in
+                    if !status.isError {
+                        print("Sucess")
+                    } else {
+                        print("Error: \(status)")
+                    }
+                })
+            }
         }
         
         geocoder.reverseGeocodeLocation(validLocation) { (placemarks: [CLPlacemark]?, error: Error?) in

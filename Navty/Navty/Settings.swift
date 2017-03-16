@@ -13,4 +13,7 @@ class Settings {
     private init() {}
     
     var trackingEnabled = false
+    var channelName = ""
+    var navigationStarted = false
+    var channelInput = false
 }
