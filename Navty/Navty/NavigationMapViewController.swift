@@ -71,6 +71,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     
     
     var client: PubNub!
+    var trackingEnabled = false
     
     
     override func viewDidLoad() {
@@ -484,10 +485,10 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         //animate table view up
         //change format of the map
         if timerCountingDown == false {
-            let alert = UIAlertController(title: "ETA", message: "You will arrive in \(eta).", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alert.addAction(ok)
-            self.navigationController?.present(alert, animated: true, completion: nil)
+//            let alert = UIAlertController(title: "ETA", message: "You will arrive in \(eta).", preferredStyle: .alert)
+//            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+//            alert.addAction(ok)
+//            self.navigationController?.present(alert, animated: true, completion: nil)
             
             searchDestination.isHidden = true
             cancelNavigationButton.isHidden = false
@@ -528,7 +529,15 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             })
         }
         
-     mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude)))
+        mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude)))
+        
+        let trackingAlert = UIAlertController(title: "Tracking", message: "Would you like to be tracked?", preferredStyle: .alert)
+        trackingAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (alert) in
+            self.trackingEnabled = true
+            //send message to users contact the tracking code
+        }))
+        trackingAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        self.present(trackingAlert, animated: true, completion: nil)
     }
     
     func updateCounter() {
@@ -595,6 +604,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             })
         }
 
+        trackingEnabled = false
     }
     
     //MARK: SETUP TABLE VIEW FOR DIRECTIONS
@@ -822,15 +832,17 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
         
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: locationValue.latitude, longitude: locationValue.longitude))
         
-        let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
-        print(message)
-        self.client.publish(message, toChannel: "map-channel", compressed: false, withCompletion: { (status) in
-            if !status.isError {
-                print("Sucess")
-            } else {
-                print("Error: \(status)")
-            }
-        })
+        if trackingEnabled != false {
+            let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
+            print(message)
+            self.client.publish(message, toChannel: "map-channel", compressed: false, withCompletion: { (status) in
+                if !status.isError {
+                    print("Sucess")
+                } else {
+                    print("Error: \(status)")
+                }
+            })
+        }
         
         geocoder.reverseGeocodeLocation(validLocation) { (placemarks: [CLPlacemark]?, error: Error?) in
             //error handling
