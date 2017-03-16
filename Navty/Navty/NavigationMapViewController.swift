@@ -1241,22 +1241,22 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
     }
     
     func renderer(_ renderer: GMUClusterRenderer, willRenderMarker marker: GMSMarker) {
-        if let crimeData = marker.userData as? ClusterCrimeData {
-            
-            var dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            dateFormatter.dateStyle = .full
-            let d = TimeInterval(1467345600)
-            
-            
-                var cDate = crimeData.crime.crimeDate
-                var sDate = dateFormatter.date(from: cDate)
-                if (sDate?.timeIntervalSince1970)! >= d {
-                    marker.icon = UIImage(named: "Map Pin-20")
-                } else {
-                    marker.icon = UIImage(named: "Map BPin-20")
-            }
-        }
+//        if let crimeData = marker.userData as? ClusterCrimeData {
+//            
+//            var dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "yyyy-MM-dd"
+//            dateFormatter.dateStyle = .full
+//            let d = TimeInterval(1467345600)
+//            
+//            
+//                var cDate = crimeData.crime.crimeDate
+//                var sDate = dateFormatter.date(from: cDate)
+//                if (sDate?.timeIntervalSince1970)! >= d {
+//                    marker.icon = UIImage(named: "Map Pin-20")
+//                } else {
+//                    marker.icon = UIImage(named: "Map BPin-20")
+//            }
+//        }
     }
     
     
