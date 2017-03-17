@@ -7,3 +7,4 @@
 //
 
 #import "GQTPointQuadTree.h"
+#import "GMUMarkerClustering.h"

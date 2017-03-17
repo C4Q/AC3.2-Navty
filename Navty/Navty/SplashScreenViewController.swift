@@ -30,11 +30,20 @@ class SplashScreenViewController: UIViewController {
         
         perform(#selector(SegueToOnboardVc), with: nil, afterDelay: 3)
         
+        navigationController?.isNavigationBarHidden = true
+        
     }
     
     func SegueToOnboardVc(){
+        let userdefaults = UserDefaults.standard
         
-        present(OnboardViewController(), animated: true, completion: nil)
+        if userdefaults.bool(forKey: "onboardingComplete") {
+            let navigationMapView = NavigationMapViewController()
+            navigationController?.pushViewController(navigationMapView, animated: true)
+        } else {
+            let onboardVC = OnboardViewController()
+            navigationController?.pushViewController(onboardVC, animated: true)
+        }
     }
     
     internal lazy var icon: UIImageView = {
