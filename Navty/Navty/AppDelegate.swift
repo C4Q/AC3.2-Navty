@@ -11,7 +11,7 @@ import UIKit
 import GoogleMaps
 import Firebase
 import GooglePlaces
-import UserNotifications
+//import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -37,7 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        if userdefaults.bool(forKey: "onboardingComplete") {
 //            self.window?.rootViewController = navController
 //        } else {
-        self.window?.rootViewController = SplashScreenViewController()
+        let navController = UINavigationController(rootViewController: SplashScreenViewController())
+        self.window?.rootViewController = navController
         //}
         
         self.window?.makeKeyAndVisible()
@@ -45,16 +46,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {(accepted, error) in
-            if !accepted {
-                print("Notification access denied.")
-            }
-        }
-        
-        let actionOne = UNNotificationAction(identifier: "agree", title: "Ok", options: [.foreground])
-        let actionTwo = UNNotificationAction(identifier: "disagree", title: "No", options: [.foreground])
-        let category = UNNotificationCategory(identifier: "myCategory", actions: [actionOne, actionTwo], intentIdentifiers: [], options: [])
-        UNUserNotificationCenter.current().setNotificationCategories([category])
+//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {(accepted, error) in
+//            if !accepted {
+//                print("Notification access denied.")
+//            }
+//        }
+//        
+//        let actionOne = UNNotificationAction(identifier: "agree", title: "Ok", options: [.foreground])
+//        let actionTwo = UNNotificationAction(identifier: "disagree", title: "No", options: [.foreground])
+//        let category = UNNotificationCategory(identifier: "myCategory", actions: [actionOne, actionTwo], intentIdentifiers: [], options: [])
+//        UNUserNotificationCenter.current().setNotificationCategories([category])
         
         return true
     }
@@ -85,32 +86,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func handleEvent(forRegion region: CLRegion!) {
         
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        
-        let content = UNMutableNotificationContent()
-        content.title = "Text Message"
-        content.body = "Do you want to notice your arrival to your friends?"
-        content.sound = UNNotificationSound.default()
-        content.categoryIdentifier = "myCategory"
-        
-        if let path = Bundle.main.path(forResource: "Navty_Plain_logo", ofType: "png") {
-            let url = URL(fileURLWithPath: path)
-            
-            do {
-                let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
-                content.attachments = [attachment]
-            } catch {
-                print("The attachment was not loaded.")
-            }
-        }
-        
-        let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        UNUserNotificationCenter.current().add(request) {(error) in
-            if let error = error {
-                print("Uh oh! We had an error: \(error)")
-            }
-        }
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+//        
+//        let content = UNMutableNotificationContent()
+//        content.title = "Text Message"
+//        content.body = "Do you want to notice your arrival to your friends?"
+//        content.sound = UNNotificationSound.default()
+//        content.categoryIdentifier = "myCategory"
+//        
+//        if let path = Bundle.main.path(forResource: "Navty_Plain_logo", ofType: "png") {
+//            let url = URL(fileURLWithPath: path)
+//            
+//            do {
+//                let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
+//                content.attachments = [attachment]
+//            } catch {
+//                print("The attachment was not loaded.")
+//            }
+//        }
+//        
+//        let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
+//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//        UNUserNotificationCenter.current().add(request) {(error) in
+//            if let error = error {
+//                print("Uh oh! We had an error: \(error)")
+//            }
+//        }
 //        let alert = UIAlertController(title: "In the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
 //        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) -> Void in
 //            
@@ -125,6 +126,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
 //        alert.addAction(ok)
 //        self.window?.rootViewController?.present(alert, animated: true, completion: nil) 
+        let alert = UIAlertController(title: "In the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
+        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+        alert.addAction(ok)
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        
        
     }
     

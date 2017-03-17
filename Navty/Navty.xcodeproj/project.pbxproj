@@ -25,7 +25,6 @@
 		571B55031E6E03CC005414E1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 571B55021E6E03CC005414E1 /* Info.plist */; };
 		571C71FA1E6DDA1C00B58E22 /* DirectionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */; };
 		571EAB0C1E660AB500CF2947 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB0B1E660AB500CF2947 /* AppDelegate.swift */; };
-		571EAB0E1E660AB500CF2947 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB0D1E660AB500CF2947 /* ViewController.swift */; };
 		571EAB131E660AB500CF2947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB121E660AB500CF2947 /* Assets.xcassets */; };
 		571EAB161E660AB500CF2947 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 571EAB141E660AB500CF2947 /* LaunchScreen.storyboard */; };
 		571EAB221E660C6100CF2947 /* APIRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 571EAB211E660C6100CF2947 /* APIRequestManager.swift */; };
@@ -45,6 +44,7 @@
 		A20CA93B1E74BC3E007D5154 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA93A1E74BC3E007D5154 /* TodayViewController.swift */; };
 		A20CA93E1E74BC3E007D5154 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A20CA93C1E74BC3E007D5154 /* MainInterface.storyboard */; };
 		A20CA9421E74BC3E007D5154 /* Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A20CA9361E74BC3D007D5154 /* Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A2B032181E7C2CF9008D1A7B /* Fromc4q.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A2B032171E7C2CF9008D1A7B /* Fromc4q.gpx */; };
 		B9755D651E6DF3DC00B63C0A /* GetStartedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */; };
 		B9755D661E6DF3DC00B63C0A /* OboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D611E6DF3DC00B63C0A /* OboardViewController.swift */; };
 		B9755D671E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D621E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift */; };
@@ -121,7 +121,6 @@
 		571C71F91E6DDA1C00B58E22 /* DirectionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DirectionsTableViewCell.swift; path = Navty/DirectionsTableViewCell.swift; sourceTree = "<group>"; };
 		571EAB081E660AB500CF2947 /* Navty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		571EAB0B1E660AB500CF2947 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		571EAB0D1E660AB500CF2947 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		571EAB121E660AB500CF2947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		571EAB151E660AB500CF2947 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		571EAB211E660C6100CF2947 /* APIRequestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequestManager.swift; sourceTree = "<group>"; };
@@ -143,6 +142,7 @@
 		A20CA93A1E74BC3E007D5154 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		A20CA93D1E74BC3E007D5154 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		A20CA93F1E74BC3E007D5154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A2B032171E7C2CF9008D1A7B /* Fromc4q.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Fromc4q.gpx; sourceTree = "<group>"; };
 		A8F80816261FB17679C51DE6 /* Pods-Navty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.release.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.release.xcconfig"; sourceTree = "<group>"; };
 		B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetStartedCell.swift; path = Navty/GetStartedCell.swift; sourceTree = "<group>"; };
@@ -277,6 +277,7 @@
 		571EAB0A1E660AB500CF2947 /* Navty */ = {
 			isa = PBXGroup;
 			children = (
+				A2B032171E7C2CF9008D1A7B /* Fromc4q.gpx */,
 				5704954E1E7093C100376161 /* Google-Maps-iOS-Utils */,
 				B9755DB41E70682A00B63C0A /* SMS */,
 				B9755DAF1E70599800B63C0A /* View */,
@@ -309,7 +310,6 @@
 			children = (
 				B9755D611E6DF3DC00B63C0A /* OboardViewController.swift */,
 				B9755D641E6DF3DC00B63C0A /* SplashScreenViewController.swift */,
-				571EAB0D1E660AB500CF2947 /* ViewController.swift */,
 				571EAB231E66156500CF2947 /* NavigationMapViewController.swift */,
 				A20CA9301E746605007D5154 /* SearchResultsController.swift */,
 				571EAB271E676FEB00CF2947 /* MenuViewController.swift */,
@@ -490,6 +490,7 @@
 				571EAB261E66212200CF2947 /* GoogleService-Info.plist in Resources */,
 				571EAB131E660AB500CF2947 /* Assets.xcassets in Resources */,
 				571B55031E6E03CC005414E1 /* Info.plist in Resources */,
+				A2B032181E7C2CF9008D1A7B /* Fromc4q.gpx in Resources */,
 				571EAB561E6A252600CF2947 /* style.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -573,7 +574,6 @@
 				571EAB221E660C6100CF2947 /* APIRequestManager.swift in Sources */,
 				571EAB2B1E67707000CF2947 /* Utility.swift in Sources */,
 				B9755D691E6DF3DC00B63C0A /* SplashScreenViewController.swift in Sources */,
-				571EAB0E1E660AB500CF2947 /* ViewController.swift in Sources */,
 				B9755D661E6DF3DC00B63C0A /* OboardViewController.swift in Sources */,
 				A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */,
 				52A835461E71009800BFB89F /* Users.swift in Sources */,
