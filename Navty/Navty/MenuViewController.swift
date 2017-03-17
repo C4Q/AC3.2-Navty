@@ -137,6 +137,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     }
     
     func contactsController() {
+        dismiss(animated: true, completion: nil)
         let ContactsTC = ContactsTableViewController()
         if let navVC = self.navigationController {
             navVC.pushViewController(ContactsTC, animated: true)
