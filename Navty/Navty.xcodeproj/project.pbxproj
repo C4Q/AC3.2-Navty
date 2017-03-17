@@ -44,6 +44,7 @@
 		A20CA93E1E74BC3E007D5154 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A20CA93C1E74BC3E007D5154 /* MainInterface.storyboard */; };
 		A20CA9421E74BC3E007D5154 /* Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A20CA9361E74BC3D007D5154 /* Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A2B032181E7C2CF9008D1A7B /* Fromc4q.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A2B032171E7C2CF9008D1A7B /* Fromc4q.gpx */; };
+		A2B0321C1E7C54B4008D1A7B /* Navty_Plain_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B0321B1E7C54B4008D1A7B /* Navty_Plain_logo.png */; };
 		B9755D651E6DF3DC00B63C0A /* GetStartedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */; };
 		B9755D661E6DF3DC00B63C0A /* OboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D611E6DF3DC00B63C0A /* OboardViewController.swift */; };
 		B9755D671E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D621E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift */; };
@@ -140,6 +141,7 @@
 		A20CA93D1E74BC3E007D5154 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		A20CA93F1E74BC3E007D5154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2B032171E7C2CF9008D1A7B /* Fromc4q.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Fromc4q.gpx; sourceTree = "<group>"; };
+		A2B0321B1E7C54B4008D1A7B /* Navty_Plain_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Navty_Plain_logo.png; sourceTree = "<group>"; };
 		A8F80816261FB17679C51DE6 /* Pods-Navty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.release.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.release.xcconfig"; sourceTree = "<group>"; };
 		B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetStartedCell.swift; path = Navty/GetStartedCell.swift; sourceTree = "<group>"; };
@@ -292,10 +294,11 @@
 			isa = PBXGroup;
 			children = (
 				571EAB0B1E660AB500CF2947 /* AppDelegate.swift */,
-				571EAB121E660AB500CF2947 /* Assets.xcassets */,
 				571EAB141E660AB500CF2947 /* LaunchScreen.storyboard */,
+				571EAB121E660AB500CF2947 /* Assets.xcassets */,
 				571B55021E6E03CC005414E1 /* Info.plist */,
 				571EAB251E66212200CF2947 /* GoogleService-Info.plist */,
+				A2B0321B1E7C54B4008D1A7B /* Navty_Plain_logo.png */,
 				570495291E6F955E00376161 /* Navty-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
@@ -485,6 +488,7 @@
 				571EAB261E66212200CF2947 /* GoogleService-Info.plist in Resources */,
 				571EAB131E660AB500CF2947 /* Assets.xcassets in Resources */,
 				571B55031E6E03CC005414E1 /* Info.plist in Resources */,
+				A2B0321C1E7C54B4008D1A7B /* Navty_Plain_logo.png in Resources */,
 				A2B032181E7C2CF9008D1A7B /* Fromc4q.gpx in Resources */,
 				571EAB561E6A252600CF2947 /* style.json in Resources */,
 			);
