@@ -1,19 +1,17 @@
 <?xml version="1.0"?>
 <gpx version="1.1" creator="GPS Visualizer http://www.gpsvisualizer.com/" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
-<wpt lat="40.758895" lon="-73.985131">
-  <name>Times Square, Manhattan, NY 10036</name>
+    
+    
+<wpt lat="40.733672" lon="-73.997166">
+  <name>Washington Square Park</name>
 </wpt>
-
-
-40.735869,
 
 <wpt lat="40.735869" lon="-73.990448">
     <name>Union Square, Manhattan, NY 10036</name>
 </wpt>
 
-
-<wpt lat="40.7511073" lon="-73.9804216">
-  <name>Madison Ave &amp; 39th St, New York, NY</name>
+<wpt lat="40.729541" lon="-74.005755">
+  <name>Square Space</name>
 </wpt>
 <trk>
   <name>Times Square, Manhattan, NY 10036 - Madison Ave &amp; 39th St, New York, NY</name>

@@ -39,11 +39,8 @@
 		A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9201E663AC7007D5154 /* CrimeData.swift */; };
 		A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9241E672565007D5154 /* GoogleDirections.swift */; };
 		A20CA9311E746605007D5154 /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9301E746605007D5154 /* SearchResultsController.swift */; };
-		A20CA9381E74BC3E007D5154 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A20CA9371E74BC3E007D5154 /* NotificationCenter.framework */; };
-		A20CA93B1E74BC3E007D5154 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA93A1E74BC3E007D5154 /* TodayViewController.swift */; };
-		A20CA93E1E74BC3E007D5154 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A20CA93C1E74BC3E007D5154 /* MainInterface.storyboard */; };
-		A20CA9421E74BC3E007D5154 /* Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A20CA9361E74BC3D007D5154 /* Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A2B032181E7C2CF9008D1A7B /* Fromc4q.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A2B032171E7C2CF9008D1A7B /* Fromc4q.gpx */; };
+		B93E96B91E7C5E2B00740065 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93E96B81E7C5E2B00740065 /* TestViewController.swift */; };
 		B9755D651E6DF3DC00B63C0A /* GetStartedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */; };
 		B9755D661E6DF3DC00B63C0A /* OboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D611E6DF3DC00B63C0A /* OboardViewController.swift */; };
 		B9755D671E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D621E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift */; };
@@ -131,7 +128,7 @@
 		A8F80816261FB17679C51DE6 /* Pods-Navty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.release.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.release.xcconfig"; sourceTree = "<group>"; };
 		B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B93E96B31E7B5BDA00740065 /* test.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test.gpx; sourceTree = "<group>"; };
-		B93E96B51E7BF57F00740065 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestViewController.swift; path = Navty/TestViewController.swift; sourceTree = "<group>"; };
+		B93E96B81E7C5E2B00740065 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetStartedCell.swift; path = Navty/GetStartedCell.swift; sourceTree = "<group>"; };
 		B9755D611E6DF3DC00B63C0A /* OboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OboardViewController.swift; sourceTree = "<group>"; };
 		B9755D621E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardCollectionViewCell.swift; path = Navty/OnboardCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -236,7 +233,6 @@
 		571EAAFF1E660AB500CF2947 = {
 			isa = PBXGroup;
 			children = (
-				B93E96B51E7BF57F00740065 /* TestViewController.swift */,
 				571EAB0A1E660AB500CF2947 /* Navty */,
 				A20CA9391E74BC3E007D5154 /* Widget */,
 				571EAB091E660AB500CF2947 /* Products */,
@@ -295,6 +291,7 @@
 				521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */,
 				52A835431E70FB7800BFB89F /* LoginViewController .swift */,
 				57263B8C1E79A7C3009177BD /* TrackingViewController.swift */,
+				B93E96B81E7C5E2B00740065 /* TestViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -440,7 +437,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B93E96B41E7B5BDA00740065 /* test.gpx in Resources */,
 				571EAB161E660AB500CF2947 /* LaunchScreen.storyboard in Resources */,
 				571EAB261E66212200CF2947 /* GoogleService-Info.plist in Resources */,
 				571EAB131E660AB500CF2947 /* Assets.xcassets in Resources */,
@@ -505,9 +501,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B93E96B61E7BF57F00740065 /* TestViewController.swift in Sources */,
 				570495501E70969100376161 /* ClusterCrimeData.swift in Sources */,
 				5704954A1E70937800376161 /* GMUClusterManager.m in Sources */,
+				B93E96B91E7C5E2B00740065 /* TestViewController.swift in Sources */,
 				570495481E70937800376161 /* GMUSimpleClusterAlgorithm.m in Sources */,
 				570495241E6F949C00376161 /* GQTPointQuadTree.m in Sources */,
 				A20CA9311E746605007D5154 /* SearchResultsController.swift in Sources */,

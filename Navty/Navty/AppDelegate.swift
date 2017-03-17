@@ -114,16 +114,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let alert = UIAlertController(title: "In the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
         
         let no = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: nil)
-        
         let ok = UIAlertAction(title: "Ok", style: .default) { (action) in
-            self.window?.rootViewController?.present(TestViewController(), animated: true, completion: nil)
+            
+        //self.window?.rootViewController?.present(TestViewController(), animated: true, completion: nil)
+            
+            if (self.messageComposer.canSendText()) {
+                
+                let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
+                
+                self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
+                
+            }else{
+                print("Can not present the View Controller")
+            }
+            
         }
         
         
 
         alert.addAction(no)
         alert.addAction(ok)
-        self.window?.rootViewController?.present(alert, animated: true, completion: nil) 
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
 
 
        
