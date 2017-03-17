@@ -47,6 +47,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         view.addSubview(switchLabel)
         view.addSubview(trackingSwitch)
         view.addSubview(panicButton)
+        view.addSubview(panicLineView)
     }
     
     func constrainConfiguration(){
@@ -70,16 +71,16 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         contactButton.snp.makeConstraints { (button) in
             //button.centerX.equalTo(view.snp.centerX)
             //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
-            button.height.equalTo(19)
+            button.height.equalTo(49)
             button.width.equalToSuperview().multipliedBy(0.9)
-            button.top.equalTo(profilePicture.snp.bottom).offset(60)
+            button.top.equalTo(profilePicture.snp.bottom).offset(45)
             button.trailing.equalToSuperview()
         }
         
         contactLineView.snp.makeConstraints { (view) in
             view.trailing.equalToSuperview()
             view.width.equalToSuperview().multipliedBy(0.9)
-            view.top.equalTo(contactButton.snp.bottom).offset(15)
+            view.top.equalTo(contactButton.snp.bottom)
             view.height.equalTo(1)
         }
 
@@ -102,24 +103,32 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         trackingButton.snp.makeConstraints { (button) in
             //button.centerX.equalTo(view.snp.centerX)
             //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
-            button.height.equalTo(19)
+            button.height.equalTo(49)
             button.width.equalToSuperview().multipliedBy(0.9)
-            button.top.equalTo(contactLineView.snp.bottom).offset(15)
+            button.top.equalTo(contactLineView.snp.bottom)
             button.trailing.equalToSuperview()
         }
         
         trackingLineView.snp.makeConstraints { (view) in
             view.trailing.equalToSuperview()
             view.width.equalToSuperview().multipliedBy(0.9)
-            view.top.equalTo(trackingButton.snp.bottom).offset(15)
+            view.top.equalTo(trackingButton.snp.bottom)
             view.height.equalTo(1)
         }
         
         panicButton.snp.makeConstraints { (button) in
-            button.bottom.equalTo(switchLabel.snp.top)
-            button.height.width.equalTo(75)
-            button.centerX.equalToSuperview()
+            button.top.equalTo(trackingLineView.snp.bottom).offset(1)
+            button.height.equalTo(49)
+            button.width.equalToSuperview().multipliedBy(0.9)
+            button.trailing.equalToSuperview()
         }
+        
+        panicLineView.snp.makeConstraints({ (view) in
+            view.trailing.equalToSuperview()
+            view.width.equalToSuperview().multipliedBy(0.9)
+            view.top.equalTo(panicButton.snp.bottom)
+            view.height.equalTo(1)
+        })
         
         switchLabel.snp.makeConstraints({ (view) in
             view.leading.equalToSuperview().inset(20)
@@ -276,12 +285,20 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     internal var panicButton: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = ColorPalette.red
-        button.setTitle("PANIC", for: .normal)
-        button.layer.cornerRadius = 37.5
+        button.setTitle("P A N I C", for: .normal)
+        //button.layer.cornerRadius = 37.5
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: UIFontWeightLight)
+        button.contentHorizontalAlignment = .left
         button.alpha = 0.8
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(callButton(_:)), for: .touchUpInside)
         return button
+    }()
+    
+    internal lazy var panicLineView: UIView = {
+        let view: UIView = UIView()
+        view.backgroundColor = UIColor(white: 1, alpha: 0.24)
+        return view
     }()
    
     internal var trackingButton: UIButton = {
