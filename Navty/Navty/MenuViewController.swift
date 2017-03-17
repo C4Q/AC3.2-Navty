@@ -146,6 +146,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     }
     
     func contactsController() {
+        dismiss(animated: true, completion: nil)
         let ContactsTC = ContactsTableViewController()
         if let navVC = self.navigationController {
             navVC.pushViewController(ContactsTC, animated: true)
@@ -160,7 +161,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
 //    }
     
     func callButton(_ sender: UIButton) {
-        let url = NSURL(string: "tel://911")!
+        let url = NSURL(string: "tel://9")!
         UIApplication.shared.openURL(url as URL)
         print("calling")
     }
