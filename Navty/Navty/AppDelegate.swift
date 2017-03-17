@@ -25,8 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         registerForRemoteNotification()
         GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
-        GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
-//        GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
+//        GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
+        GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
 //        let navigationMapView = NavigationMapViewController()
 //        let navController = UINavigationController(rootViewController: navigationMapView)
         
@@ -119,7 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let request = UNNotificationRequest(identifier: "Destination", content: content, trigger: trigger)
-//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().add(request) {(error) in
            
             if let error = error {
@@ -194,6 +194,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         //imageView.image = UIImage(named: "firstGuy")
         case "disagree":
             print("I disagree")
+            
+            
         default:
             break
         }

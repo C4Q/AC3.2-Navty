@@ -797,7 +797,11 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         
 //        let nothing = ""
         if seconds < 60 {
-            return "0\(dispSeconds)"
+            if dispSeconds < 10 {
+                return "\(minutes) : 0\(dispSeconds)"
+            }else {
+                return "\(dispSeconds)"
+            }
         } else if seconds < 3600 {
             if dispSeconds < 10 {
             return "\(minutes) : 0\(dispSeconds)"
@@ -809,7 +813,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             if dispSeconds < 10 {
                 return "\(hours) : \(dispMinutes) : 0\(dispSeconds)"
             } else {
-        return "\(hours) : \(dispMinutes) : 0\(dispSeconds)"
+        return "\(hours) : \(dispMinutes) : \(dispSeconds)"
             }
         }
 //        return nothing
