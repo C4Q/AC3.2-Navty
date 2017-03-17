@@ -367,6 +367,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     
     func searchBarPressed(button: UIButton) {
         
+        
         let autocompleteController = GMSAutocompleteViewController()
         autocompleteController.delegate = self
         present(autocompleteController, animated: true, completion: nil)
@@ -609,37 +610,41 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             case 0:
                 print("tag 0")
                 
-                transportationIndicator.transform = CGAffineTransform.identity
+                let animatorOf = UIViewPropertyAnimator(duration: 1.0, curve: .linear, animations: { 
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.carView.snp.bottom)
                         view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.carView)
                     })
+                })
                 
-                animator.addAnimations {
-                    self.view.layoutIfNeeded()
-                }
+//                animatorOf.addAnimations {
+//                    self.view.layoutIfNeeded()
+//                }
                 
-                animator.startAnimation()
+                animatorOf.startAnimation()
                 
                 self.transportationPicked = "driving"
                 self.getPolylines(coordinates: self.newCoordinates)
             case 1:
                 print("tag 1")
                 
+                let animatorOf = UIViewPropertyAnimator(duration: 1.0, curve: .linear, animations: {
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.walkingView.snp.bottom)
                         view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.walkingView)
                     })
+                })
                 
-                animator.addAnimations {
-                    self.view.layoutIfNeeded()
-                }
+//                animatorOf.addAnimations {
+//                    self.transportationIndicator.layoutIfNeeded()
+//                }
                 
-                animator.startAnimation()
+                animatorOf.startAnimation()
+                
                
                 self.transportationPicked = "walking"
                 self.getPolylines(coordinates: self.newCoordinates)
@@ -647,36 +652,43 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                 print("tag 2")
                 
                 
+                let animatorOf = UIViewPropertyAnimator(duration: 1.0, curve: .linear, animations: {
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.bikeView.snp.bottom)
                         view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.bikeView)
                     })
+                })
                 
-                animator.addAnimations {
-                    self.view.layoutIfNeeded()
-                }
+//                animatorOf.addAnimations {
+//                    self.transportationIndicator.layoutIfNeeded()
+//                }
                 
-                animator.startAnimation()
+                animatorOf.startAnimation()
+                
                
                 self.transportationPicked = "bicycling"
                 self.getPolylines(coordinates: self.newCoordinates)
             case 3:
                 print("tag 3")
                 
+                
+                let animatorOf = UIViewPropertyAnimator(duration: 1.0, curve: .linear, animations: {
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.publicTransportView.snp.bottom)
                         view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.publicTransportView)
                     })
+                })
                 
-                animator.addAnimations {
-                    self.view.layoutIfNeeded()
-                }
+//                animatorOf.addAnimations {
+//                    self.transportationIndicator.layoutIfNeeded()
+//                }
                 
-                animator.startAnimation()
+                animatorOf.startAnimation()
+                
                
                 self.transportationPicked = "transit"
                 self.getPolylines(coordinates: self.newCoordinates)
@@ -992,6 +1004,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 3.0
+     
         return view
     }()
 
@@ -1182,7 +1195,7 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
         })
 
         
-        searchDestination.text = "\(place.name )"
+        searchDestinationButton.setTitle("\(place.name )", for: .normal)
         dismiss(animated: true, completion: nil)
     }
     
