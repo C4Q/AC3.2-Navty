@@ -11,7 +11,7 @@ import UIKit
 import GoogleMaps
 import Firebase
 import GooglePlaces
-import UserNotifications
+//import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -37,7 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        if userdefaults.bool(forKey: "onboardingComplete") {
 //            self.window?.rootViewController = navController
 //        } else {
-        self.window?.rootViewController = SplashScreenViewController()
+        let navController = UINavigationController(rootViewController: SplashScreenViewController())
+        self.window?.rootViewController = navController
         //}
         
         self.window?.makeKeyAndVisible()
@@ -119,21 +120,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
-//        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) -> Void in
-            
-//            if (self.messageComposer.canSendText()) {
-//                
-//                let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
-//                alert.dismiss(animated: true, completion: {
-//                    
-//                    self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
-//                })
-//            }
-//        }
-        
+
         alert.addAction(no)
         alert.addAction(ok)
         self.window?.rootViewController?.present(alert, animated: true, completion: nil) 
+
+
        
     }
     

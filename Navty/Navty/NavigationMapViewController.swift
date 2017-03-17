@@ -84,8 +84,8 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         self.navigationController?.isNavigationBarHidden = true
         
         setupViewHierarchy()
-        setupViews()
         setupToolbar()
+        setupViews()
 
         locationManager.delegate = self
         searchDestination.delegate = self
@@ -210,7 +210,6 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         
         navigationController?.toolbar.addSubview(transportationIndicator)
         timerLabel.addGestureRecognizer(recognizer)
-//        timerLabel.addGestureRecognizer(panGesture)
     }
     
     
@@ -296,8 +295,8 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
         
         SideMenuManager.menuLeftNavigationController = menuLeftNavigationController
         
-        SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
-        SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
+//        SideMenuManager.menuAddPanGestureToPresent(toView: self.navigationController!.navigationBar)
+//        SideMenuManager.menuAddScreenEdgePanGesturesToPresent(toView: self.navigationController!.view)
         
         SideMenuManager.menuFadeStatusBar = false
         SideMenuManager.menuPresentMode = .menuDissolveIn
@@ -610,7 +609,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             case 0:
                 print("tag 0")
                 
-                let animatorOf = UIViewPropertyAnimator(duration: 1.0, curve: .linear, animations: { 
+                let animatorOf = UIViewPropertyAnimator(duration: 0.3, curve: .linear, animations: {
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.carView.snp.bottom)
@@ -619,9 +618,9 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                     })
                 })
                 
-//                animatorOf.addAnimations {
-//                    self.view.layoutIfNeeded()
-//                }
+                animatorOf.addAnimations {
+                    self.navigationController?.toolbar.layoutIfNeeded()
+                }
                 
                 animatorOf.startAnimation()
                 
@@ -630,7 +629,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             case 1:
                 print("tag 1")
                 
-                let animatorOf = UIViewPropertyAnimator(duration: 1.0, curve: .linear, animations: {
+                let animatorOf = UIViewPropertyAnimator(duration: 0.3, curve: .linear, animations: {
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.walkingView.snp.bottom)
@@ -639,9 +638,9 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                     })
                 })
                 
-//                animatorOf.addAnimations {
-//                    self.transportationIndicator.layoutIfNeeded()
-//                }
+                animatorOf.addAnimations {
+                    self.navigationController?.toolbar.layoutIfNeeded()
+                }
                 
                 animatorOf.startAnimation()
                 
@@ -652,7 +651,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                 print("tag 2")
                 
                 
-                let animatorOf = UIViewPropertyAnimator(duration: 1.0, curve: .linear, animations: {
+                let animatorOf = UIViewPropertyAnimator(duration: 0.3, curve: .linear, animations: {
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.bikeView.snp.bottom)
@@ -661,9 +660,9 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                     })
                 })
                 
-//                animatorOf.addAnimations {
-//                    self.transportationIndicator.layoutIfNeeded()
-//                }
+                animatorOf.addAnimations {
+                    self.navigationController?.toolbar.layoutIfNeeded()
+                }
                 
                 animatorOf.startAnimation()
                 
@@ -674,7 +673,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                 print("tag 3")
                 
                 
-                let animatorOf = UIViewPropertyAnimator(duration: 1.0, curve: .linear, animations: {
+                let animatorOf = UIViewPropertyAnimator(duration: 0.3, curve: .linear, animations: {
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.publicTransportView.snp.bottom)
@@ -683,9 +682,9 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                     })
                 })
                 
-//                animatorOf.addAnimations {
-//                    self.transportationIndicator.layoutIfNeeded()
-//                }
+                animatorOf.addAnimations {
+                    self.navigationController?.toolbar.layoutIfNeeded()
+                }
                 
                 animatorOf.startAnimation()
                 
