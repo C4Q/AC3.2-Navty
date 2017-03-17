@@ -81,6 +81,7 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         self.navigationController?.isNavigationBarHidden = true
         
         setupViewHierarchy()
@@ -1172,8 +1173,8 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
                     print("Authorize us")
                 }
                 
-                let region = CLCircularRegion(center: coordinates, radius: 15, identifier: "Destination")
-                //                region.notifyOnEntry = true
+                let region = CLCircularRegion(center: coordinates, radius: 5, identifier: "Destination")
+//                                region.notifyOnEntry = true
                 //                region.notifyOnExit = true
                 
                 var radius = region.radius
@@ -1284,38 +1285,44 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
     }
 }
 
-extension NavigationMapViewController: UNUserNotificationCenterDelegate {
-    
-    
-    func userNotificationCenter(_: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // some other way of handling notification
-        completionHandler([.alert, .sound])
-    }
-    
-    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        
-        switch response.actionIdentifier {
-        case "agree":
-        
-            if (self.messageComposer.canSendText()) {
-                
-                let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
-                
-                self.present(messageComposeVC, animated: true, completion: nil)
-                
-                
-            }else{
-                print("Can not present the View Controller")
-            }
-            
-        case "disagree":
-            print("I disagree")
-        default:
-            break
-        }
-        
-        completionHandler()
-        
-    }
-}
+//extension NavigationMapViewController: UNUserNotificationCenterDelegate {
+//    
+//    
+//    
+//    func userNotificationCenter(_: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+//        // some other way of handling notification
+//        completionHandler([.alert, .sound])
+//    }
+//    
+//    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+//        
+//        
+//        switch response.actionIdentifier {
+//        case "agree":
+//            
+//            //
+//            if (self.messageComposer.canSendText()) {
+//                
+//                let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
+//                
+//                self.present(messageComposeVC, animated: true, completion: nil)
+//                
+//                
+//            }else{
+//                print("Can not present the View Controller")
+//            }
+//            
+//            //present(DetailViewController(), animated: true, completion: nil)
+//        //imageView.image = UIImage(named: "firstGuy")
+//        case "disagree":
+//            print("I disagree")
+//        default:
+//            break
+//        }
+//        
+//        completionHandler()
+//        
+//    }
+//}
+
+

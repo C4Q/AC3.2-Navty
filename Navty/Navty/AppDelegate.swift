@@ -11,7 +11,7 @@ import UIKit
 import GoogleMaps
 import Firebase
 import GooglePlaces
-//import UserNotifications
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FIRApp.configure()
-        
+        registerForRemoteNotification()
         GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
         GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
 //        GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
@@ -31,31 +31,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let navController = UINavigationController(rootViewController: navigationMapView)
         
 //        let userdefaults = UserDefaults.standard
+//        UNUserNotificationCenter.current().delegate = self
+       
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
-//        if userdefaults.bool(forKey: "onboardingComplete") {
-//            self.window?.rootViewController = navController
-//        } else {
+
         let navController = UINavigationController(rootViewController: SplashScreenViewController())
         self.window?.rootViewController = navController
-        //}
+  
         
         self.window?.makeKeyAndVisible()
         
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
-//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {(accepted, error) in
-//            if !accepted {
-//                print("Notification access denied.")
-//            }
-//        }
-//        
-//        let actionOne = UNNotificationAction(identifier: "agree", title: "Ok", options: [.foreground])
-//        let actionTwo = UNNotificationAction(identifier: "disagree", title: "No", options: [.foreground])
-//        let category = UNNotificationCategory(identifier: "myCategory", actions: [actionOne, actionTwo], intentIdentifiers: [], options: [])
-//        UNUserNotificationCenter.current().setNotificationCategories([category])
+        
+        
+        let actionOne = UNNotificationAction(identifier: "agree", title: "Ok", options: [.foreground])
+        let actionTwo = UNNotificationAction(identifier: "disagree", title: "No", options: [.foreground])
+        let category = UNNotificationCategory(identifier: "myCategory", actions: [actionOne, actionTwo], intentIdentifiers: [], options: [])
+        UNUserNotificationCenter.current().setNotificationCategories([category])
         
         return true
     }
@@ -81,72 +77,78 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-  
+
+    
+    func registerForRemoteNotification() {
+        if #available(iOS 10.0, *) {
+            let center  = UNUserNotificationCenter.current()
+            center.delegate = self
+            center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
+                if error == nil{
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        }
+        else {
+            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.sound, .alert, .badge], categories: nil))
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+    
     func handleEvent(forRegion region: CLRegion!) {
         
-//        let trigger = UNLocationNotificationTrigger(region: region, repeats: false)
-//        
-//        let content = UNMutableNotificationContent()
-//        content.title = "Text Message"
-//        content.body = "Do you want to notice your arrival to your friends?"
-//        content.sound = UNNotificationSound.default()
-//        content.categoryIdentifier = "myCategory"
-//        
-//        if let path = Bundle.main.path(forResource: "Navty_Plain_logo", ofType: "png") {
-//            let url = URL(fileURLWithPath: path)
-//            
-//            do {
-//                let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
-//                content.attachments = [attachment]
-//            } catch {
-//                print("The attachment was not loaded.")
-//            }
-//        }
-//        
-//        let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
-//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-//        UNUserNotificationCenter.current().add(request) {(error) in
-//            if let error = error {
-//                print("Uh oh! We had an error: \(error)")
-//            }
-//        }
         
-        let alert = UIAlertController(title: "In the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+//        let newTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
+        let content = UNMutableNotificationContent()
+        content.title = "Text Message"
+        content.body = "Do you want to notice your arrival to your friends?"
+        content.sound = UNNotificationSound.default()
+        content.categoryIdentifier = "myCategory"
         
-        let no = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: nil)
-        let ok = UIAlertAction(title: "Ok", style: .default) { (action) in
+        
+        if let path = Bundle.main.path(forResource: "Navty_Plain_logo", ofType: "png") {
+            let url = URL(fileURLWithPath: path)
             
-        //self.window?.rootViewController?.present(TestViewController(), animated: true, completion: nil)
-            
-            if (self.messageComposer.canSendText()) {
-                
-                let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
-                
-                self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
-                
-            }else{
-                print("Can not present the View Controller")
+            do {
+                let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
+                content.attachments = [attachment]
+            } catch {
+                print("The attachment was not loaded.")
             }
-            
+        }
+        
+        let request = UNNotificationRequest(identifier: "Destination", content: content, trigger: trigger)
+//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().add(request) {(error) in
+           
+            if let error = error {
+                print("Uh oh! We had an error: \(error)")
+            }
         }
         
         
-
-        alert.addAction(no)
-        alert.addAction(ok)
-        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
-
-
+//        
+//        let alert = UIAlertController(title: "In the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
+//        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) -> Void in
+//            
+//            if (self.messageComposer.canSendText()) {
+//                
+//                let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
+//                alert.dismiss(animated: true, completion: {
+//                    
+//                    self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
+//                })
+//            }
+//        }
+//        alert.addAction(ok)
+//        self.window?.rootViewController?.present(alert, animated: true, completion: nil) 
+//
+        
        
     }
     
-//    func handleEventExit(forRegion region: CLRegion!) {
-//        let alert = UIAlertController(title: "Out the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
-//        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
-//        alert.addAction(ok)
-//        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
-//        
-//    }
+   
 
 }
 
@@ -157,8 +159,46 @@ extension AppDelegate: CLLocationManagerDelegate {
             handleEvent(forRegion: region)
         }
     }
-
+    
 }
 
 
-
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    
+    
+    func userNotificationCenter(_: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // some other way of handling notification
+        completionHandler([.alert, .sound])
+    }
+    
+    func userNotificationCenter(_: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        
+        switch response.actionIdentifier {
+        case "agree":
+            
+            //
+            if (self.messageComposer.canSendText()) {
+                
+                let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
+                
+                self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
+                
+                
+            }else{
+                print("Can not present the View Controller")
+            }
+            
+            //present(DetailViewController(), animated: true, completion: nil)
+        //imageView.image = UIImage(named: "firstGuy")
+        case "disagree":
+            print("I disagree")
+        default:
+            break
+        }
+        
+        completionHandler()
+        
+    }
+}

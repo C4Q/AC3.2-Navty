@@ -18,5 +18,6 @@ target 'Navty' do
   pod 'GooglePlaces'
   pod 'GooglePlacePicker'
   pod "PubNub", "~> 4"
+  pod 'paper-onboarding', '~> 2.0.1'
 
 end
