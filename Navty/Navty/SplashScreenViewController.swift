@@ -35,13 +35,13 @@ class SplashScreenViewController: UIViewController {
     func SegueToOnboardVc(){
         let userdefaults = UserDefaults.standard
         
-        if userdefaults.bool(forKey: "onboardingComplete") {
-            let navigationMapView = NavigationMapViewController()
-            let navController = UINavigationController(rootViewController: navigationMapView)
-            present(navController, animated: true, completion: nil)
-        } else {
+//        if userdefaults.bool(forKey: "onboardingComplete") {
+//            let navigationMapView = NavigationMapViewController()
+//            let navController = UINavigationController(rootViewController: navigationMapView)
+//            present(navController, animated: true, completion: nil)
+//        } else {
             present(OnboardViewController(), animated: true, completion: nil)
-        }
+        //}
     }
     
     internal lazy var icon: UIImageView = {
