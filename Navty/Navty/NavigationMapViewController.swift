@@ -350,11 +350,12 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let markerItem = marker.userData as? ClusterCrimeData {
+            
             print("Did tap marker for cluster item \(markerItem.name)")
         } else {
             print("Did tap a normal marker")
         }
-        
+    
         return false
     }
 
@@ -1227,22 +1228,26 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
     
     func renderer(_ renderer: GMUClusterRenderer, willRenderMarker marker: GMSMarker) {
         if let crimeData = marker.userData as? ClusterCrimeData {
-            
+//            marker.icon = UIImage(named: "Map Pin-20")
             var dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            dateFormatter.dateStyle = .full
-            let d = TimeInterval(1467345600)
-            
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+            let d = TimeInterval(1477972800)
             
                 var cDate = crimeData.crime.crimeDate
                 var sDate = dateFormatter.date(from: cDate)
-                if (sDate?.timeIntervalSince1970)! >= d {
-                    marker.icon = UIImage(named: "Map Pin-20")
-                } else {
-                    marker.icon = UIImage(named: "Map BPin-20")
+            
+            if let interval = sDate?.timeIntervalSince1970, interval >= d {
+                marker.icon = UIImage(named: "Map Pin-20")
+            } else {
+                marker.icon = UIImage(named: "Map BPin-20")
+         
             }
+            
+            marker.title = crimeData.crime.description
+            //marker.snippet = crimeData.crime.crimeDate
         }
     }
+    
     
     
     func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
@@ -1250,12 +1255,12 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
             let newCamera = GMSCameraPosition.camera(withTarget: cluster.position, zoom: mapView.camera.zoom + 1)
             let update = GMSCameraUpdate.setCamera(newCamera)
             mapView.moveCamera(update)
+            
         }
         
         return false
     }
 }
-
 extension NavigationMapViewController: UIGestureRecognizerDelegate {
 
 }
