@@ -19,6 +19,8 @@ class GetStartedCell: UICollectionViewCell {
     override init(frame: CGRect){
         super.init(frame: frame)
         
+        
+        
         backgroundColor = ColorPalette.bgColor
         
         addSubview(startButton)
