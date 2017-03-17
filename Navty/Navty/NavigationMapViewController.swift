@@ -1164,7 +1164,7 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
                     print("Authorize us")
                 }
                 
-                let region = CLCircularRegion(center: coordinates, radius: 5, identifier: "Destination")
+                let region = CLCircularRegion(center: coordinates, radius: 15, identifier: "Destination")
                 //                region.notifyOnEntry = true
                 //                region.notifyOnExit = true
                 

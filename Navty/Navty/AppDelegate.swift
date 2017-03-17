@@ -23,9 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         FIRApp.configure()
         
-        GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
+        //GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
         //GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
-        GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
+        
+        GMSServices.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
+        GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
 //        let navigationMapView = NavigationMapViewController()
 //        let navController = UINavigationController(rootViewController: navigationMapView)
         
@@ -74,37 +76,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+  
     func handleEvent(forRegion region: CLRegion!) {
-        let alert = UIAlertController(title: "Closed to the destination", message: "Do you want to send messsage?", preferredStyle: UIAlertControllerStyle.alert)
-        //let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+        let alert = UIAlertController(title: "You are closed to your destination", message: "Do you want to send message to your friends", preferredStyle: UIAlertControllerStyle.alert)
+        let no = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: nil)
         let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) -> Void in
             
             if (self.messageComposer.canSendText()) {
                 
                 let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
-                alert.dismiss(animated: true, completion: { 
-                    
-                    self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
-                })
+                
+                self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
+                
+            }else{
+                print("Can not present the View Controller")
             }
         }
         
-        
+        alert.addAction(no)
         alert.addAction(ok)
         self.window?.rootViewController?.present(alert, animated: true, completion: nil)
         
     }
-    
-    func handleEventExit(forRegion region: CLRegion!) {
-        let alert = UIAlertController(title: "Out the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
-        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
-        alert.addAction(ok)
-        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
-        
-    }
-}
 
+}
 
 extension AppDelegate: CLLocationManagerDelegate {
     
@@ -113,11 +108,9 @@ extension AppDelegate: CLLocationManagerDelegate {
             handleEvent(forRegion: region)
         }
     }
-    
-    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        if region is CLCircularRegion {
-            handleEventExit(forRegion: region)
-        }
-    }
+
 }
+
+
+
 

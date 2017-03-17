@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<gpx version="1.1" creator="GPS Visualizer http://www.gpsvisualizer.com/" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<wpt lat="40.758895" lon="-73.985131">
+  <name>Times Square, Manhattan, NY 10036</name>
+</wpt>
+
+
+40.735869,
+
+<wpt lat="40.735869" lon="-73.990448">
+    <name>Union Square, Manhattan, NY 10036</name>
+</wpt>
+
+
+<wpt lat="40.7511073" lon="-73.9804216">
+  <name>Madison Ave &amp; 39th St, New York, NY</name>
+</wpt>
+<trk>
+  <name>Times Square, Manhattan, NY 10036 - Madison Ave &amp; 39th St, New York, NY</name>
+  <desc>0.8 mi, 0:17</desc>
+  <trkseg>
+    <trkpt lat="40.75893" lon="-73.98529"></trkpt>
+    <trkpt lat="40.75871" lon="-73.98537"></trkpt>
+    <trkpt lat="40.758" lon="-73.98563"></trkpt>
+    <trkpt lat="40.75796" lon="-73.98565"></trkpt>
+    <trkpt lat="40.75792" lon="-73.98568"></trkpt>
+    <trkpt lat="40.75789" lon="-73.98568"></trkpt>
+    <trkpt lat="40.75778" lon="-73.98568"></trkpt>
+    <trkpt lat="40.75778" lon="-73.98568"></trkpt>
+    <trkpt lat="40.75768" lon="-73.98564"></trkpt>
+    <trkpt lat="40.75764" lon="-73.98564"></trkpt>
+    <trkpt lat="40.75761" lon="-73.98564"></trkpt>
+    <trkpt lat="40.75756" lon="-73.98565"></trkpt>
+    <trkpt lat="40.75725" lon="-73.98578"></trkpt>
+    <trkpt lat="40.75655" lon="-73.98606"></trkpt>
+    <trkpt lat="40.75655" lon="-73.98606"></trkpt>
+    <trkpt lat="40.75551" lon="-73.98361"></trkpt>
+    <trkpt lat="40.75533" lon="-73.98318"></trkpt>
+    <trkpt lat="40.75416" lon="-73.9804"></trkpt>
+    <trkpt lat="40.75398" lon="-73.97997"></trkpt>
+    <trkpt lat="40.7539" lon="-73.97978"></trkpt>
+    <trkpt lat="40.75353" lon="-73.97888"></trkpt>
+    <trkpt lat="40.75349" lon="-73.97877"></trkpt>
+    <trkpt lat="40.75349" lon="-73.97877"></trkpt>
+    <trkpt lat="40.7531" lon="-73.97904"></trkpt>
+    <trkpt lat="40.75281" lon="-73.97927"></trkpt>
+    <trkpt lat="40.75251" lon="-73.97951"></trkpt>
+    <trkpt lat="40.75214" lon="-73.97978"></trkpt>
+    <trkpt lat="40.75153" lon="-73.98022"></trkpt>
+    <trkpt lat="40.75114" lon="-73.98051"></trkpt>
+  </trkseg>
+</trk>
+</gpx>
