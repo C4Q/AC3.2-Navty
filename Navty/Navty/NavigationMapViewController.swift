@@ -1298,8 +1298,7 @@ extension NavigationMapViewController: UNUserNotificationCenterDelegate {
         
         switch response.actionIdentifier {
         case "agree":
-            
-            //
+        
             if (self.messageComposer.canSendText()) {
                 
                 let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
@@ -1311,8 +1310,6 @@ extension NavigationMapViewController: UNUserNotificationCenterDelegate {
                 print("Can not present the View Controller")
             }
             
-            //present(DetailViewController(), animated: true, completion: nil)
-        //imageView.image = UIImage(named: "firstGuy")
         case "disagree":
             print("I disagree")
         default:

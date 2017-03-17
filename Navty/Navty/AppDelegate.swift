@@ -42,19 +42,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window?.makeKeyAndVisible()
         
-        //locationManager.delegate = self
+        locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {(accepted, error) in
-            if !accepted {
-                print("Notification access denied.")
-            }
-        }
-        
-        let actionOne = UNNotificationAction(identifier: "agree", title: "Ok", options: [.foreground])
-        let actionTwo = UNNotificationAction(identifier: "disagree", title: "No", options: [.foreground])
-        let category = UNNotificationCategory(identifier: "myCategory", actions: [actionOne, actionTwo], intentIdentifiers: [], options: [])
-        UNUserNotificationCenter.current().setNotificationCategories([category])
+//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {(accepted, error) in
+//            if !accepted {
+//                print("Notification access denied.")
+//            }
+//        }
+//        
+//        let actionOne = UNNotificationAction(identifier: "agree", title: "Ok", options: [.foreground])
+//        let actionTwo = UNNotificationAction(identifier: "disagree", title: "No", options: [.foreground])
+//        let category = UNNotificationCategory(identifier: "myCategory", actions: [actionOne, actionTwo], intentIdentifiers: [], options: [])
+//        UNUserNotificationCenter.current().setNotificationCategories([category])
         
         return true
     }
@@ -83,36 +83,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
     func handleEvent(forRegion region: CLRegion!) {
         
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        
-        let content = UNMutableNotificationContent()
-        content.title = "Text Message"
-        content.body = "Do you want to notice your arrival to your friends?"
-        content.sound = UNNotificationSound.default()
-        content.categoryIdentifier = "myCategory"
-        
-        if let path = Bundle.main.path(forResource: "Navty_Plain_logo", ofType: "png") {
-            let url = URL(fileURLWithPath: path)
-            
-            do {
-                let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
-                content.attachments = [attachment]
-            } catch {
-                print("The attachment was not loaded.")
-            }
-        }
-        
-        let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        UNUserNotificationCenter.current().add(request) {(error) in
-            if let error = error {
-                print("Uh oh! We had an error: \(error)")
-            }
-        }
-//        let alert = UIAlertController(title: "In the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
-//        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) -> Void in
+//        let trigger = UNLocationNotificationTrigger(region: region, repeats: false)
+//        
+//        let content = UNMutableNotificationContent()
+//        content.title = "Text Message"
+//        content.body = "Do you want to notice your arrival to your friends?"
+//        content.sound = UNNotificationSound.default()
+//        content.categoryIdentifier = "myCategory"
+//        
+//        if let path = Bundle.main.path(forResource: "Navty_Plain_logo", ofType: "png") {
+//            let url = URL(fileURLWithPath: path)
 //            
+//            do {
+//                let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
+//                content.attachments = [attachment]
+//            } catch {
+//                print("The attachment was not loaded.")
+//            }
+//        }
+//        
+//        let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
+//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//        UNUserNotificationCenter.current().add(request) {(error) in
+//            if let error = error {
+//                print("Uh oh! We had an error: \(error)")
+//            }
+//        }
+        
+        let alert = UIAlertController(title: "In the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let no = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: nil)
+        
+        let ok = UIAlertAction(title: "Ok", style: .default) { (action) in
+            self.window?.rootViewController?.present(TestViewController(), animated: true, completion: nil)
+        }
+        
+        
+//        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) -> Void in
+            
 //            if (self.messageComposer.canSendText()) {
 //                
 //                let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
@@ -122,18 +130,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                })
 //            }
 //        }
-//        alert.addAction(ok)
-//        self.window?.rootViewController?.present(alert, animated: true, completion: nil) 
+        
+        alert.addAction(no)
+        alert.addAction(ok)
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil) 
        
     }
     
-    func handleEventExit(forRegion region: CLRegion!) {
-        let alert = UIAlertController(title: "Out the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
-        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
-        alert.addAction(ok)
-        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
-        
-    }
+//    func handleEventExit(forRegion region: CLRegion!) {
+//        let alert = UIAlertController(title: "Out the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
+//        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.cancel, handler: nil)
+//        alert.addAction(ok)
+//        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+//        
+//    }
 
 }
 
