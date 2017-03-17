@@ -30,6 +30,8 @@ class SplashScreenViewController: UIViewController {
         
         perform(#selector(SegueToOnboardVc), with: nil, afterDelay: 3)
         
+        navigationController?.isNavigationBarHidden = true
+        
     }
     
     func SegueToOnboardVc(){
@@ -37,10 +39,10 @@ class SplashScreenViewController: UIViewController {
         
         if userdefaults.bool(forKey: "onboardingComplete") {
             let navigationMapView = NavigationMapViewController()
-            let navController = UINavigationController(rootViewController: navigationMapView)
-            present(navController, animated: true, completion: nil)
+            navigationController?.pushViewController(navigationMapView, animated: true)
         } else {
-            present(OnboardViewController(), animated: true, completion: nil)
+            let onboardVC = OnboardViewController()
+            navigationController?.pushViewController(onboardVC, animated: true)
         }
     }
     
