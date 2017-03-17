@@ -767,9 +767,23 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
                 Settings.shared.channelName = (textField?.text)!
                 print(Settings.shared.channelName)
                 self.client.subscribeToChannels([Settings.shared.channelName], withPresence: true)
+                
+                if self.messageComposer.canSendText() {
+                    let messageComposerVC = self.messageComposer.configuredMessageComposeViewController()
+                    
+                    messageComposerVC.body = "Track me using channel name: \(Settings.shared.channelName), on the  Navty app or at navtyapp.com"
+                    
+                    self.navigationController?.present(messageComposerVC, animated: true, completion: nil)
+                } else {
+                    print("Cant present")
+                }
             }))
-            self.present(alert, animated: true, completion: nil)
+            //self.present(alert, animated: true, completion: nil)
+            self.navigationController?.present(alert, animated: true, completion: nil)
             Settings.shared.channelInput = true
+            
+            //messaging 
+            
         }
         
         Settings.shared.navigationStarted = true
