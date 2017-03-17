@@ -48,9 +48,9 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     }
     
     func onboardingItemAtIndex(_ index: Int) -> OnboardingItemInfo {
-        let backgroundColorOne = UIColor.blue
-        let backgroundColorTwo = UIColor.brown
-        let backgroundColorThree = UIColor.darkGray
+        let backgroundColorOne = ColorPalette.bgColor
+        let backgroundColorTwo = ColorPalette.bgColor
+        let backgroundColorThree = ColorPalette.bgColor
         
         let titleFont = UIFont(name: "AvenirNext-Bold", size: 24)!
         let descriptionFont = UIFont(name: "AvenirNext-Regular", size: 18)!
