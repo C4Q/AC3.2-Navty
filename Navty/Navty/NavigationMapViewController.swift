@@ -356,11 +356,12 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let markerItem = marker.userData as? ClusterCrimeData {
+            
             print("Did tap marker for cluster item \(markerItem.name)")
         } else {
             print("Did tap a normal marker")
         }
-        
+    
         return false
     }
 
@@ -765,13 +766,13 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
                 let textField = alert?.textFields![0]
                 Settings.shared.channelName = (textField?.text)!
-                print(Settings.shared.channelName)
-                self.client.subscribeToChannels([Settings.shared.channelName], withPresence: true)
+                self.client.subscribeToChannels(["\(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)"], withPresence: true)
                 
                 if self.messageComposer.canSendText() {
                     let messageComposerVC = self.messageComposer.configuredMessageComposeViewController()
                     
-                    messageComposerVC.body = "Track me using channel name: \(Settings.shared.channelName), on the  Navty app or at navtyapp.com"
+                    messageComposerVC.body = "Track me at navtyapp.com/?id=\(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)"
+                    //"Track me using channel name: \(Settings.shared.channelName), on the  Navty app or at navtyapp.com"
                     
                     self.navigationController?.present(messageComposerVC, animated: true, completion: nil)
                 } else {
@@ -1117,7 +1118,7 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
             if Settings.shared.trackingEnabled != false {
                 let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
                 print(message)
-                self.client.publish(message, toChannel: Settings.shared.channelName, compressed: false, withCompletion: { (status) in
+                self.client.publish(message, toChannel: "\(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)", compressed: false, withCompletion: { (status) in
                     if !status.isError {
                         print("Sucess")
                     } else {
@@ -1269,23 +1270,30 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
     }
     
     func renderer(_ renderer: GMUClusterRenderer, willRenderMarker marker: GMSMarker) {
-//        if let crimeData = marker.userData as? ClusterCrimeData {
-//            
-//            var dateFormatter = DateFormatter()
-//            dateFormatter.dateFormat = "yyyy-MM-dd"
-//            dateFormatter.dateStyle = .full
-//            let d = TimeInterval(1467345600)
-//            
-//            
-//                var cDate = crimeData.crime.crimeDate
-//                var sDate = dateFormatter.date(from: cDate)
-//                if (sDate?.timeIntervalSince1970)! >= d {
-//                    marker.icon = UIImage(named: "Map Pin-20")
-//                } else {
-//                    marker.icon = UIImage(named: "Map BPin-20")
-//            }
-//        }
+
+        if let crimeData = marker.userData as? ClusterCrimeData {
+//            marker.icon = UIImage(named: "Map Pin-20")
+            var dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+            let d = TimeInterval(1477972800)
+            
+                var cDate = crimeData.crime.crimeDate
+                var sDate = dateFormatter.date(from: cDate)
+            
+            if let interval = sDate?.timeIntervalSince1970, interval >= d {
+                marker.icon = UIImage(named: "red-dot")
+            } else {
+                marker.icon = UIImage(named: "blue-dot")
+         
+            }
+            
+            marker.title = "Crime: \(crimeData.crime.description)"
+            
+            //marker.snippet = crimeData.crime.crimeDate
+        }
+
     }
+    
     
     
     func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
@@ -1293,11 +1301,15 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
             let newCamera = GMSCameraPosition.camera(withTarget: cluster.position, zoom: mapView.camera.zoom + 1)
             let update = GMSCameraUpdate.setCamera(newCamera)
             mapView.moveCamera(update)
+            
         }
         
         return false
     }
 }
+
+extension NavigationMapViewController: UIGestureRecognizerDelegate {
+
 
 //extension NavigationMapViewController: UNUserNotificationCenterDelegate {
 //    
@@ -1339,4 +1351,4 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
 //    }
 //}
 
-
+}
