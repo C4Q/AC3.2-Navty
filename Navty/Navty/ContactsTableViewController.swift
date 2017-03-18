@@ -186,11 +186,11 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
 
 //        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
 
-//        let predicate = NSPredicate(value: false)
-//        let truePredicate = NSPredicate(value: true)
-//        contactPicker.predicateForSelectionOfContact = truePredicate
-//        contactPicker.predicateForSelectionOfProperty = truePredicate
-//        contactPicker.predicateForEnablingContact = truePredicate
+        let predicate = NSPredicate(value: false)
+        let truePredicate = NSPredicate(value: true)
+        contactPicker.predicateForSelectionOfContact = truePredicate
+        contactPicker.predicateForSelectionOfProperty = truePredicate
+        contactPicker.predicateForEnablingContact = truePredicate
         self.present(contactPicker, animated: true, completion: nil)
         
     }
