@@ -765,13 +765,13 @@ class NavigationMapViewController: UIViewController, UISearchBarDelegate, GMSMap
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
                 let textField = alert?.textFields![0]
                 Settings.shared.channelName = (textField?.text)!
-                print(Settings.shared.channelName)
-                self.client.subscribeToChannels([Settings.shared.channelName], withPresence: true)
+                self.client.subscribeToChannels(["\(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)"], withPresence: true)
                 
                 if self.messageComposer.canSendText() {
                     let messageComposerVC = self.messageComposer.configuredMessageComposeViewController()
                     
-                    messageComposerVC.body = "Track me using channel name: \(Settings.shared.channelName), on the  Navty app or at navtyapp.com"
+                    messageComposerVC.body = "Track me at navtyapp.com/?id=\(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)"
+                    //"Track me using channel name: \(Settings.shared.channelName), on the  Navty app or at navtyapp.com"
                     
                     self.navigationController?.present(messageComposerVC, animated: true, completion: nil)
                 } else {
@@ -1114,7 +1114,7 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
             if Settings.shared.trackingEnabled != false {
                 let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
                 print(message)
-                self.client.publish(message, toChannel: Settings.shared.channelName, compressed: false, withCompletion: { (status) in
+                self.client.publish(message, toChannel: "\(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)", compressed: false, withCompletion: { (status) in
                     if !status.isError {
                         print("Sucess")
                     } else {
