@@ -1237,13 +1237,14 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
                 var sDate = dateFormatter.date(from: cDate)
             
             if let interval = sDate?.timeIntervalSince1970, interval >= d {
-                marker.icon = UIImage(named: "Map Pin-20")
+                marker.icon = UIImage(named: "red-dot")
             } else {
-                marker.icon = UIImage(named: "Map BPin-20")
+                marker.icon = UIImage(named: "blue-dot")
          
             }
             
-            marker.title = crimeData.crime.description
+            marker.title = "Crime: \(crimeData.crime.description)"
+            
             //marker.snippet = crimeData.crime.crimeDate
         }
     }
