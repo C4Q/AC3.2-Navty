@@ -8,7 +8,7 @@
 
 import UIKit
 import SnapKit
-import paper_onboarding
+import paper_onboarding                               
 
 class OnboardingViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardingDelegate {
 
