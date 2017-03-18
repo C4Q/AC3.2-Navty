@@ -19,7 +19,7 @@ import UserNotifications
 class NavigationMapViewController: UIViewController, PNObjectEventListener {
     
     let messageComposer = MessageComposer()
-    var animator = UIViewPropertyAnimator(duration: 3.0, curve: .linear , animations: nil)
+    var animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear , animations: nil)
     var userLatitude = Float()
     var userLongitude = Float()
     var zoomLevel: Float = 15.0
@@ -82,6 +82,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         
         
         self.navigationController?.isNavigationBarHidden = true
+        self.view.backgroundColor = UIColor.white
         
         setupViewHierarchy()
         setupToolbar()
@@ -93,7 +94,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         mapView.delegate = self
         locationManager.startUpdatingLocation()
         
-        self.view.backgroundColor = UIColor.white
         sideMenu()
         clustering()
         
@@ -126,49 +126,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         print("hello")
     }
     
-    func tapped(recognizer: UITapGestureRecognizer) {
-        
-        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
-
-            self.directionsTableView.snp.remakeConstraints({ (view) in
-                view.leading.trailing.equalToSuperview()
-                view.height.equalTo(0)
-                view.bottom.equalTo(self.mapView.snp.bottom)
-            })
-        
-        })
-    
-        GMSMapView.animate(withDuration: 1.0) {
-            self.mapView.snp.remakeConstraints({ (view) in
-                view.leading.trailing.top.equalToSuperview()
-                view.height.equalToSuperview()
-            })
-        }
-
-        
-        startNavigation.isHidden = false
-    }
-    
-    func panGesturePressed(recognizer: UIPanGestureRecognizer) {
-        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
-            
-            self.directionsTableView.snp.remakeConstraints({ (view) in
-                view.leading.trailing.equalToSuperview()
-                view.height.equalTo(0)
-                view.bottom.equalTo(self.mapView.snp.bottom)
-            })
-            
-        })
-        
-        GMSMapView.animate(withDuration: 1.0) {
-            self.mapView.snp.remakeConstraints({ (view) in
-                view.leading.trailing.top.equalToSuperview()
-                view.height.equalToSuperview()
-            })
-        }
-        
-        startNavigation.isHidden = false
-    }
     
     //MARK: VIEW HIERARCHY & VIEWS CONSTRAINTS
     func setupViewHierarchy() {
@@ -342,6 +299,28 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     
 
 
+    func tapped(recognizer: UITapGestureRecognizer) {
+        
+        UITableView.animate(withDuration: 1.0, animations: { () -> Void in
+            
+            self.directionsTableView.snp.remakeConstraints({ (view) in
+                view.leading.trailing.equalToSuperview()
+                view.height.equalTo(0)
+                view.bottom.equalTo(self.mapView.snp.bottom)
+            })
+            
+        })
+        
+        GMSMapView.animate(withDuration: 1.0) {
+            self.mapView.snp.remakeConstraints({ (view) in
+                view.leading.trailing.top.equalToSuperview()
+                view.height.equalToSuperview()
+            })
+        }
+        
+        
+        startNavigation.isHidden = false
+    }
     
     func searchBarPressed(button: UIButton) {
         
@@ -395,16 +374,16 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                     self.directions = validData
                     
                     DispatchQueue.main.async {
-                        //self.polyline.map = nil
+                       
                         
                         for eachOne in 0 ..< self.directions.count {
                             self.path = GMSPath(fromEncodedPath: self.directions[eachOne].overallPolyline)!
                             self.availablePaths.append(self.path)
-                            //self.polyline = GMSPolyline(path: self.availablePaths[eachOne])
+                         
                             self.polyline = GMSPolyline(path: self.path)
                             self.polyline?.title = self.directions[eachOne].overallTime
                             
-                            //                            self.countDown = Int(self.directions[eachOne].overallTime)
+
                             let time = self.directions[eachOne].overallTime
                             self.distanceTimeConversionToSeconds(time: time)
                             self.eta = time
@@ -412,9 +391,9 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                             self.polyline?.strokeWidth = 7
                             self.polyline?.strokeColor = self.colors[eachOne]
                             self.polyline?.isTappable = true
-                            //self.polyline.title = "\(self.colors[eachOne])"
+                         
                             self.allPolyLines.append(self.polyline!)
-                            //self.polyline.map = self.mapView
+                    
                             self.allPolyLines[eachOne].map = self.mapView
                             
                             self.directionsTableView.reloadData()
@@ -461,86 +440,77 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         } else {
             switch sender.tag {
             case 0:
-                print("tag 0")
-                
-                let animatorOf = UIViewPropertyAnimator(duration: 0.3, curve: .linear, animations: {
+  
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.carView.snp.bottom)
                         view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.carView)
                     })
-                })
+
                 
-                animatorOf.addAnimations {
+                animator.addAnimations {
                     self.navigationController?.toolbar.layoutIfNeeded()
                 }
                 
-                animatorOf.startAnimation()
+                animator.startAnimation()
                 
                 self.transportationPicked = "driving"
                 self.getPolylines(coordinates: self.newCoordinates)
             case 1:
-                print("tag 1")
                 
-                let animatorOf = UIViewPropertyAnimator(duration: 0.3, curve: .linear, animations: {
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.walkingView.snp.bottom)
                         view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.walkingView)
                     })
-                })
+
                 
-                animatorOf.addAnimations {
+                animator.addAnimations {
                     self.navigationController?.toolbar.layoutIfNeeded()
                 }
                 
-                animatorOf.startAnimation()
+                animator.startAnimation()
                 
                
                 self.transportationPicked = "walking"
                 self.getPolylines(coordinates: self.newCoordinates)
             case 2:
-                print("tag 2")
                 
                 
-                let animatorOf = UIViewPropertyAnimator(duration: 0.3, curve: .linear, animations: {
                     self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.bikeView.snp.bottom)
                         view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.bikeView)
                     })
-                })
+
                 
-                animatorOf.addAnimations {
+                animator.addAnimations {
                     self.navigationController?.toolbar.layoutIfNeeded()
                 }
                 
-                animatorOf.startAnimation()
+                animator.startAnimation()
                 
                
                 self.transportationPicked = "bicycling"
                 self.getPolylines(coordinates: self.newCoordinates)
             case 3:
-                print("tag 3")
-                
-                
-                let animatorOf = UIViewPropertyAnimator(duration: 0.3, curve: .linear, animations: {
-                    self.transportationIndicator.snp.remakeConstraints({ (view) in
+               
+                self.transportationIndicator.snp.remakeConstraints({ (view) in
                         
                         view.top.equalTo(self.publicTransportView.snp.bottom)
                         view.height.equalToSuperview().multipliedBy(0.05)
                         view.leading.trailing.equalTo(self.publicTransportView)
                     })
-                })
+
                 
-                animatorOf.addAnimations {
+                animator.addAnimations {
                     self.navigationController?.toolbar.layoutIfNeeded()
                 }
                 
-                animatorOf.startAnimation()
+                animator.startAnimation()
                 
                
                 self.transportationPicked = "transit"
