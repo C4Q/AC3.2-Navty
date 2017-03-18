@@ -1071,7 +1071,6 @@ extension String {
 }
 
 
-
 extension NavigationMapViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
@@ -1086,7 +1085,7 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("Authorized")
-//            manager.stopUpdatingLocation()
+        //            manager.stopUpdatingLocation()
         case .denied, .restricted:
             print("Authorization denied or restricted")
         case .notDetermined:
@@ -1144,9 +1143,11 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error: \(error)")
     }
-
-
+    
+    
 }
+
+
 
 extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
     
