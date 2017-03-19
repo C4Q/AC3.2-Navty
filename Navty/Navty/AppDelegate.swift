@@ -12,9 +12,10 @@ import GoogleMaps
 import Firebase
 import GooglePlaces
 import UserNotifications
+import PubNub
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
 
     var window: UIWindow?
     let locationManager: CLLocationManager = {
@@ -24,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return locMan
     }()
     let messageComposer = MessageComposer()
+    var client: PubNub!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -49,16 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        
-        let userDefaults = UserDefaults.standard
-        
-        if userDefaults.object(forKey: "ApplicationIdentifier") == nil {
-            let UUID = NSUUID().uuidString
-            userDefaults.set(UUID, forKey: "ApplicationIdentifier")
-            userDefaults.synchronize()
-        }
-        print(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)
-        
         
         let actionOne = UNNotificationAction(identifier: "agree", title: "Ok", options: [.foreground])
         let actionTwo = UNNotificationAction(identifier: "disagree", title: "No", options: [.foreground])
