@@ -29,8 +29,8 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         let barButton = UIBarButtonItem(customView: addButton)
         self.navigationItem.rightBarButtonItem = barButton
     
-        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: Selector(("addSomething:")))
-        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), toolEditButton]
+//        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: Selector(("addSomething:")))
+//        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), toolEditButton]
         self.navigationController!.setToolbarHidden(false, animated: false)
         
         //        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
@@ -212,11 +212,11 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         return button
     }()
     
-    lazy var editButton:  UIButton = {
-        let button = UIButton(type: UIButtonType.contactAdd)
-        //button.addTarget(self, action: #selector(showContactsPicker), for: .touchUpInside)
-        button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-        return button
-    }()
-    
+//    lazy var editButton:  UIButton = {
+//        let button = UIButton(type: UIButtonType.contactAdd)
+//        //button.addTarget(self, action: #selector(showContactsPicker), for: .touchUpInside)
+//        button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+//        return button
+//    }()
+//    
 }
