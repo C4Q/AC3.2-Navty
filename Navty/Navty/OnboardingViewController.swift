@@ -8,7 +8,7 @@
 
 import UIKit
 import SnapKit
-import paper_onboarding
+import paper_onboarding                               
 
 class OnboardingViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardingDelegate {
 
@@ -97,7 +97,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
         userDefaults.set(true, forKey: "onboardingComplete")
         userDefaults.synchronize()
         
-//        let navController = UINavigationController(rootViewController: NavigationMapViewController())
+
         let mapVC = NavigationMapViewController()
         self.navigationController?.pushViewController(mapVC, animated: true)
         

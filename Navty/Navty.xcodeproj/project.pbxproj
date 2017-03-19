@@ -39,13 +39,19 @@
 		8760BC449F0D75C72A7B2E0A /* Pods_Navty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */; };
 		A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9201E663AC7007D5154 /* CrimeData.swift */; };
 		A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9241E672565007D5154 /* GoogleDirections.swift */; };
-		A20CA9311E746605007D5154 /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9301E746605007D5154 /* SearchResultsController.swift */; };
 		A20CA9381E74BC3E007D5154 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A20CA9371E74BC3E007D5154 /* NotificationCenter.framework */; };
 		A20CA93B1E74BC3E007D5154 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA93A1E74BC3E007D5154 /* TodayViewController.swift */; };
 		A20CA93E1E74BC3E007D5154 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A20CA93C1E74BC3E007D5154 /* MainInterface.storyboard */; };
 		A20CA9421E74BC3E007D5154 /* Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A20CA9361E74BC3D007D5154 /* Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		A2B032181E7C2CF9008D1A7B /* Fromc4q.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A2B032171E7C2CF9008D1A7B /* Fromc4q.gpx */; };
 		A2B0321C1E7C54B4008D1A7B /* Navty_Plain_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B0321B1E7C54B4008D1A7B /* Navty_Plain_logo.png */; };
+		A2B032201E7C7858008D1A7B /* Huntercollegeroute.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A2B0321F1E7C7858008D1A7B /* Huntercollegeroute.gpx */; };
+		A2B032251E7D9634008D1A7B /* Nav-CLLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B032241E7D9634008D1A7B /* Nav-CLLocationManager.swift */; };
+		A2B032281E7D968E008D1A7B /* Nav-GMSAutocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B032271E7D968E008D1A7B /* Nav-GMSAutocomplete.swift */; };
+		A2B0322A1E7D97C4008D1A7B /* Nav-GMUCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B032291E7D97C4008D1A7B /* Nav-GMUCluster.swift */; };
+		A2B0322C1E7D9858008D1A7B /* String-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0322B1E7D9858008D1A7B /* String-Extension.swift */; };
+		A2B0322E1E7D99A6008D1A7B /* Nav-TableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0322D1E7D99A6008D1A7B /* Nav-TableViewDelegate.swift */; };
+		A2B032301E7D9CD0008D1A7B /* Nav-SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0322F1E7D9CD0008D1A7B /* Nav-SearchBarDelegate.swift */; };
+		A2B032321E7D9ED8008D1A7B /* Nav-GMSMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B032311E7D9ED8008D1A7B /* Nav-GMSMapView.swift */; };
 		B9755D651E6DF3DC00B63C0A /* GetStartedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */; };
 		B9755D661E6DF3DC00B63C0A /* OboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D611E6DF3DC00B63C0A /* OboardViewController.swift */; };
 		B9755D671E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D621E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift */; };
@@ -137,14 +143,20 @@
 		670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.debug.xcconfig"; sourceTree = "<group>"; };
 		A20CA9201E663AC7007D5154 /* CrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeData.swift; sourceTree = "<group>"; };
 		A20CA9241E672565007D5154 /* GoogleDirections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDirections.swift; sourceTree = "<group>"; };
-		A20CA9301E746605007D5154 /* SearchResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsController.swift; sourceTree = "<group>"; };
 		A20CA9361E74BC3D007D5154 /* Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Widget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20CA9371E74BC3E007D5154 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		A20CA93A1E74BC3E007D5154 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		A20CA93D1E74BC3E007D5154 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		A20CA93F1E74BC3E007D5154 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A2B032171E7C2CF9008D1A7B /* Fromc4q.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Fromc4q.gpx; sourceTree = "<group>"; };
 		A2B0321B1E7C54B4008D1A7B /* Navty_Plain_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Navty_Plain_logo.png; sourceTree = "<group>"; };
+		A2B0321F1E7C7858008D1A7B /* Huntercollegeroute.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Huntercollegeroute.gpx; sourceTree = "<group>"; };
+		A2B032241E7D9634008D1A7B /* Nav-CLLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Nav-CLLocationManager.swift"; sourceTree = "<group>"; };
+		A2B032271E7D968E008D1A7B /* Nav-GMSAutocomplete.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Nav-GMSAutocomplete.swift"; sourceTree = "<group>"; };
+		A2B032291E7D97C4008D1A7B /* Nav-GMUCluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Nav-GMUCluster.swift"; sourceTree = "<group>"; };
+		A2B0322B1E7D9858008D1A7B /* String-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String-Extension.swift"; sourceTree = "<group>"; };
+		A2B0322D1E7D99A6008D1A7B /* Nav-TableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Nav-TableViewDelegate.swift"; sourceTree = "<group>"; };
+		A2B0322F1E7D9CD0008D1A7B /* Nav-SearchBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Nav-SearchBarDelegate.swift"; sourceTree = "<group>"; };
+		A2B032311E7D9ED8008D1A7B /* Nav-GMSMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Nav-GMSMapView.swift"; sourceTree = "<group>"; };
 		A8F80816261FB17679C51DE6 /* Pods-Navty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.release.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.release.xcconfig"; sourceTree = "<group>"; };
 		B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetStartedCell.swift; path = Navty/GetStartedCell.swift; sourceTree = "<group>"; };
@@ -279,17 +291,18 @@
 		571EAB0A1E660AB500CF2947 /* Navty */ = {
 			isa = PBXGroup;
 			children = (
-				A2B032171E7C2CF9008D1A7B /* Fromc4q.gpx */,
+				571F80E21E7C2E99001E4AF8 /* From HQ to Astoria.gpx */,
+				A2B0321F1E7C7858008D1A7B /* Huntercollegeroute.gpx */,
 				5704954E1E7093C100376161 /* Google-Maps-iOS-Utils */,
 				B9755DB41E70682A00B63C0A /* SMS */,
 				B9755DAF1E70599800B63C0A /* View */,
 				571EAB1E1E660BA000CF2947 /* ViewControllers */,
+				A2B032261E7D9649008D1A7B /* Extensions */,
 				571EAB201E660BCA00CF2947 /* API Request */,
 				571EAB291E67706000CF2947 /* Color Scheme */,
 				571EAB1F1E660BAD00CF2947 /* Model */,
 				571F80E11E7AFB2D001E4AF8 /* Settings */,
 				571EAB1D1E660B9600CF2947 /* Supporting Files */,
-				571F80E21E7C2E99001E4AF8 /* From HQ to Astoria.gpx */,
 			);
 			path = Navty;
 			sourceTree = "<group>";
@@ -314,7 +327,6 @@
 				B9755D611E6DF3DC00B63C0A /* OboardViewController.swift */,
 				B9755D641E6DF3DC00B63C0A /* SplashScreenViewController.swift */,
 				571EAB231E66156500CF2947 /* NavigationMapViewController.swift */,
-				A20CA9301E746605007D5154 /* SearchResultsController.swift */,
 				571EAB271E676FEB00CF2947 /* MenuViewController.swift */,
 				521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */,
 				52A835431E70FB7800BFB89F /* LoginViewController .swift */,
@@ -369,6 +381,20 @@
 				A20CA93F1E74BC3E007D5154 /* Info.plist */,
 			);
 			path = Widget;
+			sourceTree = "<group>";
+		};
+		A2B032261E7D9649008D1A7B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A2B032241E7D9634008D1A7B /* Nav-CLLocationManager.swift */,
+				A2B032271E7D968E008D1A7B /* Nav-GMSAutocomplete.swift */,
+				A2B032291E7D97C4008D1A7B /* Nav-GMUCluster.swift */,
+				A2B0322D1E7D99A6008D1A7B /* Nav-TableViewDelegate.swift */,
+				A2B0322F1E7D9CD0008D1A7B /* Nav-SearchBarDelegate.swift */,
+				A2B032311E7D9ED8008D1A7B /* Nav-GMSMapView.swift */,
+				A2B0322B1E7D9858008D1A7B /* String-Extension.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		B9755DAF1E70599800B63C0A /* View */ = {
@@ -455,12 +481,12 @@
 				TargetAttributes = {
 					571EAB071E660AB500CF2947 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = G33WGC6L8H;
+						DevelopmentTeam = 2E9D85U478;
 						ProvisioningStyle = Automatic;
 					};
 					A20CA9351E74BC3D007D5154 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = G33WGC6L8H;
+						DevelopmentTeam = 2E9D85U478;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -494,7 +520,7 @@
 				571EAB131E660AB500CF2947 /* Assets.xcassets in Resources */,
 				571B55031E6E03CC005414E1 /* Info.plist in Resources */,
 				A2B0321C1E7C54B4008D1A7B /* Navty_Plain_logo.png in Resources */,
-				A2B032181E7C2CF9008D1A7B /* Fromc4q.gpx in Resources */,
+				A2B032201E7C7858008D1A7B /* Huntercollegeroute.gpx in Resources */,
 				571EAB561E6A252600CF2947 /* style.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -566,7 +592,6 @@
 				5704954A1E70937800376161 /* GMUClusterManager.m in Sources */,
 				570495481E70937800376161 /* GMUSimpleClusterAlgorithm.m in Sources */,
 				570495241E6F949C00376161 /* GQTPointQuadTree.m in Sources */,
-				A20CA9311E746605007D5154 /* SearchResultsController.swift in Sources */,
 				570495471E70937800376161 /* GMUNonHierarchicalDistanceBasedAlgorithm.m in Sources */,
 				B9755D671E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift in Sources */,
 				5704954D1E70937800376161 /* GMUDefaultClusterRenderer.m in Sources */,
@@ -583,19 +608,26 @@
 				52A835461E71009800BFB89F /* Users.swift in Sources */,
 				571F80E01E7AF536001E4AF8 /* Settings.swift in Sources */,
 				B9755D681E6DF3DC00B63C0A /* Pages.swift in Sources */,
+				A2B032251E7D9634008D1A7B /* Nav-CLLocationManager.swift in Sources */,
 				A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */,
 				5704954B1E70937800376161 /* GMUStaticCluster.m in Sources */,
 				570495251E6F949C00376161 /* GQTPointQuadTreeChild.m in Sources */,
 				57263B8D1E79A7C3009177BD /* TrackingViewController.swift in Sources */,
+				A2B0322A1E7D97C4008D1A7B /* Nav-GMUCluster.swift in Sources */,
 				52A835441E70FB7800BFB89F /* LoginViewController .swift in Sources */,
 				571EAB0C1E660AB500CF2947 /* AppDelegate.swift in Sources */,
 				571EAB241E66156500CF2947 /* NavigationMapViewController.swift in Sources */,
+				A2B032301E7D9CD0008D1A7B /* Nav-SearchBarDelegate.swift in Sources */,
+				A2B0322C1E7D9858008D1A7B /* String-Extension.swift in Sources */,
 				571EAB281E676FEB00CF2947 /* MenuViewController.swift in Sources */,
 				B9755D651E6DF3DC00B63C0A /* GetStartedCell.swift in Sources */,
 				571C71FA1E6DDA1C00B58E22 /* DirectionsTableViewCell.swift in Sources */,
+				A2B0322E1E7D99A6008D1A7B /* Nav-TableViewDelegate.swift in Sources */,
 				57CC67891E7C581000497969 /* OnboardingViewController.swift in Sources */,
 				521E5B3D1E68D70400D9FDE9 /* ContactsTableViewController.swift in Sources */,
 				B9755DB31E70681600B63C0A /* textMessageViewController.swift in Sources */,
+				A2B032281E7D968E008D1A7B /* Nav-GMSAutocomplete.swift in Sources */,
+				A2B032321E7D9ED8008D1A7B /* Nav-GMSMapView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -734,11 +766,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = G33WGC6L8H;
+				DEVELOPMENT_TEAM = 2E9D85U478;
 				INFOPLIST_FILE = Navty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -752,11 +784,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = G33WGC6L8H;
+				DEVELOPMENT_TEAM = 2E9D85U478;
 				INFOPLIST_FILE = Navty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -767,10 +799,10 @@
 		A20CA9441E74BC3F007D5154 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = G33WGC6L8H;
+				DEVELOPMENT_TEAM = 2E9D85U478;
 				INFOPLIST_FILE = Widget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy.Widget;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty.Widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -780,10 +812,10 @@
 		A20CA9451E74BC3F007D5154 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = G33WGC6L8H;
+				DEVELOPMENT_TEAM = 2E9D85U478;
 				INFOPLIST_FILE = Widget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy.Widget;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty.Widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
