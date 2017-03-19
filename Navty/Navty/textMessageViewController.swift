@@ -9,7 +9,7 @@
 
 import UIKit
 
-class textMessageViewController: UIViewController{
+class textMessageViewController: UIViewController {
 
     let messageComposer = MessageComposer()
     
@@ -17,6 +17,9 @@ class textMessageViewController: UIViewController{
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        navigationController?.isNavigationBarHidden = false
+        
+        //self.navigationController!.navigationBar.isTranslucent = false
         
         view.addSubview(sendMessage)
         
@@ -24,7 +27,8 @@ class textMessageViewController: UIViewController{
         sendMessage.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         sendMessage.heightAnchor.constraint(equalToConstant: 40).isActive = true
         sendMessage.widthAnchor.constraint(equalToConstant: 160).isActive = true
-
+        
+        navigationController?.navigationBar.tintColor = ColorPalette.bgColor
     }
     
     func sendMess(){

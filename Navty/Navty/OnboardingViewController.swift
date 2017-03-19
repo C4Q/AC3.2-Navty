@@ -48,9 +48,9 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     }
     
     func onboardingItemAtIndex(_ index: Int) -> OnboardingItemInfo {
-        let backgroundColorOne = ColorPalette.bgColor
-        let backgroundColorTwo = ColorPalette.bgColor
-        let backgroundColorThree = ColorPalette.bgColor
+        let backgroundColorOne = ColorPalette.green
+        let backgroundColorTwo = ColorPalette.red
+        let backgroundColorThree = ColorPalette.yellow
         
         let titleFont = UIFont(name: "AvenirNext-Bold", size: 24)!
         let descriptionFont = UIFont(name: "AvenirNext-Regular", size: 18)!
@@ -89,6 +89,10 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
 //                view.width.equalTo(150)
 //            })
 //        }
+        item.imageView?.snp.makeConstraints({ (view) in
+            view.height.equalTo(50)
+            view.width.equalTo(50)
+        })
     }
     
     func toMapVC(){

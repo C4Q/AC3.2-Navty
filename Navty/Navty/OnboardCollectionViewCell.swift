@@ -41,14 +41,14 @@ class OnboardCollectionViewCell: UICollectionViewCell {
     
     func setupView(){
         
-        backgroundColor = UIColor(red: 106/255, green: 185/255, blue: 212/255, alpha: 1)
+        backgroundColor = ColorPalette.bgColor
         addSubview(imageView)
         addSubview(textView)
         
        imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -100).isActive = true
-       imageView.heightAnchor.constraint(equalToConstant: 90).isActive = true
-       imageView.widthAnchor.constraint(equalToConstant: 90).isActive = true
+       imageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+       imageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
        
         textView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
         textView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16).isActive = true
