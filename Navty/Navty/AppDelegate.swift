@@ -26,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let messageComposer = MessageComposer()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        
         // Override point for customization after application launch.
         FIRApp.configure()
         

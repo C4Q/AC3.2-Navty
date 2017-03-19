@@ -1,4 +1,4 @@
-//
+ //
 //  NavigationMapViewController.swift
 //  Navty
 //
@@ -209,8 +209,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             view.top.equalTo(mapView.snp.bottom)
         })
         
-        
-        
         carView.snp.makeConstraints{(view) in
             view.top.leading.equalToSuperview()
             view.width.equalToSuperview().multipliedBy(0.25)
@@ -292,9 +290,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                         DispatchQueue.main.async {
                             let latitude = CLLocationDegrees(eachCrime.latitude)
                             let longitude = CLLocationDegrees(eachCrime.longitude )
-                            
-                            
-                            
+                    
                             //new cluster code
                             let position = CLLocationCoordinate2D(latitude: latitude! , longitude:longitude!)
                             let item = ClusterCrimeData(position: position, name: eachCrime.description, crime: eachCrime)
@@ -335,8 +331,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     }
     
     func searchBarPressed(button: UIButton) {
-        
-        
         let autocompleteController = GMSAutocompleteViewController()
         autocompleteController.delegate = self
         present(autocompleteController, animated: true, completion: nil)
@@ -434,7 +428,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         
         
         navigationController?.isToolbarHidden = false
-        navigationController?.toolbar.barTintColor = ColorPalette.lightBlue
+        navigationController?.toolbar.barTintColor = ColorPalette.bgColor
         navigationController?.toolbar.tintColor = .white
         
     }
@@ -542,6 +536,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         
     }
     
+
+    
     func startNavigationClicked() {
         //animate table view up
         //change format of the map
@@ -550,9 +546,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             searchDestinationButton.isHidden = true
             cancelNavigationButton.isHidden = false
             
-            
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
-            
             
             timerLabel.isHidden = false
             
@@ -563,9 +557,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         }
         //        navigationContainer.isHidden = true
         startNavigation.isHidden = true
-        
-        
-        
+
         UITableView.animate(withDuration: 1.0, animations: { () -> Void in
             
             self.directionsTableView.snp.makeConstraints({ (view) in
@@ -790,7 +782,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     
     internal lazy var searchDestinationButton: UIButton = {
         let button = UIButton()
-        button.layer.borderColor = ColorPalette.lightBlue.cgColor
+        button.layer.borderColor = ColorPalette.bgColor.cgColor
         button.layer.borderWidth = 1
         button.isUserInteractionEnabled = true
         button.setTitle("Enter Destination", for: .normal)
@@ -810,8 +802,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         searchBar.barTintColor = .white
         searchBar.placeholder = "Destination"
         searchBar.isUserInteractionEnabled = true
-        searchBar.layer.borderColor = ColorPalette.lightBlue.cgColor
-        searchBar.layer.borderWidth = 1
+        //searchBar.layer.borderColor = ColorPalette.bgColor.cgColor
+        //searchBar.layer.borderWidth = 1
         return searchBar
     }()
     
@@ -858,5 +850,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         tableView.rowHeight = UITableViewAutomaticDimension
         return tableView
     }()
+    
+    //MARK: ADD ALEART 
+    
 }
 
