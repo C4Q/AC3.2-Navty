@@ -157,9 +157,9 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         view.addSubview(searchDestinationButton)
         view.addSubview(cancelNavigationButton)
         view.addSubview(directionsTableView)
-        view.addSubview(startNavigation)
+        view.addSubview(navigationContainer)
         
-        //        navigationContainer.addSubview(startNavigation)
+        navigationContainer.addSubview(startNavigation)
         
         navigationController?.toolbar.addSubview(carView)
         navigationController?.toolbar.addSubview(walkingView)
@@ -196,11 +196,22 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             
         })
         
-        startNavigation.snp.makeConstraints({ (view) in
-            view.bottom.equalToSuperview()
+//        startNavigation.snp.makeConstraints({ (view) in
+//            view.bottom.equalToSuperview()
+//            view.centerX.equalToSuperview()
+//            view.height.width.equalTo(50)
+//        })
+        
+        navigationContainer.snp.makeConstraints { (view) in
+            view.bottom.equalToSuperview().offset(-10)
             view.centerX.equalToSuperview()
             view.height.width.equalTo(50)
-        })
+
+        }
+        
+        startNavigation.snp.makeConstraints { (view) in
+            view.top.bottom.leading.trailing.equalToSuperview()
+        }
         
         
         directionsTableView.snp.makeConstraints({ (view) in
@@ -326,8 +337,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             })
         }
         
-        //        navigationContainer.isHidden = false
-        startNavigation.isHidden = false
+                navigationContainer.isHidden = false
+//        startNavigation.isHidden = false
     }
     
     func searchBarPressed(button: UIButton) {
@@ -543,6 +554,12 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         //change format of the map
         if timerCountingDown == false {
             
+            animator.addAnimations {
+                self.navigationContainer.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            }
+            
+            
+            
             searchDestinationButton.isHidden = true
             cancelNavigationButton.isHidden = false
             
@@ -555,8 +572,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             self.directionsTableView.isHidden = false
             timerCountingDown = true
         }
-        //        navigationContainer.isHidden = true
-        startNavigation.isHidden = true
+                navigationContainer.isHidden = true
+//        startNavigation.isHidden = true
 
         UITableView.animate(withDuration: 1.0, animations: { () -> Void in
             
@@ -656,9 +673,9 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         directionsTableView.isHidden = true
         cancelNavigationButton.isHidden = true
         searchDestinationButton.isHidden = false
-        startNavigation.isHidden = true
+//        startNavigation.isHidden = true
         
-        //        navigationContainer.isHidden = true
+                navigationContainer.isHidden = true
         
         self.marker.map = nil
         self.allPolyLines.forEach({ $0.map = nil })
@@ -820,14 +837,16 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "ic_navigation"), for: .normal)
         button.addTarget(self, action: #selector(self.startNavigationClicked), for: .touchUpInside)
-        button.isHidden = true
+//        button.isHidden = true
         return button
     }()
     
-    internal lazy var navigationContainer: UIView = {
-        let view = UIView()
-        view.backgroundColor = ColorPalette.bgColor
-        view.layer.cornerRadius = 10.0
+    internal lazy var navigationContainer: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = ColorPalette.lightGrey
+        view.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        view.layer.cornerRadius = 0.5 * view.bounds.size.width
+        view.clipsToBounds = true
         view.isHidden = true
         return view
     }()

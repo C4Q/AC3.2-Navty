@@ -39,10 +39,6 @@
 		8760BC449F0D75C72A7B2E0A /* Pods_Navty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */; };
 		A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9201E663AC7007D5154 /* CrimeData.swift */; };
 		A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9241E672565007D5154 /* GoogleDirections.swift */; };
-		A20CA9381E74BC3E007D5154 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A20CA9371E74BC3E007D5154 /* NotificationCenter.framework */; };
-		A20CA93B1E74BC3E007D5154 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA93A1E74BC3E007D5154 /* TodayViewController.swift */; };
-		A20CA93E1E74BC3E007D5154 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A20CA93C1E74BC3E007D5154 /* MainInterface.storyboard */; };
-		A20CA9421E74BC3E007D5154 /* Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A20CA9361E74BC3D007D5154 /* Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A2B0321C1E7C54B4008D1A7B /* Navty_Plain_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B0321B1E7C54B4008D1A7B /* Navty_Plain_logo.png */; };
 		A2B032201E7C7858008D1A7B /* Huntercollegeroute.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A2B0321F1E7C7858008D1A7B /* Huntercollegeroute.gpx */; };
 		A2B032251E7D9634008D1A7B /* Nav-CLLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B032241E7D9634008D1A7B /* Nav-CLLocationManager.swift */; };
@@ -132,7 +128,6 @@
 		670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.debug.xcconfig"; sourceTree = "<group>"; };
 		A20CA9201E663AC7007D5154 /* CrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeData.swift; sourceTree = "<group>"; };
 		A20CA9241E672565007D5154 /* GoogleDirections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDirections.swift; sourceTree = "<group>"; };
-		A20CA9361E74BC3D007D5154 /* Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Widget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20CA9371E74BC3E007D5154 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		A20CA93A1E74BC3E007D5154 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		A20CA93D1E74BC3E007D5154 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -443,7 +438,7 @@
 				TargetAttributes = {
 					571EAB071E660AB500CF2947 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 26RHXP32FH;
+						DevelopmentTeam = 2E9D85U478;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -699,11 +694,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 26RHXP32FH;
+				DEVELOPMENT_TEAM = 2E9D85U478;
 				INFOPLIST_FILE = Navty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.thinley.NavtyNavty;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.thinley.NavtyNavtyy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
@@ -718,11 +713,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 26RHXP32FH;
+				DEVELOPMENT_TEAM = 2E9D85U478;
 				INFOPLIST_FILE = Navty/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.thinley.NavtyNavty;
+				PRODUCT_BUNDLE_IDENTIFIER = nyc.c4q.thinley.NavtyNavtyy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
