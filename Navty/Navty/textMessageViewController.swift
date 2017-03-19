@@ -28,7 +28,7 @@ class textMessageViewController: UIViewController {
         sendMessage.heightAnchor.constraint(equalToConstant: 40).isActive = true
         sendMessage.widthAnchor.constraint(equalToConstant: 160).isActive = true
         
-        navigationController?.navigationBar.tintColor = ColorPalette.lightBlue
+        navigationController?.navigationBar.tintColor = ColorPalette.bgColor
     }
     
     func sendMess(){

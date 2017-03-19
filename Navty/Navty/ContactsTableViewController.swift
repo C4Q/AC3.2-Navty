@@ -29,7 +29,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         let barButton = UIBarButtonItem(customView: addButton)
         self.navigationItem.rightBarButtonItem = barButton
     
-        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
+        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: Selector(("addSomething:")))
         toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), toolEditButton]
         self.navigationController!.setToolbarHidden(false, animated: false)
         
@@ -148,7 +148,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     }
     
     
-    
+        
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
@@ -190,7 +190,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
 
 //        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
 
-        let predicate = NSPredicate(value: false)
+        _ = NSPredicate(value: false)
         let truePredicate = NSPredicate(value: true)
         contactPicker.predicateForSelectionOfContact = truePredicate
         contactPicker.predicateForSelectionOfProperty = truePredicate
