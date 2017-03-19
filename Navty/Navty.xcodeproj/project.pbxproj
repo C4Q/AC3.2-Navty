@@ -39,7 +39,10 @@
 		8760BC449F0D75C72A7B2E0A /* Pods_Navty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */; };
 		A20CA9211E663AC7007D5154 /* CrimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9201E663AC7007D5154 /* CrimeData.swift */; };
 		A20CA9251E672565007D5154 /* GoogleDirections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9241E672565007D5154 /* GoogleDirections.swift */; };
-		A20CA9311E746605007D5154 /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA9301E746605007D5154 /* SearchResultsController.swift */; };
+		A20CA9381E74BC3E007D5154 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A20CA9371E74BC3E007D5154 /* NotificationCenter.framework */; };
+		A20CA93B1E74BC3E007D5154 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20CA93A1E74BC3E007D5154 /* TodayViewController.swift */; };
+		A20CA93E1E74BC3E007D5154 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A20CA93C1E74BC3E007D5154 /* MainInterface.storyboard */; };
+		A20CA9421E74BC3E007D5154 /* Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A20CA9361E74BC3D007D5154 /* Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A2B0321C1E7C54B4008D1A7B /* Navty_Plain_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A2B0321B1E7C54B4008D1A7B /* Navty_Plain_logo.png */; };
 		A2B032201E7C7858008D1A7B /* Huntercollegeroute.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A2B0321F1E7C7858008D1A7B /* Huntercollegeroute.gpx */; };
 		A2B032251E7D9634008D1A7B /* Nav-CLLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B032241E7D9634008D1A7B /* Nav-CLLocationManager.swift */; };
@@ -129,7 +132,7 @@
 		670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.debug.xcconfig"; sourceTree = "<group>"; };
 		A20CA9201E663AC7007D5154 /* CrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeData.swift; sourceTree = "<group>"; };
 		A20CA9241E672565007D5154 /* GoogleDirections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDirections.swift; sourceTree = "<group>"; };
-		A20CA9301E746605007D5154 /* SearchResultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsController.swift; sourceTree = "<group>"; };
+		A20CA9361E74BC3D007D5154 /* Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Widget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20CA9371E74BC3E007D5154 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		A20CA93A1E74BC3E007D5154 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		A20CA93D1E74BC3E007D5154 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -304,7 +307,6 @@
 				B9755D611E6DF3DC00B63C0A /* OboardViewController.swift */,
 				B9755D641E6DF3DC00B63C0A /* SplashScreenViewController.swift */,
 				571EAB231E66156500CF2947 /* NavigationMapViewController.swift */,
-				A20CA9301E746605007D5154 /* SearchResultsController.swift */,
 				571EAB271E676FEB00CF2947 /* MenuViewController.swift */,
 				521E5B3C1E68D70400D9FDE9 /* ContactsTableViewController.swift */,
 				52A835431E70FB7800BFB89F /* LoginViewController .swift */,
@@ -538,7 +540,6 @@
 				5704954A1E70937800376161 /* GMUClusterManager.m in Sources */,
 				570495481E70937800376161 /* GMUSimpleClusterAlgorithm.m in Sources */,
 				570495241E6F949C00376161 /* GQTPointQuadTree.m in Sources */,
-				A20CA9311E746605007D5154 /* SearchResultsController.swift in Sources */,
 				570495471E70937800376161 /* GMUNonHierarchicalDistanceBasedAlgorithm.m in Sources */,
 				B9755D671E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift in Sources */,
 				5704954D1E70937800376161 /* GMUDefaultClusterRenderer.m in Sources */,

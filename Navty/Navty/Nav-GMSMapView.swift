@@ -55,9 +55,9 @@ extension NavigationMapViewController: GMSMapViewDelegate {
                                 self.availablePath = self.pathOf
                                 
                                 self.polylineUpdated = GMSPolyline(path: self.availablePath)
-                                self.polylineUpdated.strokeWidth = 7
+                                self.polylineUpdated.strokeWidth = 5
                                 self.polylineUpdated.strokeColor = self.colors[eachOne]
-                                
+                                self.polylineUpdated.geodesic = true
                                 self.polylineUpdated.title = "\(self.colors[eachOne])"
                                 
                                 self.polylineUpdated.map = self.mapView

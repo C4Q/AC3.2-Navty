@@ -153,12 +153,6 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         }
     }
     
-//    func LoginController() {
-//        let LoginVC = LoginViewController()
-//        if let navVC = self.navigationController {
-//            navVC.pushViewController(LoginVC, animated: true)
-//        }
-//    }
     
     func callButton(_ sender: UIButton) {
         let url = NSURL(string: "tel://9")!
@@ -272,22 +266,18 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
 //        return button
 //    }()
     
-//    internal var profileButton: UIButton = {
-//        let button = UIButton(type: .custom)
-//        //button.backgroundColor = ColorPalette.lightGreen
-//        button.setTitle("Profile", for: .normal)
-//        button.alpha = 0.8
-//        button.layer.masksToBounds = true
-//        //button.addTarget(self, action: #selector(LoginController), for: .touchUpInside)
-//        return button
-//    }()
+    internal var profileButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("Profile", for: .normal)
+        button.alpha = 0.8
+        button.layer.masksToBounds = true
+        return button
+    }()
     
     internal var panicButton: UIButton = {
         let button = UIButton(type: .custom)
-        //button.backgroundColor = ColorPalette.red
         button.setTitle("P A N I C", for: .normal)
-        button.setTitleColor(ColorPalette.red, for: .normal)
-        //button.layer.cornerRadius = 37.5
+        button.setTitleColor(UIColor.red, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: UIFontWeightLight)
         button.contentHorizontalAlignment = .left
         button.alpha = 0.8
@@ -323,7 +313,6 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         let label = UILabel()
         label.text = "T R A C K I N G   O F F"
         label.textColor = .white
-//        label.text.font = .systemFont(ofSize: 14, weight: UIFontWeightLight)
         label.font = .systemFont(ofSize: 11, weight: UIFontWeightLight)
         return label
     }()

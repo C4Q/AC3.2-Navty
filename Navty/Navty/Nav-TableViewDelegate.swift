@@ -50,7 +50,7 @@ extension NavigationMapViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return timerLabel
+        return timerContainer
     }
     
     
