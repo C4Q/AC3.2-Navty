@@ -32,7 +32,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     }()
     
     let geocoder: CLGeocoder = CLGeocoder()
-
+    
     var crimesNYC = [CrimeData]()
     var directions = [GoogleDirections]()
     
@@ -40,12 +40,12 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     var polyline: GMSPolyline? = nil
     var allPolyLines = [GMSPolyline]()
     var availablePaths = [GMSPath]()
-
+    
     var addressLookUp = String()
     var marker = GMSMarker()
     var markerAwayFromPoint = GMSMarker()
     var longPressMarker = GMSMarker()
-
+    
     var colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.white]
     
     var transportationPicked = "walking"
@@ -89,10 +89,10 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         setupViewHierarchy()
         setupToolbar()
         setupViews()
-
+        
         locationManager.delegate = self
         searchDestination.delegate = self
-       
+        
         mapView.delegate = self
         locationManager.startUpdatingLocation()
         
@@ -104,13 +104,13 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         let configuration = PNConfiguration(publishKey: "pub-c-28163faf-5853-487e-8cc9-1d8f955ad129", subscribeKey: "sub-c-0ee17ac4-08cb-11e7-b95c-0619f8945a4f")
         self.client = PubNub.clientWithConfiguration(configuration)
         self.client.addListener(self)
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isToolbarHidden = false
         self.navigationController?.isNavigationBarHidden = true
-       
+        
         self.searchDestination.endEditing(false)
         
         transportationIndicator.backgroundColor = .white
@@ -134,7 +134,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         self.edgesForExtendedLayout = []
         
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(tapped(recognizer:)) )
-
+        
         let camera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude), zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
         
@@ -159,7 +159,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         view.addSubview(directionsTableView)
         view.addSubview(startNavigation)
         
-//        navigationContainer.addSubview(startNavigation)
+        //        navigationContainer.addSubview(startNavigation)
         
         navigationController?.toolbar.addSubview(carView)
         navigationController?.toolbar.addSubview(walkingView)
@@ -229,7 +229,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             view.leading.equalTo(walkingView.snp.trailing)
             view.width.equalToSuperview().multipliedBy(0.25)
             view.height.equalTo(0)
-
+            
         }
         
         publicTransportView.snp.makeConstraints { (view) in
@@ -237,7 +237,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             view.leading.equalTo(bikeView.snp.trailing)
             view.width.equalToSuperview().multipliedBy(0.25)
             view.height.equalTo(0)
-
+            
         }
         
         transportationIndicator.snp.makeConstraints { (view) in
@@ -262,11 +262,11 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         menuLeftNavigationController.leftSide = true
         
         SideMenuManager.menuLeftNavigationController = menuLeftNavigationController
-    
+        
         SideMenuManager.menuFadeStatusBar = false
         SideMenuManager.menuPresentMode = .menuDissolveIn
     }
-
+    
     //MARK: MOVE VIEWS WITH KEYBOARD
     func setupNotificationForKeyboard() {
         let notificationCenter = NotificationCenter.default
@@ -300,7 +300,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                             let item = ClusterCrimeData(position: position, name: eachCrime.description, crime: eachCrime)
                             self.clusterManager.add(item)
                             
-
+                            
                             
                         }
                     }
@@ -309,8 +309,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         }
     }
     
-
-
+    
+    
     func tapped(recognizer: UITapGestureRecognizer) {
         
         UITableView.animate(withDuration: 1.0, animations: { () -> Void in
@@ -330,7 +330,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             })
         }
         
-//        navigationContainer.isHidden = false
+        //        navigationContainer.isHidden = false
         startNavigation.isHidden = false
     }
     
@@ -341,10 +341,10 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         autocompleteController.delegate = self
         present(autocompleteController, animated: true, completion: nil)
     }
-
-
     
-
+    
+    
+    
     
     func distanceTimeConversionToSeconds(time: String) {
         let times = time.components(separatedBy: " ")
@@ -365,15 +365,15 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         self.countDown = seconds
     }
     
-
-
+    
+    
     internal var iconView: UIImage = {
         var view = UIImage(named: "Trekking Filled-50")
         return view!
     }()
-
     
- 
+    
+    
     func getPolylines(coordinates: CLLocationCoordinate2D) {
         APIRequestManager.manager.getData(endPoint: "https://maps.googleapis.com/maps/api/directions/json?origin=\(self.userLatitude),\(self.userLongitude)&destination=\(coordinates.latitude),\(coordinates.longitude)&region=es&mode=\(self.transportationPicked)&alternatives=true&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
         { (data) in
@@ -385,16 +385,16 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                     self.directions = validData
                     
                     DispatchQueue.main.async {
-                       
+                        
                         
                         for eachOne in 0 ..< self.directions.count {
                             self.path = GMSPath(fromEncodedPath: self.directions[eachOne].overallPolyline)!
                             self.availablePaths.append(self.path)
-                         
+                            
                             self.polyline = GMSPolyline(path: self.path)
                             self.polyline?.title = self.directions[eachOne].overallTime
                             
-
+                            
                             let time = self.directions[eachOne].overallTime
                             self.distanceTimeConversionToSeconds(time: time)
                             self.eta = time
@@ -405,7 +405,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                             self.polyline?.geodesic = true
                             
                             self.allPolyLines.append(self.polyline!)
-                    
+                            
                             self.allPolyLines[eachOne].map = self.mapView
                             
                             self.directionsTableView.reloadData()
@@ -416,8 +416,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             }
         }
     }
-
-  //MARK: -Setup Toolbar
+    
+    //MARK: -Setup Toolbar
     func setupToolbar() {
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let carButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_drive_eta"), style: .plain, target: self, action: #selector(transportationPick(sender:)))
@@ -439,7 +439,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         
     }
     
-  //MARK: -Transportation Picker
+    //MARK: -Transportation Picker
     func transportationPick(sender: UIButton) {
         _ = self.allPolyLines.map { $0.map = nil }
         allPolyLines = []
@@ -452,14 +452,14 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         } else {
             switch sender.tag {
             case 0:
-  
-                    self.transportationIndicator.snp.remakeConstraints({ (view) in
-                        
-                        view.top.equalTo(self.carView.snp.bottom)
-                        view.height.equalToSuperview().multipliedBy(0.05)
-                        view.leading.trailing.equalTo(self.carView)
-                    })
-
+                
+                self.transportationIndicator.snp.remakeConstraints({ (view) in
+                    
+                    view.top.equalTo(self.carView.snp.bottom)
+                    view.height.equalToSuperview().multipliedBy(0.05)
+                    view.leading.trailing.equalTo(self.carView)
+                })
+                
                 
                 animator.addAnimations {
                     self.navigationController?.toolbar.layoutIfNeeded()
@@ -471,13 +471,13 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                 self.getPolylines(coordinates: self.newCoordinates)
             case 1:
                 
-                    self.transportationIndicator.snp.remakeConstraints({ (view) in
-                        
-                        view.top.equalTo(self.walkingView.snp.bottom)
-                        view.height.equalToSuperview().multipliedBy(0.05)
-                        view.leading.trailing.equalTo(self.walkingView)
-                    })
-
+                self.transportationIndicator.snp.remakeConstraints({ (view) in
+                    
+                    view.top.equalTo(self.walkingView.snp.bottom)
+                    view.height.equalToSuperview().multipliedBy(0.05)
+                    view.leading.trailing.equalTo(self.walkingView)
+                })
+                
                 
                 animator.addAnimations {
                     self.navigationController?.toolbar.layoutIfNeeded()
@@ -485,19 +485,19 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                 
                 animator.startAnimation()
                 
-               
+                
                 self.transportationPicked = "walking"
                 self.getPolylines(coordinates: self.newCoordinates)
             case 2:
                 
                 
-                    self.transportationIndicator.snp.remakeConstraints({ (view) in
-                        
-                        view.top.equalTo(self.bikeView.snp.bottom)
-                        view.height.equalToSuperview().multipliedBy(0.05)
-                        view.leading.trailing.equalTo(self.bikeView)
-                    })
-
+                self.transportationIndicator.snp.remakeConstraints({ (view) in
+                    
+                    view.top.equalTo(self.bikeView.snp.bottom)
+                    view.height.equalToSuperview().multipliedBy(0.05)
+                    view.leading.trailing.equalTo(self.bikeView)
+                })
+                
                 
                 animator.addAnimations {
                     self.navigationController?.toolbar.layoutIfNeeded()
@@ -505,18 +505,18 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                 
                 animator.startAnimation()
                 
-               
+                
                 self.transportationPicked = "bicycling"
                 self.getPolylines(coordinates: self.newCoordinates)
             case 3:
-               
+                
                 self.transportationIndicator.snp.remakeConstraints({ (view) in
-                        
-                        view.top.equalTo(self.publicTransportView.snp.bottom)
-                        view.height.equalToSuperview().multipliedBy(0.05)
-                        view.leading.trailing.equalTo(self.publicTransportView)
-                    })
-
+                    
+                    view.top.equalTo(self.publicTransportView.snp.bottom)
+                    view.height.equalToSuperview().multipliedBy(0.05)
+                    view.leading.trailing.equalTo(self.publicTransportView)
+                })
+                
                 
                 animator.addAnimations {
                     self.navigationController?.toolbar.layoutIfNeeded()
@@ -524,7 +524,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                 
                 animator.startAnimation()
                 
-               
+                
                 self.transportationPicked = "transit"
                 self.getPolylines(coordinates: self.newCoordinates)
             default:
@@ -532,12 +532,12 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             }
         }
     }
-
     
-  
+    
+    
     //MARK: MENU BUTTON
     func buttonPressed () {
-//        searchDestination.resignFirstResponder()
+        //        searchDestination.resignFirstResponder()
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
         
     }
@@ -556,26 +556,26 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             
             timerLabel.isHidden = false
             
-
-        
-        self.directionsTableView.isHidden = false
-        timerCountingDown = true
+            
+            
+            self.directionsTableView.isHidden = false
+            timerCountingDown = true
         }
-//        navigationContainer.isHidden = true
+        //        navigationContainer.isHidden = true
         startNavigation.isHidden = true
         
         
         
         UITableView.animate(withDuration: 1.0, animations: { () -> Void in
- 
+            
             self.directionsTableView.snp.makeConstraints({ (view) in
                 view.leading.trailing.bottom.equalToSuperview()
                 view.height.equalToSuperview().multipliedBy(0.5)
-
+                
             })
         })
         
-        GMSMapView.animate(withDuration: 1.0) { 
+        GMSMapView.animate(withDuration: 1.0) {
             self.mapView.snp.remakeConstraints({ (view) in
                 view.leading.trailing.top.equalToSuperview()
                 view.height.equalToSuperview().multipliedBy(0.5)
@@ -605,7 +605,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                     print("Cant present")
                 }
             }))
-           
+            
             self.navigationController?.present(alert, animated: true, completion: nil)
             Settings.shared.channelInput = true
             
@@ -617,13 +617,13 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     
     func updateCounter() {
         
-            if countDown > 0 {
-                print("\(countDown) seconds")
-                self.timerLabel.text = String(convertToUsableTime(seconds: countDown))
-                countDown -= 1
-            } else {
-                //alert if needs more time to get home
-            }
+        if countDown > 0 {
+            print("\(countDown) seconds")
+            self.timerLabel.text = String(convertToUsableTime(seconds: countDown))
+            countDown -= 1
+        } else {
+            //alert if needs more time to get home
+        }
         
     }
     
@@ -641,19 +641,19 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             }
         } else if seconds < 3600 {
             if dispSeconds < 10 {
-            return "\(minutes) : 0\(dispSeconds)"
+                return "\(minutes) : 0\(dispSeconds)"
             } else {
-            return "\(minutes) : \(dispSeconds)"
+                return "\(minutes) : \(dispSeconds)"
             }
         }
         else {
             if dispSeconds < 10 {
                 return "\(hours) : \(dispMinutes) : 0\(dispSeconds)"
             } else {
-        return "\(hours) : \(dispMinutes) : \(dispSeconds)"
+                return "\(hours) : \(dispMinutes) : \(dispSeconds)"
             }
         }
-
+        
     }
     
     func cancelNavigation() {
@@ -666,7 +666,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         searchDestinationButton.isHidden = false
         startNavigation.isHidden = true
         
-//        navigationContainer.isHidden = true
+        //        navigationContainer.isHidden = true
         
         self.marker.map = nil
         self.allPolyLines.forEach({ $0.map = nil })
@@ -688,13 +688,13 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                 view.height.equalToSuperview()
             })
         }
-
+        
         Settings.shared.navigationStarted = false
     }
     
-
     
-
+    
+    
     //MARK: ANIMATIONS
     func fadeOutView(view: UIView, blur: UIVisualEffectView, hidden: Bool) {
         UIView.transition(with: view, duration: 1.0, options: .transitionCrossDissolve, animations: {() -> Void in
@@ -718,7 +718,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     
     
     
-   //MARK: -Initalize Views
+    //MARK: -Initalize Views
     
     lazy var mapView: GMSMapView = {
         let mapView = GMSMapView()
@@ -739,7 +739,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         let view = UIView()
         return view
     }()
-
+    
     internal var publicTransportView: UIView = {
         let view = UIView()
         return view
@@ -759,11 +759,11 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     internal var embeddedView: UIView = {
         let view = UIView()
         view.isUserInteractionEnabled = true
-    
+        
         return view
     }()
     
-   
+    
     internal lazy var timerContainer: UIView = {
         let view = UIView()
         view.backgroundColor = ColorPalette.bgColor
@@ -819,10 +819,10 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 3.0
-     
+        
         return view
     }()
-
+    
     
     internal lazy var startNavigation: UIButton = {
         let button = UIButton()
@@ -838,7 +838,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         view.layer.cornerRadius = 10.0
         view.isHidden = true
         return view
-        }()
+    }()
     
     internal lazy var cancelNavigationButton: UIButton = {
         let button = UIButton()
@@ -847,7 +847,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         button.isHidden = true
         return button
     }()
-
+    
     internal lazy var directionsTableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
@@ -859,3 +859,4 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         return tableView
     }()
 }
+

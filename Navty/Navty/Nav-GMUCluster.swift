@@ -32,12 +32,12 @@ extension NavigationMapViewController: GMUClusterManagerDelegate, GMUClusterRend
         
         if let crimeData = marker.userData as? ClusterCrimeData {
             //            marker.icon = UIImage(named: "Map Pin-20")
-            let dateFormatter = DateFormatter()
+            var dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
             let d = TimeInterval(1477972800)
             
-            let cDate = crimeData.crime.crimeDate
-            let sDate = dateFormatter.date(from: cDate)
+            var cDate = crimeData.crime.crimeDate
+            var sDate = dateFormatter.date(from: cDate)
             
             if let interval = sDate?.timeIntervalSince1970, interval >= d {
                 marker.icon = UIImage(named: "red-dot")
@@ -46,9 +46,9 @@ extension NavigationMapViewController: GMUClusterManagerDelegate, GMUClusterRend
                 
             }
             
-            marker.title = "Crime: \(crimeData.crime.description)"
+            marker.title = "\(crimeData.crime.description)"
+            marker.snippet = "\(crimeData.crime.boro): \(crimeData.crime.area)"
             
-            //marker.snippet = crimeData.crime.crimeDate
         }
         
     }
