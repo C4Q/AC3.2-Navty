@@ -46,15 +46,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
         
-        let userDefaults = UserDefaults.standard
+        //let userDefaults = UserDefaults.standard
         
-        if userDefaults.object(forKey: "ApplicationIdentifier") == nil {
-            let UUID = NSUUID().uuidString
-            userDefaults.set(UUID, forKey: "ApplicationIdentifier")
-            userDefaults.synchronize()
-        }
-        print("HEREEEE")
-        print(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)
+//        if userDefaults.object(forKey: "ApplicationIdentifier") == nil {
+//            let UUID = NSUUID().uuidString
+//            userDefaults.set(UUID, forKey: "ApplicationIdentifier")
+//            userDefaults.synchronize()
+//        }
+//        print("HEREEEE")
+//        print(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)
         
         
         let actionOne = UNNotificationAction(identifier: "agree", title: "Ok", options: [.foreground])
@@ -168,6 +168,7 @@ extension AppDelegate: CLLocationManagerDelegate {
             handleEvent(forRegion: region)
         }
     }
+    
     
 }
 
