@@ -77,7 +77,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     //var trackingEnabled = false
     var channel = ""
     
-    
     var region = CLCircularRegion()
     
     override func viewDidLoad() {

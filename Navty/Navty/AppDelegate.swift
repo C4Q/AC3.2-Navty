@@ -55,7 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             userDefaults.set(UUID, forKey: "ApplicationIdentifier")
             userDefaults.synchronize()
         }
-        print("HEREEEE")
         print(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)
         
         
@@ -110,7 +109,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-//        let newTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
         let content = UNMutableNotificationContent()
         content.title = "Text Message"
         content.body = "Do you want to notice your arrival to your friends?"
@@ -184,8 +182,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                 print("Can not present the View Controller")
             }
             
-            //present(DetailViewController(), animated: true, completion: nil)
-        //imageView.image = UIImage(named: "firstGuy")
+
         case "disagree":
             print("I disagree")
             
@@ -194,7 +191,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             break
         }
         
-        completionHandler()
+        completionHandler( print("Testing"))
         
     }
 }
