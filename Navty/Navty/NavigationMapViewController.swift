@@ -544,7 +544,10 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         //animate table view up
         //change format of the map
         let uuid = NSUUID().uuidString
+        print(uuid)
         self.uuid = uuid
+        //demo channel name 
+        //CA9570E1-80E3-4090-B622-C93E07312434
         
         if timerCountingDown == false {
             
@@ -589,13 +592,18 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
 //            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
 //                let textField = alert?.textFields![0]
 //                Settings.shared.channelName = (textField?.text)!
-                self.client.subscribeToChannels(["\(uuid)"], withPresence: true)
+            //MARK:ACTUAL CODE
+            //self.client.subscribeToChannels(["\(uuid)"], withPresence: true)
+            
+            //MARK:DEMO CODE
+            self.client.subscribeToChannels(["CA9570E1-80E3-4090-B622-C93E07312434"], withPresence: true)
                 
                 if self.messageComposer.canSendText() {
                     let messageComposerVC = self.messageComposer.configuredMessageComposeViewController()
                     let uuidAttributedString = NSMutableAttributedString(string: "\(uuid)")
                     
-                    messageComposerVC.body = "Track me at navtyapp.com/?id=\(uuid) or using channel name \(uuidAttributedString)"
+                    //Change to demo channel
+                    messageComposerVC.body = "Track me at navtyapp.com/?id=CA9570E1-80E3-4090-B622-C93E07312434."
                     //"Track me using channel name: \(Settings.shared.channelName), on the  Navty app or at navtyapp.com"
                     
                     self.navigationController?.present(messageComposerVC, animated: true, completion: nil)

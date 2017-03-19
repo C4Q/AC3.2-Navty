@@ -56,7 +56,8 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
             if Settings.shared.trackingEnabled != false {
                 let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
                 print(message)
-                self.client.publish(message, toChannel: "\(self.uuid)", compressed: false, withCompletion: { (status) in
+                //set publish to demo channel
+                self.client.publish(message, toChannel: "CA9570E1-80E3-4090-B622-C93E07312434", compressed: false, withCompletion: { (status) in
                     if !status.isError {
                         print("\(self.uuid)")
                         print("Sucess")
