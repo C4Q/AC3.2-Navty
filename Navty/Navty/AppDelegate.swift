@@ -25,8 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         registerForRemoteNotification()
         GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
-        GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
-//        GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
+        
+        //GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
+        GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
 //        let navigationMapView = NavigationMapViewController()
 //        let navController = UINavigationController(rootViewController: navigationMapView)
         
