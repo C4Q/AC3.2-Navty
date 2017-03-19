@@ -56,7 +56,6 @@ class TrackingViewController: UIViewController, PNObjectEventListener, GMSMapVie
         self.client = PubNub.clientWithConfiguration(configuration)
         self.client.addListener(self)
         
-//        self.client.subscribeToChannels(["\(channel)"], withPresence: true)
         print("this is the clients channel: \(client.channels())")
     }
     
