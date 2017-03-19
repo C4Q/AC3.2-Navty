@@ -34,7 +34,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         
        
     }
-    
+ 
     func viewHierarchy(){
         view.addSubview(profilePicture)
         //view.addSubview(codewordButton)
@@ -54,7 +54,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         self.edgesForExtendedLayout = []
         
         profilePicture.snp.makeConstraints { (photo) in
-            photo.height.width.equalTo(150)
+            photo.height.width.equalTo(100)
             photo.top.equalTo(view.snp.top).offset(75)
             photo.centerX.equalTo(view.snp.centerX)
         }
@@ -174,7 +174,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
             
             animateBorderColor(view: profilePicture, fromColor: UIColor.red.cgColor, toColor: UIColor.green.cgColor, duration: 1)
             
-            switchLabel.text = "T R A C K I N G   E N A B L E D"
+            switchLabel.text = "T R A C K I N G   O N"
             switchLabel.font = .systemFont(ofSize: 11, weight: UIFontWeightLight)
             Settings.shared.trackingEnabled = true
             
@@ -196,7 +196,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
             
             animateBorderColor(view: profilePicture, fromColor: UIColor.green.cgColor, toColor: UIColor.red.cgColor, duration: 1)
             
-            switchLabel.text = "T R A C K I N G   D I S A B L E D"
+            switchLabel.text = "T R A C K I N G   O F F"
             switchLabel.font = .systemFont(ofSize: 11, weight: UIFontWeightLight)
             Settings.shared.trackingEnabled = false
         }
@@ -208,7 +208,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         animation.toValue = toColor
         animation.duration = duration
         view.layer.borderWidth = 3
-        view.layer.cornerRadius = 38
+        view.layer.cornerRadius = 25
         view.layer.masksToBounds = true
         view.layer.add(animation, forKey: "color")
         view.layer.borderColor = toColor
@@ -217,25 +217,25 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     
     internal var profilePicture: UIImageView = {
         let photo = UIImageView()
-        photo.image = UIImage(named: "newIcon")
-        photo.layer.cornerRadius = 38
+        photo.image = UIImage(named: "PointSevenNavtyIcon")
+        photo.layer.cornerRadius = 25
         photo.layer.borderWidth = 3
-        photo.layer.borderColor = UIColor.red.cgColor
+        photo.layer.borderColor = ColorPalette.red.cgColor
         photo.layer.masksToBounds = true
         photo.contentMode = .scaleAspectFit
         return photo
     }()
     
-    internal var codewordButton: UIButton = {
-        let button = UIButton(type: .custom)
-        //button.backgroundColor = ColorPalette.lightGreen
-        button.setTitle("Codeword", for: .normal)
-        button.titleLabel?.textAlignment = .right
-        button.alpha = 0.8
-        button.layer.masksToBounds = true
-        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
-        return button
-    }()
+//    internal var codewordButton: UIButton = {
+//        let button = UIButton(type: .custom)
+//        //button.backgroundColor = ColorPalette.lightGreen
+//        button.setTitle("Codeword", for: .normal)
+//        button.titleLabel?.textAlignment = .right
+//        button.alpha = 0.8
+//        button.layer.masksToBounds = true
+//        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
+//        return button
+//    }()
     
     
     internal var contactButton: UIButton = {
@@ -256,15 +256,15 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         return view
     }()
     
-    internal var communityButton: UIButton = {
-        let button = UIButton(type: .custom)
-        //button.backgroundColor = ColorPalette.lightGreen
-        button.setTitle("Community", for: .normal)
-        button.alpha = 0.8
-        button.layer.masksToBounds = true
-        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
-        return button
-    }()
+//    internal var communityButton: UIButton = {
+//        let button = UIButton(type: .custom)
+//        //button.backgroundColor = ColorPalette.lightGreen
+//        button.setTitle("Community", for: .normal)
+//        button.alpha = 0.8
+//        button.layer.masksToBounds = true
+//        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
+//        return button
+//    }()
     
     internal var profileButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -311,7 +311,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     
     internal var switchLabel: UILabel = {
         let label = UILabel()
-        label.text = "T R A C K I N G   D I S A B L E D"
+        label.text = "T R A C K I N G   O F F"
         label.textColor = .white
         label.font = .systemFont(ofSize: 11, weight: UIFontWeightLight)
         return label

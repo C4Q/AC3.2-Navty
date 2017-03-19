@@ -15,13 +15,16 @@ class CrimeData {
     let longitude: String
     let description: String
     let crimeDate: String
+    let area: String
     
-    init(boro: String, latitude: String, longitude: String, description: String, crimeDate: String) {
+    
+    init(boro: String, latitude: String, longitude: String, description: String, crimeDate: String, area: String) {
         self.boro = boro
         self.latitude = latitude
         self.longitude = longitude
         self.description = description
         self.crimeDate = crimeDate
+        self.area = area
     }
     
     convenience init?(from dict: [String:Any]) {
@@ -29,9 +32,11 @@ class CrimeData {
         let crimeDate = dict ["cmplnt_fr_dt"] as? String ?? "No Date"
         let lat = dict["latitude"] as? String ?? "0"
         let long = dict["longitude"] as? String ?? "0"
-        let description = dict["pd_desc"] as? String ?? "Unkown"
+        let description = dict["ofns_desc"] as? String ?? "Unkown"
+        let area = dict["prem_typ_desc"] as? String ?? "Unkown"
         
-        self.init(boro: boro, latitude: lat, longitude: long, description: description, crimeDate: crimeDate)
+        
+        self.init(boro: boro, latitude: lat, longitude: long, description: description, crimeDate: crimeDate, area: area)
     }
     
     static func getData(from arr: [[String:Any]]) -> [CrimeData] {

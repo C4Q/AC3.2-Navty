@@ -13,7 +13,7 @@ class SplashScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(red: 106/255, green: 185/255, blue: 212/255, alpha: 1)
+        view.backgroundColor = ColorPalette.bgColor
         
         let iconWithAlpha = icon
         iconWithAlpha.alpha = 0.0
@@ -28,14 +28,14 @@ class SplashScreenViewController: UIViewController {
             self.icon.alpha = 1.0
         }, completion: nil)
         
-        perform(#selector(SegueToOnboardVc), with: nil, afterDelay: 3)
+        perform(#selector(SegueToOnboardVc), with: nil, afterDelay: 4)
         
         navigationController?.isNavigationBarHidden = true
         
     }
     
     func SegueToOnboardVc(){
-        let userdefaults = UserDefaults.standard
+        _ = UserDefaults.standard
         
             let onboardVC = OnboardingViewController()
             navigationController?.pushViewController(onboardVC, animated: true)
@@ -44,7 +44,7 @@ class SplashScreenViewController: UIViewController {
     
     internal lazy var icon: UIImageView = {
         let image = UIImageView()
-        image.image = #imageLiteral(resourceName: "newIcon")
+        image.image = #imageLiteral(resourceName: "PointSevenNavtyIcon")
         image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image

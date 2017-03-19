@@ -28,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
     var client: PubNub!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        
         // Override point for customization after application launch.
         FIRApp.configure()
         
@@ -101,7 +103,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-//        let newTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
         let content = UNMutableNotificationContent()
         content.title = "Text Message"
         content.body = "Do you want to notice your arrival to your friends?"
@@ -175,8 +176,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                 print("Can not present the View Controller")
             }
             
-            //present(DetailViewController(), animated: true, completion: nil)
-        //imageView.image = UIImage(named: "firstGuy")
+
         case "disagree":
             print("I disagree")
             
@@ -185,7 +185,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             break
         }
         
-        completionHandler()
+        completionHandler( print("Testing"))
         
     }
 }
