@@ -61,16 +61,6 @@
 		B9755DB31E70681600B63C0A /* textMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755DB11E70681600B63C0A /* textMessageViewController.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		A20CA9401E74BC3E007D5154 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 571EAB001E660AB500CF2947 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A20CA9351E74BC3D007D5154;
-			remoteInfo = Widget;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		A20CA9461E74BC3F007D5154 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -78,7 +68,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				A20CA9421E74BC3E007D5154 /* Widget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -174,14 +163,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8760BC449F0D75C72A7B2E0A /* Pods_Navty.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A20CA9331E74BC3D007D5154 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A20CA9381E74BC3E007D5154 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,7 +264,6 @@
 			isa = PBXGroup;
 			children = (
 				571EAB081E660AB500CF2947 /* Navty.app */,
-				A20CA9361E74BC3D007D5154 /* Widget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -293,6 +273,7 @@
 			children = (
 				571F80E21E7C2E99001E4AF8 /* From HQ to Astoria.gpx */,
 				A2B0321F1E7C7858008D1A7B /* Huntercollegeroute.gpx */,
+				571EAB0B1E660AB500CF2947 /* AppDelegate.swift */,
 				5704954E1E7093C100376161 /* Google-Maps-iOS-Utils */,
 				B9755DB41E70682A00B63C0A /* SMS */,
 				B9755DAF1E70599800B63C0A /* View */,
@@ -310,7 +291,6 @@
 		571EAB1D1E660B9600CF2947 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				571EAB0B1E660AB500CF2947 /* AppDelegate.swift */,
 				571EAB141E660AB500CF2947 /* LaunchScreen.storyboard */,
 				571EAB121E660AB500CF2947 /* Assets.xcassets */,
 				571B55021E6E03CC005414E1 /* Info.plist */,
@@ -445,29 +425,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				A20CA9411E74BC3E007D5154 /* PBXTargetDependency */,
 			);
 			name = Navty;
 			productName = Navty;
 			productReference = 571EAB081E660AB500CF2947 /* Navty.app */;
 			productType = "com.apple.product-type.application";
-		};
-		A20CA9351E74BC3D007D5154 /* Widget */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A20CA9431E74BC3F007D5154 /* Build configuration list for PBXNativeTarget "Widget" */;
-			buildPhases = (
-				A20CA9321E74BC3D007D5154 /* Sources */,
-				A20CA9331E74BC3D007D5154 /* Frameworks */,
-				A20CA9341E74BC3D007D5154 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Widget;
-			productName = Widget;
-			productReference = A20CA9361E74BC3D007D5154 /* Widget.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -481,12 +443,12 @@
 				TargetAttributes = {
 					571EAB071E660AB500CF2947 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 2E9D85U478;
+						DevelopmentTeam = G33WGC6L8H;
 						ProvisioningStyle = Automatic;
 					};
 					A20CA9351E74BC3D007D5154 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 2E9D85U478;
+						DevelopmentTeam = G33WGC6L8H;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -505,7 +467,6 @@
 			projectRoot = "";
 			targets = (
 				571EAB071E660AB500CF2947 /* Navty */,
-				A20CA9351E74BC3D007D5154 /* Widget */,
 			);
 		};
 /* End PBXProject section */
@@ -522,14 +483,6 @@
 				A2B0321C1E7C54B4008D1A7B /* Navty_Plain_logo.png in Resources */,
 				A2B032201E7C7858008D1A7B /* Huntercollegeroute.gpx in Resources */,
 				571EAB561E6A252600CF2947 /* style.json in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A20CA9341E74BC3D007D5154 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A20CA93E1E74BC3E007D5154 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -631,23 +584,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A20CA9321E74BC3D007D5154 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A20CA93B1E74BC3E007D5154 /* TodayViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		A20CA9411E74BC3E007D5154 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A20CA9351E74BC3D007D5154 /* Widget */;
-			targetProxy = A20CA9401E74BC3E007D5154 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		571EAB141E660AB500CF2947 /* LaunchScreen.storyboard */ = {
@@ -766,15 +703,15 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 2E9D85U478;
+				DEVELOPMENT_TEAM = G33WGC6L8H;
 				INFOPLIST_FILE = Navty/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -784,25 +721,25 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 2E9D85U478;
+				DEVELOPMENT_TEAM = G33WGC6L8H;
 				INFOPLIST_FILE = Navty/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		A20CA9441E74BC3F007D5154 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 2E9D85U478;
+				DEVELOPMENT_TEAM = G33WGC6L8H;
 				INFOPLIST_FILE = Widget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty.Widget;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy.Widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -812,10 +749,10 @@
 		A20CA9451E74BC3F007D5154 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 2E9D85U478;
+				DEVELOPMENT_TEAM = G33WGC6L8H;
 				INFOPLIST_FILE = Widget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navty.Widget;
+				PRODUCT_BUNDLE_IDENTIFIER = C4Q.Navtyy.Widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -839,15 +776,6 @@
 			buildConfigurations = (
 				571EAB1B1E660AB500CF2947 /* Debug */,
 				571EAB1C1E660AB500CF2947 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A20CA9431E74BC3F007D5154 /* Build configuration list for PBXNativeTarget "Widget" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A20CA9441E74BC3F007D5154 /* Debug */,
-				A20CA9451E74BC3F007D5154 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

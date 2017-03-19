@@ -1,4 +1,4 @@
-//
+ //
 //  NavigationMapViewController.swift
 //  Navty
 //
@@ -76,6 +76,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     var client: PubNub!
     //var trackingEnabled = false
     var channel = ""
+    var uuid = ""
     
     var region = CLCircularRegion()
     
@@ -95,6 +96,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         
         mapView.delegate = self
         locationManager.startUpdatingLocation()
+        //locationManager.allowsBackgroundLocationUpdates = true
         
         sideMenu()
         clustering()
@@ -209,8 +211,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             view.top.equalTo(mapView.snp.bottom)
         })
         
-        
-        
         carView.snp.makeConstraints{(view) in
             view.top.leading.equalToSuperview()
             view.width.equalToSuperview().multipliedBy(0.25)
@@ -292,9 +292,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                         DispatchQueue.main.async {
                             let latitude = CLLocationDegrees(eachCrime.latitude)
                             let longitude = CLLocationDegrees(eachCrime.longitude )
-                            
-                            
-                            
+                    
                             //new cluster code
                             let position = CLLocationCoordinate2D(latitude: latitude! , longitude:longitude!)
                             let item = ClusterCrimeData(position: position, name: eachCrime.description, crime: eachCrime)
@@ -335,8 +333,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     }
     
     func searchBarPressed(button: UIButton) {
-        
-        
         let autocompleteController = GMSAutocompleteViewController()
         autocompleteController.delegate = self
         present(autocompleteController, animated: true, completion: nil)
@@ -434,7 +430,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         
         
         navigationController?.isToolbarHidden = false
-        navigationController?.toolbar.barTintColor = ColorPalette.lightBlue
+        navigationController?.toolbar.barTintColor = ColorPalette.bgColor
         navigationController?.toolbar.tintColor = .white
         
     }
@@ -542,17 +538,23 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         
     }
     
+
+    
     func startNavigationClicked() {
         //animate table view up
         //change format of the map
+        let uuid = NSUUID().uuidString
+        print(uuid)
+        self.uuid = uuid
+        //demo channel name 
+        //CA9570E1-80E3-4090-B622-C93E07312434
+        
         if timerCountingDown == false {
             
             searchDestinationButton.isHidden = true
             cancelNavigationButton.isHidden = false
             
-            
             timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
-            
             
             timerLabel.isHidden = false
             
@@ -563,9 +565,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         }
         //        navigationContainer.isHidden = true
         startNavigation.isHidden = true
-        
-        
-        
+
         UITableView.animate(withDuration: 1.0, animations: { () -> Void in
             
             self.directionsTableView.snp.makeConstraints({ (view) in
@@ -585,28 +585,34 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude)))
         
         if Settings.shared.trackingEnabled == true {
-            let alert = UIAlertController(title: "Channel Name", message: "Enter Channel:", preferredStyle: .alert)
-            alert.addTextField(configurationHandler: { (textfield) in
-                textfield.placeholder = "Channel Here"
-            })
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-                let textField = alert?.textFields![0]
-                Settings.shared.channelName = (textField?.text)!
-                self.client.subscribeToChannels(["\(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)"], withPresence: true)
+//            let alert = UIAlertController(title: "Channel Name", message: "Enter Channel:", preferredStyle: .alert)
+//            alert.addTextField(configurationHandler: { (textfield) in
+//                textfield.placeholder = "Channel Here"
+//            })
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+//                let textField = alert?.textFields![0]
+//                Settings.shared.channelName = (textField?.text)!
+            //MARK:ACTUAL CODE
+            //self.client.subscribeToChannels(["\(uuid)"], withPresence: true)
+            
+            //MARK:DEMO CODE
+            self.client.subscribeToChannels(["CA9570E1-80E3-4090-B622-C93E07312434"], withPresence: true)
                 
                 if self.messageComposer.canSendText() {
                     let messageComposerVC = self.messageComposer.configuredMessageComposeViewController()
+                    let uuidAttributedString = NSMutableAttributedString(string: "\(uuid)")
                     
-                    messageComposerVC.body = "Track me at navtyapp.com/?id=\(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)"
+                    //Change to demo channel
+                    messageComposerVC.body = "Track me at navtyapp.com/?id=CA9570E1-80E3-4090-B622-C93E07312434."
                     //"Track me using channel name: \(Settings.shared.channelName), on the  Navty app or at navtyapp.com"
                     
                     self.navigationController?.present(messageComposerVC, animated: true, completion: nil)
                 } else {
                     print("Cant present")
                 }
-            }))
-            
-            self.navigationController?.present(alert, animated: true, completion: nil)
+//            }))
+//           
+//            self.navigationController?.present(alert, animated: true, completion: nil)
             Settings.shared.channelInput = true
             
         }
@@ -790,7 +796,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     
     internal lazy var searchDestinationButton: UIButton = {
         let button = UIButton()
-        button.layer.borderColor = ColorPalette.lightBlue.cgColor
+        button.layer.borderColor = ColorPalette.bgColor.cgColor
         button.layer.borderWidth = 1
         button.isUserInteractionEnabled = true
         button.setTitle("Enter Destination", for: .normal)
@@ -810,8 +816,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         searchBar.barTintColor = .white
         searchBar.placeholder = "Destination"
         searchBar.isUserInteractionEnabled = true
-        searchBar.layer.borderColor = ColorPalette.lightBlue.cgColor
-        searchBar.layer.borderWidth = 1
+        //searchBar.layer.borderColor = ColorPalette.bgColor.cgColor
+        //searchBar.layer.borderWidth = 1
         return searchBar
     }()
     
@@ -858,5 +864,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         tableView.rowHeight = UITableViewAutomaticDimension
         return tableView
     }()
+    
+    //MARK: ADD ALEART 
+    
 }
 

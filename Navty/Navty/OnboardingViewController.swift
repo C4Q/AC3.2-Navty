@@ -48,14 +48,14 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     }
     
     func onboardingItemAtIndex(_ index: Int) -> OnboardingItemInfo {
-        let backgroundColorOne = ColorPalette.bgColor
-        let backgroundColorTwo = ColorPalette.bgColor
-        let backgroundColorThree = ColorPalette.bgColor
+        let backgroundColorOne = ColorPalette.green
+        let backgroundColorTwo = ColorPalette.red
+        let backgroundColorThree = ColorPalette.yellow
         
         let titleFont = UIFont(name: "AvenirNext-Bold", size: 24)!
         let descriptionFont = UIFont(name: "AvenirNext-Regular", size: 18)!
         
-        return [("location_icon", "Would you take shortest or safest route?", "Where ever you go, Navty help you to keep you safe by connecting with your loved ones", "", backgroundColorOne, UIColor.white, UIColor.white, titleFont, descriptionFont),
+        return [("location_icon", "Shortest or safest route?", "Where ever you go, Navty help you to keep you safe by connecting with your loved ones", "", backgroundColorOne, UIColor.white, UIColor.white, titleFont, descriptionFont),
                 ("Search_icon", "Search Your Destination", "Search your destination by zip-code and choose the safest route to take", "", backgroundColorTwo, UIColor.white, UIColor.white, titleFont, descriptionFont),
                 ("board_icon", "Get there safely", "Where ever you go, Navty help you to keep you safe by connecting with your loved ones", "", backgroundColorThree, UIColor.white, UIColor.white, titleFont, descriptionFont)][index]
     }
@@ -89,6 +89,10 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
 //                view.width.equalTo(150)
 //            })
 //        }
+//        item.imageView?.snp.makeConstraints({ (view) in
+//            view.height.equalTo(50)
+//            view.width.equalTo(50)
+//        })
     }
     
     func toMapVC(){

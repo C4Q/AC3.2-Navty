@@ -191,8 +191,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Actions
     
     func didTapLogin(sender: UIButton) {
-        sender.backgroundColor = ColorPalette.lightBlue
-        sender.setTitleColor(ColorPalette.lightBlue, for: .normal)
+        sender.backgroundColor = ColorPalette.bgColor
+        sender.setTitleColor(ColorPalette.bgColor, for: .normal)
         
         if let email = emailTextField.text,
             let password = passwordTextField.text {
@@ -212,15 +212,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func registeredPressed(sender: UIButton) {
-        sender.backgroundColor = ColorPalette.lightBlue
-        sender.setTitleColor(ColorPalette.lightBlue, for: .normal)
+        sender.backgroundColor = ColorPalette.bgColor
+        sender.setTitleColor(ColorPalette.bgColor, for: .normal)
  
         
         if let email = emailTextField.text,
             let password = passwordTextField.text {
             FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error: Error?) in
                 if error != nil {
-                    print (error)
+                    //print (error)
                     return
                 }
                 guard let uid = user?.uid else {return}
@@ -250,10 +250,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     func resetButtonColors() {
-        loginButton.backgroundColor = ColorPalette.lightBlue
+        loginButton.backgroundColor = ColorPalette.bgColor
         loginButton.setTitleColor(ColorPalette.lightGreen, for: .normal)
         
-        registerButton.backgroundColor = ColorPalette.lightBlue
+        registerButton.backgroundColor = ColorPalette.bgColor
         registerButton.setTitleColor(ColorPalette.lightGreen, for: .normal)
     }
     
