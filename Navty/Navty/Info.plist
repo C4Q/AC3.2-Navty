@@ -30,7 +30,7 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Please grant us your location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>need location</string>
+	<string>Get you home safely</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Allow speech recognization?</string>
 	<key>UILaunchStoryboardName</key>

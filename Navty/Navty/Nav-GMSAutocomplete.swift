@@ -13,7 +13,7 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
     
     
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        self.addressLookUp = place.name
+        self.addressLookUp = place.formattedAddress!
         print(addressLookUp)
         self.marker.map = nil
         self.allPolyLines.forEach({ $0.map = nil })
@@ -48,8 +48,6 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
                 }
                 
                 let region = CLCircularRegion(center: coordinates, radius: 5, identifier: "Destination")
-                //                                region.notifyOnEntry = true
-                //                region.notifyOnExit = true
                 
                 var radius = region.radius
                 if radius > self.locationManager.maximumRegionMonitoringDistance {
@@ -58,6 +56,7 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
                 
                 
                 self.locationManager.startMonitoring(for: region)
+                self.region = region
                 
                 self.marker = GMSMarker(position: coordinates)
                 self.marker.title = "\(placemark)"
@@ -66,7 +65,6 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
                 self.markerAwayFromPoint.icon = GMSMarker.markerImage(with: .blue)
                 self.markerAwayFromPoint.map = self.mapView
                 self.getPolylines(coordinates: coordinates)
-                //self.mapView.animate(toLocation: coordinates)
                 
                 self.getPolylines(coordinates: self.newCoordinates)
                 
@@ -74,12 +72,14 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
         })
         
         
-        searchDestinationButton.setTitle("\(place.name )", for: .normal)
+        searchDestinationButton.setTitle("\(place.name)", for: .normal)
+        searchDestinationButton.setTitleColor(.black, for: .normal)
         dismiss(animated: true, completion: nil)
     }
     
     
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        self.locationManager.stopMonitoring(for: region)
         print("Error: ", error.localizedDescription)
     }
     
@@ -90,7 +90,7 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
         self.allPolyLines.forEach({ $0.map = nil })
         self.allPolyLines = []
         self.polyline = nil
-        //        self.locationManager.stopMonitoring(for: region)
+        self.locationManager.stopMonitoring(for: region)
         
         self.searchDestination.endEditing(true)
         

@@ -77,6 +77,9 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     //var trackingEnabled = false
     var channel = ""
     
+    
+    var region = CLCircularRegion()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -154,18 +157,19 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         view.addSubview(menuButton)
         view.addSubview(searchDestinationButton)
         view.addSubview(cancelNavigationButton)
-        
-       
         view.addSubview(directionsTableView)
         view.addSubview(startNavigation)
+        
+//        navigationContainer.addSubview(startNavigation)
         
         navigationController?.toolbar.addSubview(carView)
         navigationController?.toolbar.addSubview(walkingView)
         navigationController?.toolbar.addSubview(bikeView)
         navigationController?.toolbar.addSubview(publicTransportView)
-        
         navigationController?.toolbar.addSubview(transportationIndicator)
-        timerLabel.addGestureRecognizer(recognizer)
+        
+        timerContainer.addGestureRecognizer(recognizer)
+        timerContainer.addSubview(timerLabel)
     }
     
     
@@ -218,18 +222,23 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             view.top.equalToSuperview()
             view.leading.equalTo(carView.snp.trailing)
             view.width.equalToSuperview().multipliedBy(0.25)
+            view.height.equalTo(0)
         }
         
         bikeView.snp.makeConstraints { (view) in
             view.top.equalToSuperview()
             view.leading.equalTo(walkingView.snp.trailing)
             view.width.equalToSuperview().multipliedBy(0.25)
+            view.height.equalTo(0)
+
         }
         
         publicTransportView.snp.makeConstraints { (view) in
             view.top.equalToSuperview()
             view.leading.equalTo(bikeView.snp.trailing)
             view.width.equalToSuperview().multipliedBy(0.25)
+            view.height.equalTo(0)
+
         }
         
         transportationIndicator.snp.makeConstraints { (view) in
@@ -237,8 +246,12 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             view.width.equalToSuperview().multipliedBy(0.25)
             view.height.equalToSuperview().multipliedBy(0.05)
             view.leading.trailing.equalTo(walkingView)
+            view.height.equalTo(0)
         }
         
+        timerLabel.snp.makeConstraints { (view) in
+            view.top.bottom.leading.trailing.equalToSuperview()
+        }
         
         
     }
@@ -318,7 +331,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             })
         }
         
-        
+//        navigationContainer.isHidden = false
         startNavigation.isHidden = false
     }
     
@@ -338,7 +351,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         let times = time.components(separatedBy: " ")
         var seconds = 0
         
-        print(times)
         if times.count > 2 {
             guard let hour = Int(times[0]), let min = Int(times[2]) else { return }
             print(hour)
@@ -388,10 +400,11 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                             self.distanceTimeConversionToSeconds(time: time)
                             self.eta = time
                             
-                            self.polyline?.strokeWidth = 7
+                            self.polyline?.strokeWidth = 5
                             self.polyline?.strokeColor = self.colors[eachOne]
                             self.polyline?.isTappable = true
-                         
+                            self.polyline?.geodesic = true
+                            
                             self.allPolyLines.append(self.polyline!)
                     
                             self.allPolyLines[eachOne].map = self.mapView
@@ -549,6 +562,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         self.directionsTableView.isHidden = false
         timerCountingDown = true
         }
+//        navigationContainer.isHidden = true
         startNavigation.isHidden = true
         
         
@@ -592,11 +606,9 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                     print("Cant present")
                 }
             }))
-            //self.present(alert, animated: true, completion: nil)
+           
             self.navigationController?.present(alert, animated: true, completion: nil)
             Settings.shared.channelInput = true
-            
-            //messaging 
             
         }
         
@@ -654,6 +666,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         cancelNavigationButton.isHidden = true
         searchDestinationButton.isHidden = false
         startNavigation.isHidden = true
+        
+//        navigationContainer.isHidden = true
         
         self.marker.map = nil
         self.allPolyLines.forEach({ $0.map = nil })
@@ -751,11 +765,20 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     }()
     
    
+    internal lazy var timerContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = ColorPalette.bgColor
+        view.isUserInteractionEnabled = true
+        return view
+    }()
+    
+    
     internal lazy var timerLabel: UILabel = {
         let label = UILabel()
         label.isUserInteractionEnabled = true
         label.textAlignment = .center
         label.backgroundColor = ColorPalette.bgColor
+        label.textColor = .white
         return label
     }()
     
@@ -771,9 +794,9 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         button.layer.borderColor = ColorPalette.lightBlue.cgColor
         button.layer.borderWidth = 1
         button.isUserInteractionEnabled = true
-        button.setTitle(" Destination", for: .normal)
+        button.setTitle("Enter Destination", for: .normal)
         button.setTitleColor( ColorPalette.lightGrey  , for: .normal)
-        button.titleLabel?.font = UIFont(name: "ArialHebrew", size: 18)
+        button.titleLabel?.font = UIFont(name: "ArialHebrew", size: 16)
         button.titleLabel?.textAlignment = .center
         button.addTarget(self, action: #selector(searchBarPressed(button:)), for: .touchUpInside)
         button.backgroundColor = UIColor.white
@@ -809,6 +832,14 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         button.isHidden = true
         return button
     }()
+    
+    internal lazy var navigationContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = ColorPalette.bgColor
+        view.layer.cornerRadius = 10.0
+        view.isHidden = true
+        return view
+        }()
     
     internal lazy var cancelNavigationButton: UIButton = {
         let button = UIButton()
