@@ -1282,7 +1282,10 @@ extension NavigationMapViewController: GMUClusterManagerDelegate {
          
             }
             
-            marker.title = "Crime: \(crimeData.crime.description)"
+            marker.title = "\(crimeData.crime.description)"
+            marker.snippet = "\(crimeData.crime.boro): \(crimeData.crime.area)"
+            
+            
             
             //marker.snippet = crimeData.crime.crimeDate
         }
