@@ -97,7 +97,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
         userDefaults.set(true, forKey: "onboardingComplete")
         userDefaults.synchronize()
         
-//        let navController = UINavigationController(rootViewController: NavigationMapViewController())
+
         let mapVC = NavigationMapViewController()
         self.navigationController?.pushViewController(mapVC, animated: true)
         
