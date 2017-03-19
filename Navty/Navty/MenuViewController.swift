@@ -276,7 +276,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     
     internal var panicButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("P A N I C", for: .normal)
+        button.setTitle("C A L L  P O L I C E", for: .normal)
         button.setTitleColor(UIColor.red, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: UIFontWeightLight)
         button.contentHorizontalAlignment = .left
