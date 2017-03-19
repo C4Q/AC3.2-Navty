@@ -76,6 +76,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     var client: PubNub!
     //var trackingEnabled = false
     var channel = ""
+    var uuid = ""
     
     
     var region = CLCircularRegion()
@@ -96,6 +97,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
        
         mapView.delegate = self
         locationManager.startUpdatingLocation()
+        //locationManager.allowsBackgroundLocationUpdates = true
         
         sideMenu()
         clustering()
@@ -546,6 +548,9 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     func startNavigationClicked() {
         //animate table view up
         //change format of the map
+        let uuid = NSUUID().uuidString
+        self.uuid = uuid
+        
         if timerCountingDown == false {
             
             searchDestinationButton.isHidden = true
@@ -586,28 +591,29 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude)))
         
         if Settings.shared.trackingEnabled == true {
-            let alert = UIAlertController(title: "Channel Name", message: "Enter Channel:", preferredStyle: .alert)
-            alert.addTextField(configurationHandler: { (textfield) in
-                textfield.placeholder = "Channel Here"
-            })
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-                let textField = alert?.textFields![0]
-                Settings.shared.channelName = (textField?.text)!
-                self.client.subscribeToChannels(["\(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)"], withPresence: true)
+//            let alert = UIAlertController(title: "Channel Name", message: "Enter Channel:", preferredStyle: .alert)
+//            alert.addTextField(configurationHandler: { (textfield) in
+//                textfield.placeholder = "Channel Here"
+//            })
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+//                let textField = alert?.textFields![0]
+//                Settings.shared.channelName = (textField?.text)!
+                self.client.subscribeToChannels(["\(uuid)"], withPresence: true)
                 
                 if self.messageComposer.canSendText() {
                     let messageComposerVC = self.messageComposer.configuredMessageComposeViewController()
+                    let uuidAttributedString = NSMutableAttributedString(string: "\(uuid)")
                     
-                    messageComposerVC.body = "Track me at navtyapp.com/?id=\(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)"
+                    messageComposerVC.body = "Track me at navtyapp.com/?id=\(uuid) or using channel name \(uuidAttributedString)"
                     //"Track me using channel name: \(Settings.shared.channelName), on the  Navty app or at navtyapp.com"
                     
                     self.navigationController?.present(messageComposerVC, animated: true, completion: nil)
                 } else {
                     print("Cant present")
                 }
-            }))
-           
-            self.navigationController?.present(alert, animated: true, completion: nil)
+//            }))
+//           
+//            self.navigationController?.present(alert, animated: true, completion: nil)
             Settings.shared.channelInput = true
             
         }

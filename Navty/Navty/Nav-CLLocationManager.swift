@@ -24,6 +24,7 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             print("Authorized")
         //            manager.stopUpdatingLocation()
+            manager.allowsBackgroundLocationUpdates = true
         case .denied, .restricted:
             print("Authorization denied or restricted")
         case .notDetermined:
@@ -55,8 +56,9 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
             if Settings.shared.trackingEnabled != false {
                 let message = "{\"lat\":\(validLocation.coordinate.latitude),\"lng\":\(validLocation.coordinate.longitude), \"alt\": \(validLocation.altitude)}"
                 print(message)
-                self.client.publish(message, toChannel: "\(UserDefaults.standard.value(forKey: "ApplicationIdentifier")!)", compressed: false, withCompletion: { (status) in
+                self.client.publish(message, toChannel: "\(self.uuid)", compressed: false, withCompletion: { (status) in
                     if !status.isError {
+                        print("\(self.uuid)")
                         print("Sucess")
                     } else {
                         print("Error: \(status)")

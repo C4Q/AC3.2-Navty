@@ -16,8 +16,8 @@ class Settings {
     var channelName = ""
     var navigationStarted = false
     var channelInput = false
-    let uuid = NSUUID().uuidString
-    
+//    let uuid = NSUUID().uuidString
+
 //    let uuid = String(describing: UIDevice.current.identifierForVendor?.uuid)
     //UIDevice.current.identifierForVendor!.uuidString
 }
