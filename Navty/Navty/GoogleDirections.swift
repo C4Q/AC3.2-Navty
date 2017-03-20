@@ -73,7 +73,7 @@ class GoogleDirections {
             for info in routes {
                 guard let legs = info["legs"] as? [[String:Any]] else { throw errorEnum.test}
                 guard let totalPoly = info["overview_polyline"] as? [String:Any] else {throw errorEnum.test}
-                let polyline = totalPoly["points"] as! String
+                let polyline = totalPoly["points"] as? String ?? ""
                 overallPoly = polyline
                 legsInfo = legs
             }
@@ -84,10 +84,10 @@ class GoogleDirections {
                 guard let totalDuration = leg["duration"] as? [String:Any] else {throw errorEnum.test}
                 guard let overallStartLocation = leg["start_location"] as? [String: Any] else {throw errorEnum.test}
                 guard let steps = leg["steps"] as? [[String: Any]] else {throw errorEnum.test}
-                let distanceOf = totalDistance["text"] as! String
-                let timeOf = totalDuration["text"] as! String
-                let startLatOf = overallStartLocation["lat"] as! Float
-                let startLongOf = overallStartLocation["lng"] as! Float
+                let distanceOf = totalDistance["text"] as? String ?? ""
+                let timeOf = totalDuration["text"] as? String ?? ""
+                let startLatOf = overallStartLocation["lat"] as? Float ?? 0
+                let startLongOf = overallStartLocation["lng"] as? Float ?? 0
                 fullDistance = distanceOf
                 fullTime = timeOf
                 stepsInfo = steps
@@ -103,13 +103,13 @@ class GoogleDirections {
                 guard let polyline = step["polyline"] as? [String: Any] else {throw errorEnum.test}
                 guard let startLocation = step["start_location"] as? [String: Any] else {throw errorEnum.test}
                 guard let instructions = step["html_instructions"] as? String else {throw errorEnum.test}
-                let distance = stepDistance["text"] as! String
-                let time = stepTime["text"] as! String
-                let endLatitude = endLocation["lat"] as! Float
-                let endLongitude = endLocation["lng"] as! Float
-                let poly = polyline["points"] as! String
-                let startLatitude = startLocation["lat"] as! Float
-                let startLongitude = startLocation["lng"] as! Float
+                let distance = stepDistance["text"] as? String ?? ""
+                let time = stepTime["text"] as? String ?? ""
+                let endLatitude = endLocation["lat"] as? Float ?? 0
+                let endLongitude = endLocation["lng"] as? Float ?? 0
+                let poly = polyline["points"] as? String ?? ""
+                let startLatitude = startLocation["lat"] as? Float ?? 0
+                let startLongitude = startLocation["lng"] as? Float ?? 0
                 
                 directionInstruction.append(instructions)
                 distanceForStep.append(distance)

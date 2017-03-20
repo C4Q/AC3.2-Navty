@@ -24,7 +24,8 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
         
         self.polylineUpdated.map = nil
         
-        startNavigation.isHidden = false
+        navigationContainer.isHidden = false
+//        startNavigation.isHidden = false
         
         geocoder.geocodeAddressString(addressLookUp, completionHandler: { (placemarks, error) -> Void in
             if error != nil {
@@ -90,7 +91,7 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
         self.allPolyLines.forEach({ $0.map = nil })
         self.allPolyLines = []
         self.polyline = nil
-        //self.locationManager.stopMonitoring(for: region)
+    
         
         self.searchDestination.endEditing(true)
         
