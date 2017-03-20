@@ -101,9 +101,9 @@ class TrackingViewController: UIViewController, PNObjectEventListener, GMSMapVie
     }
     
     func alertForChannel() {
-        let alert = UIAlertController(title: "Channel Name", message: "Enter Channel:", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Private Tracking ID", message: "Enter Tracking ID:", preferredStyle: .alert)
         alert.addTextField(configurationHandler: { (textfield) in
-            textfield.placeholder = "Channel Here"
+            textfield.placeholder = "Private Tracking ID Here"
         })
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields![0]
