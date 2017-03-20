@@ -37,17 +37,15 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
  
     func viewHierarchy(){
         view.addSubview(profilePicture)
-        //view.addSubview(codewordButton)
         view.addSubview(contactButton)
         view.addSubview(contactLineView)
-        //view.addSubview(communityButton)
-        //view.addSubview(profileButton)
         view.addSubview(trackingButton)
         view.addSubview(trackingLineView)
         view.addSubview(switchLabel)
         view.addSubview(trackingSwitch)
         view.addSubview(panicButton)
         view.addSubview(panicLineView)
+        view.addSubview(copyrightLabel)
     }
     
     func constrainConfiguration(){
@@ -59,18 +57,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
             photo.centerX.equalTo(view.snp.centerX)
         }
         
-//        codewordButton.snp.makeConstraints { (button) in
-//            button.centerX.equalTo(view.snp.centerX)
-////            button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
-//            button.height.equalTo(30)
-//            button.width.equalTo(view.snp.width).inset(20)
-//            button.top.equalTo(profilePicture.snp.bottom).offset(20)
-//            
-//        }
-        
         contactButton.snp.makeConstraints { (button) in
-            //button.centerX.equalTo(view.snp.centerX)
-            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
             button.height.equalTo(49)
             button.width.equalToSuperview().multipliedBy(0.9)
             button.top.equalTo(profilePicture.snp.bottom).offset(45)
@@ -84,25 +71,8 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
             view.height.equalTo(1)
         }
 
-//        communityButton.snp.makeConstraints { (button) in
-//            button.centerX.equalTo(view.snp.centerX)
-//            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
-//            button.height.equalTo(30)
-//            button.width.equalTo(view.snp.width).inset(20)
-//            button.top.equalTo(contactButton.snp.bottom).offset(20)
-//        }
 
-//        profileButton.snp.makeConstraints { (button) in
-//            button.centerX.equalTo(view.snp.centerX)
-//            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
-//            button.height.equalTo(30)
-//            button.width.equalTo(view.snp.width).inset(20)
-//            button.top.equalTo(communityButton.snp.bottom).offset(20)
-//        }
-        
         trackingButton.snp.makeConstraints { (button) in
-            //button.centerX.equalTo(view.snp.centerX)
-            //button.bottom.equalTo(profilePicture.snp.bottom).offset(40)
             button.height.equalTo(49)
             button.width.equalToSuperview().multipliedBy(0.9)
             button.top.equalTo(contactLineView.snp.bottom)
@@ -132,17 +102,19 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         
         switchLabel.snp.makeConstraints({ (view) in
             view.leading.equalToSuperview().inset(20)
-            view.bottom.equalToSuperview().inset(15)
-//            view.height.equalTo(25)
-//            view.width.equalTo(150)
+            view.bottom.equalTo(copyrightLabel.snp.top).inset(-10)
         })
         
         trackingSwitch.snp.makeConstraints({ (view) in
-            view.bottom.equalToSuperview().inset(15)
-            //view.leading.equalTo(switchLabel.snp.trailing).offset(15)
+            view.bottom.equalTo(copyrightLabel.snp.top).inset(-15)
             view.trailing.equalToSuperview().inset(20)
             view.height.equalTo(switchLabel.snp.height)
         })
+        
+        copyrightLabel.snp.makeConstraints { (view) in
+            view.bottom.equalToSuperview().inset(5)
+            view.leading.trailing.equalToSuperview()
+        }
     }
     
     func contactsController() {
@@ -174,9 +146,10 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
             sender.onTintColor = ColorPalette.red
             print("its on")
             
-            //MARK: Initial View
             
-//            animateBorderColor(view: profilePicture, fromColor: UIColor.red.cgColor, toColor: UIColor.green.cgColor, duration: 1)
+            
+            //MARK: Initial View
+
             
                animateBorderColor(view: profilePicture, fromColor: ColorPalette.bgColor.cgColor, toColor: ColorPalette.red.cgColor, duration: 0.5)
             
@@ -201,8 +174,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
             print("its off")
             
             //MARK: Initial looks
-            
-//            animateBorderColor(view: profilePicture, fromColor: UIColor.green.cgColor, toColor: UIColor.red.cgColor, duration: 1)
+
             
               animateBorderColor(view: profilePicture, fromColor: ColorPalette.red.cgColor, toColor: ColorPalette.bgColor.cgColor, duration: 0.5)
             
@@ -232,30 +204,17 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         photo.image = UIImage(named: "PointSevenNavtyIcon")
         photo.layer.cornerRadius = 25
         photo.layer.borderWidth = 2
-        //photo.layer.borderColor = ColorPalette.red.cgColor
         photo.layer.masksToBounds = true
         photo.contentMode = .scaleAspectFit
         return photo
     }()
-    
-//    internal var codewordButton: UIButton = {
-//        let button = UIButton(type: .custom)
-//        //button.backgroundColor = ColorPalette.lightGreen
-//        button.setTitle("Codeword", for: .normal)
-//        button.titleLabel?.textAlignment = .right
-//        button.alpha = 0.8
-//        button.layer.masksToBounds = true
-//        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
-//        return button
-//    }()
+
     
     
     internal var contactButton: UIButton = {
         let button = UIButton(type: .custom)
-        //button.backgroundColor = ColorPalette.lightGreen
         button.setTitle("C O N T A C T", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: UIFontWeightLight)
-        //button.alpha = 0.8
         button.contentHorizontalAlignment = .left
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(contactsController), for: .touchUpInside)
@@ -268,15 +227,6 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         return view
     }()
     
-//    internal var communityButton: UIButton = {
-//        let button = UIButton(type: .custom)
-//        //button.backgroundColor = ColorPalette.lightGreen
-//        button.setTitle("Community", for: .normal)
-//        button.alpha = 0.8
-//        button.layer.masksToBounds = true
-//        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
-//        return button
-//    }()
     
     internal var profileButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -308,7 +258,6 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         let button = UIButton(type: .custom)
         button.setTitle("T R A C K I N G", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: UIFontWeightLight)
-        //button.alpha = 0.8
         button.layer.masksToBounds = true
         button.contentHorizontalAlignment = .left
         button.addTarget(self, action: #selector(trackingController), for: .touchUpInside)
@@ -333,5 +282,14 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         let trackingSwitch = UISwitch()
         trackingSwitch.addTarget(self, action: #selector(switchValueChanged(sender:)), for: .valueChanged)
         return trackingSwitch
+    }()
+    
+    internal var copyrightLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Navty © 2017"
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 8, weight: UIFontWeightLight)
+        return label
     }()
 }
