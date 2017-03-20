@@ -20,9 +20,9 @@ class SplashScreenViewController: UIViewController {
         view.addSubview(iconWithAlpha)
         
         iconWithAlpha.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        iconWithAlpha.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30).isActive = true
-        iconWithAlpha.heightAnchor.constraint(equalToConstant: 90).isActive = true
-        iconWithAlpha.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        iconWithAlpha.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50).isActive = true
+        iconWithAlpha.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        iconWithAlpha.widthAnchor.constraint(equalToConstant: 100).isActive = true
         
         UIView.animate(withDuration: 2.0, delay: 0.0, options: .curveEaseInOut, animations: {
             self.icon.alpha = 1.0

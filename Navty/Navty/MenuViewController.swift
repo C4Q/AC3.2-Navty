@@ -170,9 +170,15 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     
     func switchValueChanged(sender: UISwitch) {
         if sender.isOn == true {
+            sender.tintColor = ColorPalette.bgColor
+            sender.onTintColor = ColorPalette.red
             print("its on")
             
-            animateBorderColor(view: profilePicture, fromColor: UIColor.red.cgColor, toColor: UIColor.green.cgColor, duration: 1)
+            //MARK: Initial View
+            
+//            animateBorderColor(view: profilePicture, fromColor: UIColor.red.cgColor, toColor: UIColor.green.cgColor, duration: 1)
+            
+               animateBorderColor(view: profilePicture, fromColor: ColorPalette.bgColor.cgColor, toColor: ColorPalette.red.cgColor, duration: 0.5)
             
             switchLabel.text = "T R A C K I N G   O N"
             switchLabel.font = .systemFont(ofSize: 11, weight: UIFontWeightLight)
@@ -194,7 +200,13 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         } else {
             print("its off")
             
-            animateBorderColor(view: profilePicture, fromColor: UIColor.green.cgColor, toColor: UIColor.red.cgColor, duration: 1)
+            //MARK: Initial looks
+            
+//            animateBorderColor(view: profilePicture, fromColor: UIColor.green.cgColor, toColor: UIColor.red.cgColor, duration: 1)
+            
+              animateBorderColor(view: profilePicture, fromColor: ColorPalette.red.cgColor, toColor: ColorPalette.bgColor.cgColor, duration: 0.5)
+            
+
             
             switchLabel.text = "T R A C K I N G   O F F"
             switchLabel.font = .systemFont(ofSize: 11, weight: UIFontWeightLight)
@@ -219,8 +231,8 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         let photo = UIImageView()
         photo.image = UIImage(named: "PointSevenNavtyIcon")
         photo.layer.cornerRadius = 25
-        photo.layer.borderWidth = 3
-        photo.layer.borderColor = ColorPalette.red.cgColor
+        photo.layer.borderWidth = 2
+        //photo.layer.borderColor = ColorPalette.red.cgColor
         photo.layer.masksToBounds = true
         photo.contentMode = .scaleAspectFit
         return photo
