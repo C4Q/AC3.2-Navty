@@ -126,7 +126,6 @@ class OnboardViewController: UIViewController, UICollectionViewDelegate, UIColle
     //MARK: - PushingViewController Delegate Method
     func pushViewController(viewController: UIViewController) {
         self.present(viewController, animated: true, completion: nil)
-        //self?.pushViewController(viewController, animated: true)
     }
     
     //MARK: Actions

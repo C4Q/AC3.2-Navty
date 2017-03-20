@@ -96,7 +96,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         
         mapView.delegate = self
         locationManager.startUpdatingLocation()
-        //locationManager.allowsBackgroundLocationUpdates = true
         
         sideMenu()
         clustering()
@@ -538,7 +537,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
     
     //MARK: MENU BUTTON
     func buttonPressed () {
-        //        searchDestination.resignFirstResponder()
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
         
         
@@ -547,16 +545,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
 
     
     func startNavigationClicked() {
-        
-//        let buttonAnimator = UIViewPropertyAnimator
-
-//        animator.addAnimations {
-//            self.navigationContainer.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-//            self.navigationContainer.layoutIfNeeded()
-//        }
-//        
-//        animator.startAnimation()
-//        
         //animate table view up
         //change format of the map
         let uuid = NSUUID().uuidString
@@ -605,15 +593,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         mapView.animate(toLocation: CLLocationCoordinate2D(latitude: CLLocationDegrees(userLatitude), longitude: CLLocationDegrees(userLongitude)))
         
         if Settings.shared.trackingEnabled == true {
-//            let alert = UIAlertController(title: "Channel Name", message: "Enter Channel:", preferredStyle: .alert)
-//            alert.addTextField(configurationHandler: { (textfield) in
-//                textfield.placeholder = "Channel Here"
-//            })
-//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
-//                let textField = alert?.textFields![0]
-//                Settings.shared.channelName = (textField?.text)!
-            //MARK:ACTUAL CODE
-            //self.client.subscribeToChannels(["\(uuid)"], withPresence: true)
             
             //MARK:DEMO CODE
             self.client.subscribeToChannels(["CA9570E1-80E3-4090-B622-C93E07312434"], withPresence: true)
@@ -630,9 +609,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                 } else {
                     print("Cant present")
                 }
-//            }))
-//           
-//            self.navigationController?.present(alert, animated: true, completion: nil)
+
             Settings.shared.channelInput = true
             
         }
@@ -823,7 +800,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         button.isUserInteractionEnabled = true
         button.setTitle("Enter Destination", for: .normal)
         button.setTitleColor(ColorPalette.lightGrey, for: .normal)
-        //button.titleLabel?.font = UIFont(name: "ArialHebrew", size: 16)
         button.titleLabel?.textAlignment = .center
         button.addTarget(self, action: #selector(searchBarPressed(button:)), for: .touchUpInside)
         button.backgroundColor = .white
@@ -889,7 +865,6 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         return tableView
     }()
     
-    //MARK: ADD ALEART 
     
 }
 

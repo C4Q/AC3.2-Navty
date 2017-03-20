@@ -30,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         
-        // Override point for customization after application launch.
         FIRApp.configure()
         
         registerForRemoteNotification()
@@ -44,9 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         
 
         let navController = UINavigationController(rootViewController: SplashScreenViewController())
-        self.window?.rootViewController = navController
-  
         
+        self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()
         
         locationManager.delegate = self
@@ -105,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let content = UNMutableNotificationContent()
         content.title = "Text Message"
-        content.body = "Do you want to notice your arrival to your friends?"
+        content.body = "Do you want to notify your loved ones that you arrived safetly?"
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "myCategory"
         
