@@ -159,9 +159,9 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         view.addSubview(searchDestinationButton)
         view.addSubview(cancelNavigationButton)
         view.addSubview(directionsTableView)
-        view.addSubview(startNavigation)
+        view.addSubview(navigationContainer)
         
-        //        navigationContainer.addSubview(startNavigation)
+        navigationContainer.addSubview(startNavigation)
         
         navigationController?.toolbar.addSubview(carView)
         navigationController?.toolbar.addSubview(walkingView)
@@ -198,11 +198,17 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             
         })
         
-        startNavigation.snp.makeConstraints({ (view) in
-            view.bottom.equalToSuperview()
-            view.centerX.equalToSuperview()
+
+        navigationContainer.snp.makeConstraints { (view) in
+            view.centerY.equalToSuperview().multipliedBy(1.65)
             view.height.width.equalTo(50)
-        })
+            view.trailing.equalToSuperview().offset(-12)
+
+        }
+        
+        startNavigation.snp.makeConstraints { (view) in
+            view.top.bottom.leading.trailing.equalToSuperview()
+        }
         
         
         directionsTableView.snp.makeConstraints({ (view) in
@@ -328,8 +334,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             })
         }
         
-        //        navigationContainer.isHidden = false
-        startNavigation.isHidden = false
+                navigationContainer.isHidden = false
     }
     
     func searchBarPressed(button: UIButton) {
@@ -536,11 +541,22 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         //        searchDestination.resignFirstResponder()
         present(SideMenuManager.menuLeftNavigationController!, animated: true, completion: nil)
         
+        
     }
     
 
     
     func startNavigationClicked() {
+        
+//        let buttonAnimator = UIViewPropertyAnimator
+
+//        animator.addAnimations {
+//            self.navigationContainer.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+//            self.navigationContainer.layoutIfNeeded()
+//        }
+//        
+//        animator.startAnimation()
+//        
         //animate table view up
         //change format of the map
         let uuid = NSUUID().uuidString
@@ -550,6 +566,10 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         //CA9570E1-80E3-4090-B622-C93E07312434
         
         if timerCountingDown == false {
+            
+           
+            
+            
             
             searchDestinationButton.isHidden = true
             cancelNavigationButton.isHidden = false
@@ -563,8 +583,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
             self.directionsTableView.isHidden = false
             timerCountingDown = true
         }
-        //        navigationContainer.isHidden = true
-        startNavigation.isHidden = true
+                navigationContainer.isHidden = true
+//        startNavigation.isHidden = true
 
         UITableView.animate(withDuration: 1.0, animations: { () -> Void in
             
@@ -600,7 +620,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
                 
                 if self.messageComposer.canSendText() {
                     let messageComposerVC = self.messageComposer.configuredMessageComposeViewController()
-                    let uuidAttributedString = NSMutableAttributedString(string: "\(uuid)")
+                    _ = NSMutableAttributedString(string: "\(uuid)")
                     
                     //Change to demo channel
                     messageComposerVC.body = "Track me at navtyapp.com/?id=CA9570E1-80E3-4090-B622-C93E07312434."
@@ -670,9 +690,9 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         directionsTableView.isHidden = true
         cancelNavigationButton.isHidden = true
         searchDestinationButton.isHidden = false
-        startNavigation.isHidden = true
+
         
-        //        navigationContainer.isHidden = true
+                navigationContainer.isHidden = true
         
         self.marker.map = nil
         self.allPolyLines.forEach({ $0.map = nil })
@@ -834,14 +854,17 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "ic_navigation"), for: .normal)
         button.addTarget(self, action: #selector(self.startNavigationClicked), for: .touchUpInside)
-        button.isHidden = true
+//        button.isHidden = true
         return button
     }()
     
-    internal lazy var navigationContainer: UIView = {
-        let view = UIView()
-        view.backgroundColor = ColorPalette.bgColor
-        view.layer.cornerRadius = 10.0
+    internal lazy var navigationContainer: UIButton = {
+        let view = UIButton()
+        view.backgroundColor = .white
+        view.alpha = 0.8
+        view.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        view.layer.cornerRadius = 0.5 * view.bounds.size.width
+        view.clipsToBounds = true
         view.isHidden = true
         return view
     }()

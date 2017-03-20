@@ -16,10 +16,10 @@ extension NavigationMapViewController: GMUClusterManagerDelegate, GMUClusterRend
         for _ in 0...4 {
             image.append(#imageLiteral(resourceName: "Cluster Image"))
         }
-        let clusterIcon = UIImage(named: "Cluster Image")
+        _ = UIImage(named: "Cluster Image")
         let iconGenerator = GMUDefaultClusterIconGenerator(buckets: [5,10,50,100,200,500], backgroundImages:[#imageLiteral(resourceName: "Cluster Image"), #imageLiteral(resourceName: "Cluster Image"), #imageLiteral(resourceName: "Cluster Image"), #imageLiteral(resourceName: "Cluster Image"), #imageLiteral(resourceName: "Cluster Image"), #imageLiteral(resourceName: "Cluster Image")])
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
-        let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator as! GMUClusterIconGenerator)
+        let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator as GMUClusterIconGenerator)
         renderer.delegate = self
         
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
@@ -35,12 +35,12 @@ extension NavigationMapViewController: GMUClusterManagerDelegate, GMUClusterRend
         
         if let crimeData = marker.userData as? ClusterCrimeData {
             //            marker.icon = UIImage(named: "Map Pin-20")
-            var dateFormatter = DateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
             let d = TimeInterval(1477972800)
             
-            var cDate = crimeData.crime.crimeDate
-            var sDate = dateFormatter.date(from: cDate)
+            let cDate = crimeData.crime.crimeDate
+            let sDate = dateFormatter.date(from: cDate)
             
             if let interval = sDate?.timeIntervalSince1970, interval >= d {
                 marker.icon = UIImage(named: "red-dot")
