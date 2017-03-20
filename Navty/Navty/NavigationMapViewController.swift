@@ -178,10 +178,10 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         
         
         menuButton.snp.makeConstraints({ (view) in
-            view.top.equalToSuperview().inset(30)
+            view.centerY.equalTo(searchDestinationButton)
             view.leading.equalToSuperview().inset(8)
-            view.width.equalTo(35)
-            view.height.equalTo(42)
+            view.width.equalTo(37)
+            view.height.equalTo(45)
         })
         
         
@@ -815,13 +815,14 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         let button = UIButton()
         button.layer.borderColor = ColorPalette.bgColor.cgColor
         button.layer.borderWidth = 1
+        button.layer.cornerRadius = 10
         button.isUserInteractionEnabled = true
         button.setTitle("Enter Destination", for: .normal)
-        button.setTitleColor( ColorPalette.lightGrey  , for: .normal)
-        button.titleLabel?.font = UIFont(name: "ArialHebrew", size: 16)
+        button.setTitleColor(ColorPalette.lightGrey, for: .normal)
+        //button.titleLabel?.font = UIFont(name: "ArialHebrew", size: 16)
         button.titleLabel?.textAlignment = .center
         button.addTarget(self, action: #selector(searchBarPressed(button:)), for: .touchUpInside)
-        button.backgroundColor = UIColor.white
+        button.backgroundColor = .white
         return button
     }()
     
@@ -833,8 +834,7 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         searchBar.barTintColor = .white
         searchBar.placeholder = "Destination"
         searchBar.isUserInteractionEnabled = true
-        //searchBar.layer.borderColor = ColorPalette.bgColor.cgColor
-        //searchBar.layer.borderWidth = 1
+        searchBar.layer.borderColor = ColorPalette.bgColor.cgColor
         return searchBar
     }()
     
