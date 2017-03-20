@@ -11,6 +11,7 @@ import GoogleMaps
 
 extension NavigationMapViewController: GMSMapViewDelegate {
 
+    
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if let markerItem = marker.userData as? ClusterCrimeData {
             
