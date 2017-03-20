@@ -90,7 +90,7 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
         self.allPolyLines.forEach({ $0.map = nil })
         self.allPolyLines = []
         self.polyline = nil
-        self.locationManager.stopMonitoring(for: region)
+        //self.locationManager.stopMonitoring(for: region)
         
         self.searchDestination.endEditing(true)
         

@@ -155,8 +155,8 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     
     
     func callButton(_ sender: UIButton) {
-        let url = NSURL(string: "tel://9")!
-        UIApplication.shared.openURL(url as URL)
+        guard let number = URL(string: "telprompt://911") else { return }
+        UIApplication.shared.open(number, options: [:], completionHandler: nil)
         print("calling")
     }
     
@@ -276,7 +276,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     
     internal var panicButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("P A N I C", for: .normal)
+        button.setTitle("C A L L  P O L I C E", for: .normal)
         button.setTitleColor(UIColor.red, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: UIFontWeightLight)
         button.contentHorizontalAlignment = .left
