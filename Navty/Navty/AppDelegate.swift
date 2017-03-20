@@ -36,14 +36,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         registerForRemoteNotification()
         
         GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
-//        GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
-        GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
+        GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
+        //GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
        
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
 
-        let navController = UINavigationController(rootViewController: NavigationMapViewController())
+        let navController = UINavigationController(rootViewController: SplashScreenViewController())
         self.window?.rootViewController = navController
   
         

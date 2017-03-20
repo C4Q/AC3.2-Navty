@@ -144,7 +144,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     }
     
     func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
-        return UIImage(named: "newIcon")
+        return UIImage(named: "contact-book")
     }
     
     
@@ -161,9 +161,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
             
             contacts.remove(at: path)
             userIdentifier.remove(at: path)
-           
-
-            
+    
             tableView.deleteRows(at: [indexPath], with: .fade)
             if contacts.count <= 4 {
                 addButton.isEnabled = true
@@ -176,7 +174,6 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
                 }
             }
         }
-        
         
     }
     
