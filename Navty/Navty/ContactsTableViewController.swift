@@ -1,4 +1,4 @@
-//
+ //
 //  ContactsTableViewController.swift
 //  Navty
 //
@@ -28,6 +28,10 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         
         let barButton = UIBarButtonItem(customView: addButton)
         self.navigationItem.rightBarButtonItem = barButton
+    
+//        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: Selector(("addSomething:")))
+//        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), toolEditButton]
+        self.navigationController!.setToolbarHidden(false, animated: false)
         
         //        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
         //        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),toolEditButton]
@@ -140,11 +144,11 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     }
     
     func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
-        return UIImage(named: "newIcon")
+        return UIImage(named: "contact-book")
     }
     
     
-    
+        
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
@@ -157,9 +161,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
             
             contacts.remove(at: path)
             userIdentifier.remove(at: path)
-           
-
-            
+    
             tableView.deleteRows(at: [indexPath], with: .fade)
             if contacts.count <= 4 {
                 addButton.isEnabled = true
@@ -173,7 +175,6 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
             }
         }
         
-        
     }
     
     
@@ -186,7 +187,7 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
 
 //        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
 
-        let predicate = NSPredicate(value: false)
+        _ = NSPredicate(value: false)
         let truePredicate = NSPredicate(value: true)
         contactPicker.predicateForSelectionOfContact = truePredicate
         contactPicker.predicateForSelectionOfProperty = truePredicate
@@ -208,11 +209,11 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         return button
     }()
     
-    lazy var editButton:  UIButton = {
-        let button = UIButton(type: UIButtonType.contactAdd)
-        //button.addTarget(self, action: #selector(showContactsPicker), for: .touchUpInside)
-        button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-        return button
-    }()
-    
+//    lazy var editButton:  UIButton = {
+//        let button = UIButton(type: UIButtonType.contactAdd)
+//        //button.addTarget(self, action: #selector(showContactsPicker), for: .touchUpInside)
+//        button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+//        return button
+//    }()
+//    
 }

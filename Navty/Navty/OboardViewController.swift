@@ -12,8 +12,8 @@ class OnboardViewController: UIViewController, UICollectionViewDelegate, UIColle
 
     let pages: [Pages] = {
         
-        let firstPage = Pages(image: "location_icon", title: "Would you take shortest or safest route? ", description: "Where ever you go, Navty help you to keep you safe by connecting with your loved ones")
-        let secondPage = Pages(image: "Search_icon", title: "Search Your Destination", description: "Search your destination by zip-code and choose the safest route to take")
+        let firstPage = Pages(image: "location_icon", title: "Take the shortest or safest route? ", description: "Where ever you go, Navty helps keep you safe by connecting with your loved ones")
+        let secondPage = Pages(image: "Search_icon", title: "Search Your Destination", description: "Navty gives you the ability to ")
         let thirdPage = Pages(image: "board_icon", title: "Get there safely", description: "Where ever you go, Navty help you to keep you safe by connecting with your loved ones")
         
         return [firstPage, secondPage, thirdPage]

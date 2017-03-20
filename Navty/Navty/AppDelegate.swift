@@ -12,26 +12,32 @@ import GoogleMaps
 import Firebase
 import GooglePlaces
 import UserNotifications
+import PubNub
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
 
     var window: UIWindow?
-    let locationManager = CLLocationManager()
+    let locationManager: CLLocationManager = {
+        let locMan: CLLocationManager = CLLocationManager()
+        locMan.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locMan.distanceFilter = 50.0
+        return locMan
+    }()
     let messageComposer = MessageComposer()
+    var client: PubNub!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        
         // Override point for customization after application launch.
         FIRApp.configure()
+        
         registerForRemoteNotification()
+        
         GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
         GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
-//        GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
-//        let navigationMapView = NavigationMapViewController()
-//        let navController = UINavigationController(rootViewController: navigationMapView)
-        
-//        let userdefaults = UserDefaults.standard
-//        UNUserNotificationCenter.current().delegate = self
+        //GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
        
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -45,8 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        
-        
         
         let actionOne = UNNotificationAction(identifier: "agree", title: "Ok", options: [.foreground])
         let actionTwo = UNNotificationAction(identifier: "disagree", title: "No", options: [.foreground])
@@ -99,7 +103,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-//        let newTrigger = UNLocationNotificationTrigger(region: region, repeats: false)
         let content = UNMutableNotificationContent()
         content.title = "Text Message"
         content.body = "Do you want to notice your arrival to your friends?"
@@ -119,32 +122,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let request = UNNotificationRequest(identifier: "Destination", content: content, trigger: trigger)
-//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().add(request) {(error) in
            
             if let error = error {
                 print("Uh oh! We had an error: \(error)")
             }
         }
-        
-        
-//        
-//        let alert = UIAlertController(title: "In the Geo", message: "It worked?", preferredStyle: UIAlertControllerStyle.alert)
-//        let ok = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default) { (action) -> Void in
-//            
-//            if (self.messageComposer.canSendText()) {
-//                
-//                let messageComposeVC = self.messageComposer.configuredMessageComposeViewController()
-//                alert.dismiss(animated: true, completion: {
-//                    
-//                    self.window?.rootViewController?.present(messageComposeVC, animated: true, completion: nil)
-//                })
-//            }
-//        }
-//        alert.addAction(ok)
-//        self.window?.rootViewController?.present(alert, animated: true, completion: nil) 
-//
-        
+
        
     }
     
@@ -157,6 +142,7 @@ extension AppDelegate: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {
             handleEvent(forRegion: region)
+         self.locationManager.stopMonitoring(for: region)
         }
     }
     
@@ -190,15 +176,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                 print("Can not present the View Controller")
             }
             
-            //present(DetailViewController(), animated: true, completion: nil)
-        //imageView.image = UIImage(named: "firstGuy")
+
         case "disagree":
             print("I disagree")
+            
+            
         default:
             break
         }
         
-        completionHandler()
+        completionHandler( print("Testing"))
         
     }
 }

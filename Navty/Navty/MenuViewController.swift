@@ -34,7 +34,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         
        
     }
-    
+ 
     func viewHierarchy(){
         view.addSubview(profilePicture)
         //view.addSubview(codewordButton)
@@ -54,7 +54,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         self.edgesForExtendedLayout = []
         
         profilePicture.snp.makeConstraints { (photo) in
-            photo.height.width.equalTo(150)
+            photo.height.width.equalTo(100)
             photo.top.equalTo(view.snp.top).offset(75)
             photo.centerX.equalTo(view.snp.centerX)
         }
@@ -153,16 +153,10 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         }
     }
     
-//    func LoginController() {
-//        let LoginVC = LoginViewController()
-//        if let navVC = self.navigationController {
-//            navVC.pushViewController(LoginVC, animated: true)
-//        }
-//    }
     
     func callButton(_ sender: UIButton) {
-        let url = NSURL(string: "tel://9")!
-        UIApplication.shared.openURL(url as URL)
+        guard let number = URL(string: "telprompt://911") else { return }
+        UIApplication.shared.open(number, options: [:], completionHandler: nil)
         print("calling")
     }
     
@@ -176,11 +170,17 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     
     func switchValueChanged(sender: UISwitch) {
         if sender.isOn == true {
+            sender.tintColor = ColorPalette.bgColor
+            sender.onTintColor = ColorPalette.red
             print("its on")
             
-            animateBorderColor(view: profilePicture, fromColor: UIColor.red.cgColor, toColor: UIColor.green.cgColor, duration: 1)
+            //MARK: Initial View
             
-            switchLabel.text = "T R A C K I N G   E N A B L E D"
+//            animateBorderColor(view: profilePicture, fromColor: UIColor.red.cgColor, toColor: UIColor.green.cgColor, duration: 1)
+            
+               animateBorderColor(view: profilePicture, fromColor: ColorPalette.bgColor.cgColor, toColor: ColorPalette.red.cgColor, duration: 0.5)
+            
+            switchLabel.text = "T R A C K I N G   O N"
             switchLabel.font = .systemFont(ofSize: 11, weight: UIFontWeightLight)
             Settings.shared.trackingEnabled = true
             
@@ -200,9 +200,15 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         } else {
             print("its off")
             
-            animateBorderColor(view: profilePicture, fromColor: UIColor.green.cgColor, toColor: UIColor.red.cgColor, duration: 1)
+            //MARK: Initial looks
             
-            switchLabel.text = "T R A C K I N G   D I S A B L E D"
+//            animateBorderColor(view: profilePicture, fromColor: UIColor.green.cgColor, toColor: UIColor.red.cgColor, duration: 1)
+            
+              animateBorderColor(view: profilePicture, fromColor: ColorPalette.red.cgColor, toColor: ColorPalette.bgColor.cgColor, duration: 0.5)
+            
+
+            
+            switchLabel.text = "T R A C K I N G   O F F"
             switchLabel.font = .systemFont(ofSize: 11, weight: UIFontWeightLight)
             Settings.shared.trackingEnabled = false
         }
@@ -214,7 +220,7 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         animation.toValue = toColor
         animation.duration = duration
         view.layer.borderWidth = 3
-        view.layer.cornerRadius = 38
+        view.layer.cornerRadius = 25
         view.layer.masksToBounds = true
         view.layer.add(animation, forKey: "color")
         view.layer.borderColor = toColor
@@ -223,25 +229,25 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     
     internal var profilePicture: UIImageView = {
         let photo = UIImageView()
-        photo.image = UIImage(named: "newIcon")
-        photo.layer.cornerRadius = 38
-        photo.layer.borderWidth = 3
-        photo.layer.borderColor = UIColor.red.cgColor
+        photo.image = UIImage(named: "PointSevenNavtyIcon")
+        photo.layer.cornerRadius = 25
+        photo.layer.borderWidth = 2
+        //photo.layer.borderColor = ColorPalette.red.cgColor
         photo.layer.masksToBounds = true
         photo.contentMode = .scaleAspectFit
         return photo
     }()
     
-    internal var codewordButton: UIButton = {
-        let button = UIButton(type: .custom)
-        //button.backgroundColor = ColorPalette.lightGreen
-        button.setTitle("Codeword", for: .normal)
-        button.titleLabel?.textAlignment = .right
-        button.alpha = 0.8
-        button.layer.masksToBounds = true
-        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
-        return button
-    }()
+//    internal var codewordButton: UIButton = {
+//        let button = UIButton(type: .custom)
+//        //button.backgroundColor = ColorPalette.lightGreen
+//        button.setTitle("Codeword", for: .normal)
+//        button.titleLabel?.textAlignment = .right
+//        button.alpha = 0.8
+//        button.layer.masksToBounds = true
+//        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
+//        return button
+//    }()
     
     
     internal var contactButton: UIButton = {
@@ -262,32 +268,28 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
         return view
     }()
     
-    internal var communityButton: UIButton = {
-        let button = UIButton(type: .custom)
-        //button.backgroundColor = ColorPalette.lightGreen
-        button.setTitle("Community", for: .normal)
-        button.alpha = 0.8
-        button.layer.masksToBounds = true
-        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
-        return button
-    }()
+//    internal var communityButton: UIButton = {
+//        let button = UIButton(type: .custom)
+//        //button.backgroundColor = ColorPalette.lightGreen
+//        button.setTitle("Community", for: .normal)
+//        button.alpha = 0.8
+//        button.layer.masksToBounds = true
+//        //button.addTarget(self, action: #selector(buttonAction), forControlEvents: .TouchUpInside)
+//        return button
+//    }()
     
     internal var profileButton: UIButton = {
         let button = UIButton(type: .custom)
-        //button.backgroundColor = ColorPalette.lightGreen
         button.setTitle("Profile", for: .normal)
         button.alpha = 0.8
         button.layer.masksToBounds = true
-        //button.addTarget(self, action: #selector(LoginController), for: .touchUpInside)
         return button
     }()
     
     internal var panicButton: UIButton = {
         let button = UIButton(type: .custom)
-        //button.backgroundColor = ColorPalette.red
-        button.setTitle("P A N I C", for: .normal)
+        button.setTitle("C A L L  P O L I C E", for: .normal)
         button.setTitleColor(UIColor.red, for: .normal)
-        //button.layer.cornerRadius = 37.5
         button.titleLabel?.font = .systemFont(ofSize: 17, weight: UIFontWeightLight)
         button.contentHorizontalAlignment = .left
         button.alpha = 0.8
@@ -321,9 +323,8 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     
     internal var switchLabel: UILabel = {
         let label = UILabel()
-        label.text = "T R A C K I N G   D I S A B L E D"
+        label.text = "T R A C K I N G   O F F"
         label.textColor = .white
-//        label.text.font = .systemFont(ofSize: 14, weight: UIFontWeightLight)
         label.font = .systemFont(ofSize: 11, weight: UIFontWeightLight)
         return label
     }()

@@ -8,7 +8,7 @@
 
 import UIKit
 import SnapKit
-import paper_onboarding
+import paper_onboarding                               
 
 class OnboardingViewController: UIViewController, PaperOnboardingDataSource, PaperOnboardingDelegate {
 
@@ -44,20 +44,21 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     }
     
     func onboardingItemsCount() -> Int {
-        return 3
+        return 4
     }
     
     func onboardingItemAtIndex(_ index: Int) -> OnboardingItemInfo {
-        let backgroundColorOne = UIColor.blue
-        let backgroundColorTwo = UIColor.brown
-        let backgroundColorThree = UIColor.darkGray
+        let backgroundColorOne = ColorPalette.green
+        let backgroundColorTwo = ColorPalette.red
+        let backgroundColorThree = ColorPalette.darkBlue
         
         let titleFont = UIFont(name: "AvenirNext-Bold", size: 24)!
         let descriptionFont = UIFont(name: "AvenirNext-Regular", size: 18)!
         
-        return [("location_icon", "Would you take shortest or safest route?", "Where ever you go, Navty help you to keep you safe by connecting with your loved ones", "", backgroundColorOne, UIColor.white, UIColor.white, titleFont, descriptionFont),
-                ("Search_icon", "Search Your Destination", "Search your destination by zip-code and choose the safest route to take", "", backgroundColorTwo, UIColor.white, UIColor.white, titleFont, descriptionFont),
-                ("board_icon", "Get there safely", "Where ever you go, Navty help you to keep you safe by connecting with your loved ones", "", backgroundColorThree, UIColor.white, UIColor.white, titleFont, descriptionFont)][index]
+        return [("location_icon", "Shortest or safest route?", "Wherever you go, Navty helps keep you safe by connecting with your loved ones", "", backgroundColorOne, UIColor.white, UIColor.white, titleFont, descriptionFont),
+                ("ic_address85", "Emergency Contact", "Text your emergency contacts once you get within a radius of your destination.", "", backgroundColorTwo, UIColor.white, UIColor.white, titleFont, descriptionFont),
+                ("Crime_Indicator", "Awareness of your location", "Find out what reported incidents are around you and when", "", backgroundColorThree, UIColor.white, UIColor.white, titleFont, descriptionFont),
+                ("board_icon", "Tracking", "You can choose to allow a loved one to track you through the app or on our website", "", ColorPalette.bgColor, UIColor.white, UIColor.white, titleFont, descriptionFont)][index]
     }
     
     func onboardingWillTransitonToIndex(_ index: Int) {
@@ -71,7 +72,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     }
     
     func onboardingDidTransitonToIndex(_ index: Int) {
-        if index == 2 {
+        if index == 3 {
             if self.getStartedButton.alpha == 0 {
                 UIView.animate(withDuration: 0.2, animations: {
                     self.getStartedButton.alpha = 1
@@ -89,6 +90,10 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
 //                view.width.equalTo(150)
 //            })
 //        }
+//        item.imageView?.snp.makeConstraints({ (view) in
+//            view.height.equalTo(50)
+//            view.width.equalTo(50)
+//        })
     }
     
     func toMapVC(){
@@ -97,7 +102,7 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
         userDefaults.set(true, forKey: "onboardingComplete")
         userDefaults.synchronize()
         
-//        let navController = UINavigationController(rootViewController: NavigationMapViewController())
+
         let mapVC = NavigationMapViewController()
         self.navigationController?.pushViewController(mapVC, animated: true)
         
