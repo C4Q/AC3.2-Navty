@@ -155,8 +155,8 @@ class MenuViewController: UIViewController, UISplitViewControllerDelegate, PNObj
     
     
     func callButton(_ sender: UIButton) {
-        let url = NSURL(string: "tel://9")!
-        UIApplication.shared.openURL(url as URL)
+        guard let number = URL(string: "telprompt://911") else { return }
+        UIApplication.shared.open(number, options: [:], completionHandler: nil)
         print("calling")
     }
     
