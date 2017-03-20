@@ -14,11 +14,12 @@ extension NavigationMapViewController: GMUClusterManagerDelegate, GMUClusterRend
     func clustering() {
         var image: [UIImage] = []
         for _ in 0...4 {
-            image.append(#imageLiteral(resourceName: "ic_warning"))
+            image.append(#imageLiteral(resourceName: "Cluster Image"))
         }
-        let iconGenerator = GMUDefaultClusterIconGenerator()
+        let clusterIcon = UIImage(named: "Cluster Image")
+        let iconGenerator = GMUDefaultClusterIconGenerator(buckets: [5,10,50,100,200,500], backgroundImages:[#imageLiteral(resourceName: "Cluster Image"), #imageLiteral(resourceName: "Cluster Image"), #imageLiteral(resourceName: "Cluster Image"), #imageLiteral(resourceName: "Cluster Image"), #imageLiteral(resourceName: "Cluster Image"), #imageLiteral(resourceName: "Cluster Image")])
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
-        let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
+        let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator as! GMUClusterIconGenerator)
         renderer.delegate = self
         
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
@@ -29,6 +30,8 @@ extension NavigationMapViewController: GMUClusterManagerDelegate, GMUClusterRend
     }
     
     func renderer(_ renderer: GMUClusterRenderer, willRenderMarker marker: GMSMarker) {
+        
+        //marker.icon = UIImage(named: "Cluster Image")
         
         if let crimeData = marker.userData as? ClusterCrimeData {
             //            marker.icon = UIImage(named: "Map Pin-20")
