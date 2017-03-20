@@ -29,13 +29,8 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         let barButton = UIBarButtonItem(customView: addButton)
         self.navigationItem.rightBarButtonItem = barButton
     
-//        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: Selector(("addSomething:")))
-//        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil), toolEditButton]
+
         self.navigationController!.setToolbarHidden(false, animated: false)
-        
-        //        let toolEditButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: "addSomething:")
-        //        toolbarItems = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),toolEditButton]
-        //        self.navigationController?.setToolbarHidden(false, animated: false)
         
         DispatchQueue.main.async {
             self.tableView!.reloadData()
@@ -45,7 +40,6 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       // self.navigationController?.isToolbarHidden = true
         
         contacts.removeAll()
         let arrOfIdentifiers = userDefaults.object(forKey: "identifierArr") as? Array<String>
@@ -185,13 +179,13 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         let contactPicker = CNContactPickerViewController()
         contactPicker.delegate = self
 
-//        contactPicker.displayedPropertyKeys = [CNContactPhoneNumbersKey]
-
         _ = NSPredicate(value: false)
         let truePredicate = NSPredicate(value: true)
+        
         contactPicker.predicateForSelectionOfContact = truePredicate
         contactPicker.predicateForSelectionOfProperty = truePredicate
         contactPicker.predicateForEnablingContact = truePredicate
+        
         self.present(contactPicker, animated: true, completion: nil)
         
     }
@@ -209,11 +203,5 @@ class ContactsTableViewController: UITableViewController, CNContactPickerDelegat
         return button
     }()
     
-//    lazy var editButton:  UIButton = {
-//        let button = UIButton(type: UIButtonType.contactAdd)
-//        //button.addTarget(self, action: #selector(showContactsPicker), for: .touchUpInside)
-//        button.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-//        return button
-//    }()
-//    
+
 }

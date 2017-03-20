@@ -25,7 +25,6 @@ extension NavigationMapViewController: GMSAutocompleteViewControllerDelegate {
         self.polylineUpdated.map = nil
         
         navigationContainer.isHidden = false
-//        startNavigation.isHidden = false
         
         geocoder.geocodeAddressString(addressLookUp, completionHandler: { (placemarks, error) -> Void in
             if error != nil {
