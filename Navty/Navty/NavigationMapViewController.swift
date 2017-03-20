@@ -690,7 +690,8 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         directionsTableView.isHidden = true
         cancelNavigationButton.isHidden = true
         searchDestinationButton.isHidden = false
-
+        searchDestinationButton.setTitle("Enter Destination", for: .normal)
+        searchDestinationButton.setTitleColor(ColorPalette.lightGrey, for: .normal)
         
                 navigationContainer.isHidden = true
         
