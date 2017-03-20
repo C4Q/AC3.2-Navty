@@ -30,16 +30,23 @@ extension NavigationMapViewController: UITableViewDelegate, UITableViewDataSourc
         
         let swiftString = stepDirection?.html2AttributedString
         let stringThatWeWantToDisplay = swiftString?.string
-        //let stringThatWeReallyWantToDisplay = stringThatWeWantToDisplay
+        //let finalString = UIFont(name: stringThatWeWantToDisplay!, size: 15)
+        
         
         self.timerLabel.font = UIFont.boldSystemFont(ofSize: 22)
         self.timerLabel.textColor = .white
       
         
         cell.directionLabel.numberOfLines = 0
-        cell.directionLabel.sizeToFit()
-        cell.directionLabel.sizeToFit()
+        //cell.directionLabel.sizeToFit()
+        cell.directionLabel.font = UIFont.systemFont(ofSize: 15)
+        //cell.directionLabel.backgroundColor = ColorPalette.lightGrey
         cell.directionLabel.text = stringThatWeWantToDisplay
+        cell.directionLabel.textColor = ColorPalette.darkBlue
+        //cell.directionLabel.text?.padding(toLength: 5, withPad: nil, startingAt: <#T##Int#>)
+        //cell.directionLabel.textAlignment = .center
+        
+        cell.directionTimeLabel.textColor = ColorPalette.red
         cell.directionTimeLabel.text = stepDistance
         return cell
     }

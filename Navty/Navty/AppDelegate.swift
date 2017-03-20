@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
 
-        let navController = UINavigationController(rootViewController: SplashScreenViewController())
+        let navController = UINavigationController(rootViewController: NavigationMapViewController())
         self.window?.rootViewController = navController
   
         
