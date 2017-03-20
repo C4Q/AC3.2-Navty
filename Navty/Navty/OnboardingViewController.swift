@@ -14,7 +14,6 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //view.backgroundColor = .white
 
         let onboarding = PaperOnboarding(itemsCount: 3)
         onboarding.dataSource = self
@@ -82,18 +81,6 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     }
     
     func onboardingConfigurationItem(_ item: OnboardingContentViewItem, index: Int) {
-//        if index == 2{
-//            getStartedButton.snp.makeConstraints({ (view) in
-//                view.top.equalTo((item.descriptionLabel?.snp.bottom)!).inset(20)
-//                view.centerX.equalToSuperview()
-//                view.height.equalTo(50)
-//                view.width.equalTo(150)
-//            })
-//        }
-//        item.imageView?.snp.makeConstraints({ (view) in
-//            view.height.equalTo(50)
-//            view.width.equalTo(50)
-//        })
     }
     
     func toMapVC(){
