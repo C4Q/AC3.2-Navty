@@ -23,7 +23,6 @@ extension NavigationMapViewController: CLLocationManagerDelegate {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("Authorized")
-        //            manager.stopUpdatingLocation()
             manager.allowsBackgroundLocationUpdates = true
         case .denied, .restricted:
             print("Authorization denied or restricted")

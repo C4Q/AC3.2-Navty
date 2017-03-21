@@ -14,7 +14,6 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //view.backgroundColor = .white
 
         let onboarding = PaperOnboarding(itemsCount: 3)
         onboarding.dataSource = self
@@ -56,8 +55,8 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
         let descriptionFont = UIFont(name: "AvenirNext-Regular", size: 18)!
         
         return [("location_icon", "Shortest or safest route?", "Wherever you go, Navty helps keep you safe by connecting with your loved ones", "", backgroundColorOne, UIColor.white, UIColor.white, titleFont, descriptionFont),
-                ("ic_address85", "Emergency Contact", "Text your emergency contacts once you get within a radius of your destination.", "", backgroundColorTwo, UIColor.white, UIColor.white, titleFont, descriptionFont),
-                ("Crime_Indicator", "Awareness of your location", "Find out what reported incidents are around you and when", "", backgroundColorThree, UIColor.white, UIColor.white, titleFont, descriptionFont),
+                ("ic_address85", "Emergency Contact", "Text your emergency contacts once you get within a radius of your destination", "", backgroundColorTwo, UIColor.white, UIColor.white, titleFont, descriptionFont),
+                ("Crime_Indicator", "Awareness of your location", "Find out which incidents were reported near you", "", backgroundColorThree, UIColor.white, UIColor.white, titleFont, descriptionFont),
                 ("board_icon", "Tracking", "You can choose to allow a loved one to track you through the app or on our website", "", ColorPalette.bgColor, UIColor.white, UIColor.white, titleFont, descriptionFont)][index]
     }
     
@@ -82,18 +81,6 @@ class OnboardingViewController: UIViewController, PaperOnboardingDataSource, Pap
     }
     
     func onboardingConfigurationItem(_ item: OnboardingContentViewItem, index: Int) {
-//        if index == 2{
-//            getStartedButton.snp.makeConstraints({ (view) in
-//                view.top.equalTo((item.descriptionLabel?.snp.bottom)!).inset(20)
-//                view.centerX.equalToSuperview()
-//                view.height.equalTo(50)
-//                view.width.equalTo(150)
-//            })
-//        }
-//        item.imageView?.snp.makeConstraints({ (view) in
-//            view.height.equalTo(50)
-//            view.width.equalTo(50)
-//        })
     }
     
     func toMapVC(){
