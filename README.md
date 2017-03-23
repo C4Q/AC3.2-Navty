@@ -6,6 +6,6 @@ Navty is an personal safety navigation iOS app that allows users to choose route
 
 <img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Navty_Onboarding_Demo.gif?raw=true" width="320" />
 
-<img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Navty_Tracking_Video.gif?raw=true" width="320" />
+<img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Navty_Navigating_Demo.gif?raw=true" width="320" />
 
 <img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Navty_Tracking_Video.gif?raw=true" width="320" />
