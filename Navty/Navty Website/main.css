@@ -1,0 +1,73 @@
+header {
+  padding: 20px 0;
+}
+
+header .row,
+footer .row {
+  display: flex;
+  align-items: center;
+}
+
+header h1 {
+  font-weight: 700;
+  margin: 0;
+}
+
+header nav {
+  display: flex;
+  justify-content: flex-end;
+}
+
+header p {
+  padding: 0 20px;
+  margin: 0;
+}
+
+body {
+	background-color:  #00314A;
+}
+
+.jumbotron {
+  background-color: #00314A;
+  padding-top:  0px;
+  height: 500px
+}
+
+.jumbotron p {
+  text-align: center;
+  color: white;
+  margin-bottom: 7px;
+}
+
+#map-canvas {
+    width:100%;
+    height:600px;
+}
+
+.img-thumbnail {
+  background-color: #00314A;
+  border: 0px;
+}
+
+.download {
+  vertical-align: center;
+}
+
+section .row  {
+  margin-bottom: 120px;
+  margin-top: 140px
+}
+
+section .row .col-md-6 .img-thumbnail {
+  justify-content: center;
+}
+
+footer {
+  font-size: 12px;
+  position: fixed;
+  bottom: 0px; 
+  width: 100%; 
+  height: 25px;
+  text-align: center;
+  color: white;
+}
