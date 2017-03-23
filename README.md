@@ -16,6 +16,12 @@ Navty is an personal safety navigation iOS app that allows users to choose route
 
 Built a custom onboarding experience using Paper-onboarding, allowing the user to get an overall feel of the app 
 
+# Data Points
+
+We are pulling crime incident reports from the NYPD crime data API, available on NYC Open Data. The points are placed on the map by where the incident occured. Each incident is clickable, displaying an info window showing the description of the incident that occured. Red markers are the most recent incidents. 
+
+<img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Screen%20Shot%202017-03-23%20at%205.20.38%20PM.png?raw=true" width="320" />
+
 <img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Navty_Onboarding_Demo.gif?raw=true" width="320" />
 
 <img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Navty_Navigating_Demo.gif?raw=true" width="320" />
