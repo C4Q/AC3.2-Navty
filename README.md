@@ -8,9 +8,13 @@ Navty is an personal safety navigation iOS app that allows users to choose route
 - [DZENEmptyDataSet](https://github.com/dzenbot/DZNEmptyDataSet)
 - [Paper-onboarding](https://github.com/Ramotion/paper-onboarding)
 - [SnapKit](http://snapkit.io/)
-- PubNub
+- [PubNub](https://www.pubnub.com/)
 - GoogleMaps, GooglePlaces
-- NYC Open Data, NYPD API 
+- NYC Open Data: NYPD API 
+
+# Onboarding
+
+Built a custom onboarding experience using Paper-onboarding, allowing the user to get an overall feel of the app 
 
 <img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Navty_Onboarding_Demo.gif?raw=true" width="320" />
 
