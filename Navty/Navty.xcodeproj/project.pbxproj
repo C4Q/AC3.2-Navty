@@ -124,6 +124,7 @@
 		571F80DF1E7AF536001E4AF8 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		571F80E21E7C2E99001E4AF8 /* From HQ to Astoria.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "From HQ to Astoria.gpx"; sourceTree = "<group>"; };
 		57263B8C1E79A7C3009177BD /* TrackingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingViewController.swift; sourceTree = "<group>"; };
+		578F56061E81A347006D18C8 /* new location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "new location.gpx"; sourceTree = "<group>"; };
 		57CC67881E7C581000497969 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		670CBCE9CCC29047B70483DB /* Pods-Navty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.debug.xcconfig"; sourceTree = "<group>"; };
 		A20CA9201E663AC7007D5154 /* CrimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeData.swift; sourceTree = "<group>"; };
@@ -268,6 +269,7 @@
 			children = (
 				571F80E21E7C2E99001E4AF8 /* From HQ to Astoria.gpx */,
 				A2B0321F1E7C7858008D1A7B /* Huntercollegeroute.gpx */,
+				578F56061E81A347006D18C8 /* new location.gpx */,
 				571EAB0B1E660AB500CF2947 /* AppDelegate.swift */,
 				5704954E1E7093C100376161 /* Google-Maps-iOS-Utils */,
 				B9755DB41E70682A00B63C0A /* SMS */,
