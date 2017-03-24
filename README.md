@@ -24,9 +24,9 @@ We are pulling crime incident reports from the NYPD crime data API, available on
 
 <img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Screen%20Shot%202017-03-23%20at%205.20.38%20PM.png?raw=true" width="320" />
 
-# Emergency Contacts, Geo-fencing, User Notiifications
+# Emergency Contacts, Geo-fencing, User Notifications
 
-Navty gives you the ability to add a maximum of 5 emergency contacts. When you break the geo-fence which is a set radius from your destination an user notification will trigger, reminding you to message your emergency contact you have made it to your destination safely. If you open the app from the notification it will take you to a text message with the message populated, and emergency contacts set as the contacts. 
+Navty gives you the ability to add a maximum of 5 emergency contacts. When you break the geo-fence, which is a set radius from your destination, a user notification will trigger reminding you to message your emergency contact you have made it to your destination safely. If you open the app from the notification it will take you to a text message with the message populated, and emergency contacts set as the contacts. 
 
 # Rerouting
 
