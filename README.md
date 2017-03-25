@@ -39,3 +39,8 @@ Tracking can be enabled in the menu sidebar by switching the tracking functional
 
 <img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Navty_Tracking_Video.gif?raw=true" width="320" />
 <img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Screen%20Shot%202017-03-24%20at%2011.21.45%20PM.png?raw=true" width="960" />
+
+
+# Acknowledgements
+- Mentors who helped streamline our code and presentations
+- [C4Q](http://www.c4q.nyc/)
