@@ -38,3 +38,4 @@ Using the Google Maps SDK, we created a rerouting feature by allowing the user t
 Tracking can be enabled in the menu sidebar by switching the tracking functionality to on. When tracking is on and your destination is entered, a text message is presented with a pre-populated message that contains a url to the Navty Website which can be sent to your emergeny contacts. The Website can be used to track the user if you do not have the app to track the user.  
 
 <img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Navty_Tracking_Video.gif?raw=true" width="320" />
+<img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Screen%20Shot%202017-03-24%20at%2011.21.45%20PM.png?raw=true" width="320" />
