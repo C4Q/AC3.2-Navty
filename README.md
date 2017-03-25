@@ -29,7 +29,7 @@ We are pulling crime incident reports from the NYPD crime data API, available on
 Navty gives you the ability to add a maximum of 5 emergency contacts. When you break the geo-fence, which is a set radius from your destination, a user notification will trigger reminding you to message your emergency contact you have made it to your destination safely. If you open the app from the notification it will take you to a text message with the message populated, and emergency contacts set as the contacts. 
 
 # Rerouting
-
+Using the Google Maps SDK, we created a rerouting feature by allowing the user to press down on the spot they want to go through. This adds a new way-point which sends the route through the way-point. 
 
 <img src="https://github.com/C4Q/AC3.2-Navty/blob/master/Navty/Demo/Navty_Navigating_Demo.gif?raw=true" width="320" />
 
