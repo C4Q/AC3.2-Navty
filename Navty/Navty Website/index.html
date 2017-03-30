@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Navty</title>
+	<!-- <meta charset="utf-8" /> -->
+	<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.4.1.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+
+	<div class="jumbotron">
+		<p>Navty</p>
+		<div id="map-canvas"></div>
+		<!-- style="width:600px;height:400px" -->
+	</div>
+
+<!-- 	<section class="container">
+    	<div class="row">
+      		<div class="col-sm-6">
+				<img src="http://i447.photobucket.com/albums/qq195/edwardanchundia/Final_Navty_Logo_zps3b1m8foh.png" class="center-block" alt="200x200" src="" data-holder-rendered="true" style="width: 125px; height: 125px;" >
+			</div>
+			<div class="col-sm-6" style="height: 200px;">
+				<img src="https://getchug.com/img/appstore.png" class ="center-block" data-holder-rendered="true" style="padding-top: 25px;">
+			</div>
+		</div>
+	</section> -->
+
+	<script>
+
+	var idNumber;
+
+	// window.onload = function() {
+	function ParseURLParameter(Parameter) {
+		var FullURL = window.location.search.substring(1);
+		var ParametersArray = FullURL.split('&');
+		for (var i = 0; i < ParametersArray.length; i++) {
+			var CurrentParameter = ParametersArray[i].split('=');
+
+			if (CurrentParameter[0] == Parameter) {
+				return CurrentParameter[1];
+			}
+		}
+	}
+
+	idNumber = ParseURLParameter('id');
+
+		// if (typeof idNumber !== 'undefined') {
+		// 	alert(idNumber)
+		// } else {
+		// 	alert('No ID Number Found.')
+		// }
+
+	//}
+
+    window.lat = 37.09024;
+    window.lng = -95.712891;
+    var map;
+    var mark;
+    var lineCoords = [];
+
+    var initialize = function() {
+      map  = new google.maps.Map(document.getElementById('map-canvas'), {
+      	center:{lat:lat,lng:lng},
+      	zoom:4,
+      	styles:  [
+		    {
+		        "featureType": "administrative",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "visibility": "on"
+		            },
+		            {
+		                "lightness": 33
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "landscape",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "color": "#f2e5d4"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "poi.park",
+		        "elementType": "geometry",
+		        "stylers": [
+		            {
+		                "color": "#c5dac6"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "poi.park",
+		        "elementType": "labels",
+		        "stylers": [
+		            {
+		                "visibility": "on"
+		            },
+		            {
+		                "lightness": 20
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "lightness": 20
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.highway",
+		        "elementType": "geometry",
+		        "stylers": [
+		            {
+		                "color": "#c5c6c6"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.arterial",
+		        "elementType": "geometry",
+		        "stylers": [
+		            {
+		                "color": "#e4d7c6"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "road.local",
+		        "elementType": "geometry",
+		        "stylers": [
+		            {
+		                "color": "#fbfaf7"
+		            }
+		        ]
+		    },
+		    {
+		        "featureType": "water",
+		        "elementType": "all",
+		        "stylers": [
+		            {
+		                "visibility": "on"
+		            },
+		            {
+		                "color": "#acbcc9"
+		            }
+		        ]
+		    }
+		]
+      });
+      mark = new google.maps.Marker({position:{lat:0.0, lng:0.0}, map:map});
+    };
+    window.initialize = initialize;
+
+    var redraw = function(payload) {
+      lat = payload.message.lat;
+      lng = payload.message.lng;
+      alt = payload.message.alt;
+
+      map.setZoom(17);
+      map.setCenter({lat:lat, lng:lng, alt:alt});
+      mark.setPosition({lat:lat, lng:lng, alt:alt});
+      lineCoords.push(new google.maps.LatLng(lat, lng));
+      var lineCoordinatesPath = new google.maps.Polyline({
+        path: lineCoords,
+        geodesic: true,
+        strokeColor: '#2E10FF'
+      });
+      
+      lineCoordinatesPath.setMap(map);
+    };
+
+    var pnChannel = "safe";
+    var pubnub = new PubNub({
+      publishKey: 'pub-c-28163faf-5853-487e-8cc9-1d8f955ad129',
+      subscribeKey: 'sub-c-0ee17ac4-08cb-11e7-b95c-0619f8945a4f'
+    });
+
+    //pubnub.subscribe({channels: [pnChannel]});
+    pubnub.subscribe({channels: [idNumber]});
+    pubnub.addListener({message:redraw});
+    pubnub.addListener({
+      message: function(message) {
+        console.log(message.lat)
+      }
+    })
+
+  </script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc&callback=initialize"></script>
+
+  <footer>
+      &copy; 2017 Navty
+  </footer>
+
+</body>
+</html>

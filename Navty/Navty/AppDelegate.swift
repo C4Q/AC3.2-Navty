@@ -35,8 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         registerForRemoteNotification()
         
         GMSServices.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
-        GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
-        //GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
+//        GMSPlacesClient.provideAPIKey("AIzaSyCbkeAtt4S2Cfkji1Z4SBY-TliAQ6QinDc")
+        GMSPlacesClient.provideAPIKey("AIzaSyBqaampQDtShdJer3y91Slz5uiYJhtHsIQ")
        
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -102,8 +102,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PNObjectEventListener {
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let content = UNMutableNotificationContent()
-        content.title = "Text Message"
-        content.body = "Do you want to notify your loved ones that you arrived safetly?"
+        content.title = "Safety Notification"
+        content.body = "Do you want to notify your loved ones that you arrived safely?"
         content.sound = UNNotificationSound.default()
         content.categoryIdentifier = "myCategory"
         
