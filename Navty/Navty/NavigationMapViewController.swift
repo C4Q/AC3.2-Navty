@@ -115,19 +115,16 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         self.searchDestination.endEditing(false)
         
         transportationIndicator.backgroundColor = .white
-        print("viewwillappear")
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         transportationIndicator.backgroundColor = .clear
-        print("viewwilldisappear")
+        
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        print("hello")
-    }
     
     
     //MARK: VIEW HIERARCHY & VIEWS CONSTRAINTS
