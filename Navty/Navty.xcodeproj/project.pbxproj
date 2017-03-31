@@ -48,6 +48,7 @@
 		A2B0322E1E7D99A6008D1A7B /* Nav-TableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0322D1E7D99A6008D1A7B /* Nav-TableViewDelegate.swift */; };
 		A2B032301E7D9CD0008D1A7B /* Nav-SearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B0322F1E7D9CD0008D1A7B /* Nav-SearchBarDelegate.swift */; };
 		A2B032321E7D9ED8008D1A7B /* Nav-GMSMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B032311E7D9ED8008D1A7B /* Nav-GMSMapView.swift */; };
+		A2B032341E81A24E008D1A7B /* Longrunthroughmanhatten.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A2B032331E81A24D008D1A7B /* Longrunthroughmanhatten.gpx */; };
 		B9755D651E6DF3DC00B63C0A /* GetStartedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */; };
 		B9755D661E6DF3DC00B63C0A /* OboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D611E6DF3DC00B63C0A /* OboardViewController.swift */; };
 		B9755D671E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9755D621E6DF3DC00B63C0A /* OnboardCollectionViewCell.swift */; };
@@ -142,6 +143,7 @@
 		A2B0322D1E7D99A6008D1A7B /* Nav-TableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Nav-TableViewDelegate.swift"; sourceTree = "<group>"; };
 		A2B0322F1E7D9CD0008D1A7B /* Nav-SearchBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Nav-SearchBarDelegate.swift"; sourceTree = "<group>"; };
 		A2B032311E7D9ED8008D1A7B /* Nav-GMSMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Nav-GMSMapView.swift"; sourceTree = "<group>"; };
+		A2B032331E81A24D008D1A7B /* Longrunthroughmanhatten.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Longrunthroughmanhatten.gpx; sourceTree = "<group>"; };
 		A8F80816261FB17679C51DE6 /* Pods-Navty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navty.release.xcconfig"; path = "Pods/Target Support Files/Pods-Navty/Pods-Navty.release.xcconfig"; sourceTree = "<group>"; };
 		B7EBBAD5C9BF677F2296C6CA /* Pods_Navty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9755D601E6DF3DC00B63C0A /* GetStartedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GetStartedCell.swift; path = Navty/GetStartedCell.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 			children = (
 				571F80E21E7C2E99001E4AF8 /* From HQ to Astoria.gpx */,
 				A2B0321F1E7C7858008D1A7B /* Huntercollegeroute.gpx */,
+				A2B032331E81A24D008D1A7B /* Longrunthroughmanhatten.gpx */,
 				578F56061E81A347006D18C8 /* new location.gpx */,
 				571EAB0B1E660AB500CF2947 /* AppDelegate.swift */,
 				5704954E1E7093C100376161 /* Google-Maps-iOS-Utils */,
@@ -474,6 +477,7 @@
 				571B55031E6E03CC005414E1 /* Info.plist in Resources */,
 				A2B0321C1E7C54B4008D1A7B /* Navty_Plain_logo.png in Resources */,
 				A2B032201E7C7858008D1A7B /* Huntercollegeroute.gpx in Resources */,
+				A2B032341E81A24E008D1A7B /* Longrunthroughmanhatten.gpx in Resources */,
 				571EAB561E6A252600CF2947 /* style.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
