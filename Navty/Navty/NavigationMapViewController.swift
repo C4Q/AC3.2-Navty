@@ -592,14 +592,15 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         if Settings.shared.trackingEnabled == true {
             
             //MARK:DEMO CODE
-            self.client.subscribeToChannels(["CA9570E1-80E3-4090-B622-C93E07312434"], withPresence: true)
-                
+//            self.client.subscribeToChannels(["CA9570E1-80E3-4090-B622-C93E07312434"], withPresence: true)
+            self.client.subscribeToChannels([self.uuid], withPresence: true)
+            
                 if self.messageComposer.canSendText() {
                     let messageComposerVC = self.messageComposer.configuredMessageComposeViewController()
                     _ = NSMutableAttributedString(string: "\(uuid)")
                     
                     //Change to demo channel
-                    messageComposerVC.body = "Track me at navtyapp.com/?id=CA9570E1-80E3-4090-B622-C93E07312434."
+                    messageComposerVC.body = "Track me at navtyapp.com/?id=\(self.uuid)."
                     //"Track me using channel name: \(Settings.shared.channelName), on the  Navty app or at navtyapp.com"
                     
                     self.navigationController?.present(messageComposerVC, animated: true, completion: nil)
