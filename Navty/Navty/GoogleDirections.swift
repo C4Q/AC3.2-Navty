@@ -50,9 +50,13 @@ class GoogleDirections {
             var stepsInfo = [[String:Any]]()
             let jsonData = try JSONSerialization.jsonObject(with: data, options: [])
             
-             guard let dict = jsonData as? [String: Any] else {return nil}
+            guard let dict = jsonData as? [String: Any] else {return nil}
             guard let routes = dict["routes"] as? [[String: Any]] else { throw errorEnum.test}
            
+            if routes.count == 0 {
+                return nil
+            }
+            
             var overallPoly: String!
             var fullDistance: String!
             var fullTime: String!

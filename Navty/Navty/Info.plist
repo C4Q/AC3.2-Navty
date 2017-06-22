@@ -33,7 +33,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>Please allow us access your contacts.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Please grant us your location.</string>
+	<string>In order for tracking to be effective, we need your permission to obtain your location as you move. But not to worry, if you have tracking disabled, we don&apos;t collect the information of your location. </string>
 	<key>NSLocationUsageDescription</key>
 	<string>Location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

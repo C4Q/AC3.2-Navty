@@ -376,8 +376,9 @@ class NavigationMapViewController: UIViewController, PNObjectEventListener {
         { (data) in
             
             if data != nil {
+                guard let unwrappedData = data else { return }
                 
-                if let validData = GoogleDirections.getData(from: data!) {
+                if let validData = GoogleDirections.getData(from: unwrappedData) {
                     
                     self.directions = validData
                     
